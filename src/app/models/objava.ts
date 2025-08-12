@@ -1,5 +1,6 @@
 import { Fajl } from "./fajl";
 import { Korisnik } from "./korisnik";
+import { Tema } from "./tema";
 
 export interface Objava {
     id?: number;

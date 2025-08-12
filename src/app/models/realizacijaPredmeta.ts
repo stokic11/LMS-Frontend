@@ -1,5 +1,6 @@
 import { EvaluacijaZnanja } from "./evaluacijaZnanja";
 import { PohadjanjePredmeta } from "./pohadjanjePredmeta";
+import { Predmet } from "./predmet";
 import { TerminNastave } from "./terminNastave";
 
 export interface RealizacijaPredmeta {

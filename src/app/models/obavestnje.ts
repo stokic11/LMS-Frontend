@@ -1,5 +1,6 @@
 import { Fajl } from "./fajl";
-import { Nastavnik } from "./nastavnik";
+import { NastavnikNaRealizaciji } from "./nastavnikNaRealizaciji";
+import { Predmet } from "./predmet";
 
 export interface Obavestenje {
     id?: number;

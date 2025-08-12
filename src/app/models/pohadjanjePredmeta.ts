@@ -1,3 +1,6 @@
+import { RealizacijaPredmeta } from "./realizacijaPredmeta";
+import { Student } from "./student";
+
 export interface PohadjanjePredmeta {
     id?: number;
     konacnaOcena: number;
