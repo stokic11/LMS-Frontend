@@ -1,0 +1,28 @@
+<table>
+	<thead>
+		<tr>
+			<th *ngFor="let col of columns" (click)="setSort(col.key)" style="cursor:pointer">
+				{{ col.label }}
+				<span *ngIf="sortColumn === col.key">
+					{{ sortDirection === 'asc' ? '▲' : '▼' }}
+				</span>
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let row of pagedData">
+			<td *ngFor="let col of columns">
+				{{ row[col.key] }}
+			</td>
+		</tr>
+		<tr *ngIf="pagedData.length === 0">
+			<td [attr.colspan]="columns.length" style="text-align:center">No data</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="pagination" *ngIf="totalPages > 1">
+	<button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Prev</button>
+	<span>Page {{ currentPage }} of {{ totalPages }}</span>
+	<button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+</div>
