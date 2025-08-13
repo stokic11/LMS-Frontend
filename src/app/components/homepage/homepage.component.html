@@ -1,0 +1,172 @@
+<div class="homepage-container">
+  <!-- Hero Section with Gradient Background -->
+  <section class="hero-section" *ngIf="univerzitet">
+    <div class="hero-content">
+      <h1 class="hero-title">{{univerzitet.naziv}}</h1>
+      <p class="hero-subtitle">Oblikujemo lídere budućnosti kroz izvrsnost u obrazovanju</p>
+      <div class="hero-buttons">
+        <button mat-raised-button color="accent" class="hero-btn">Istražite programe</button>
+        <button mat-stroked-button class="hero-btn-outline">Virtuelna tura</button>
+      </div>
+    </div>
+    <div class="hero-decoration"></div>
+  </section>
+
+  <!-- Quick Stats Cards -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-number">15,000+</div>
+          <div class="stat-label">Studenata</div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-number">200+</div>
+          <div class="stat-label">Programa</div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-number">1,200+</div>
+          <div class="stat-label">Nastavnika</div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Zemalja</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section" *ngIf="univerzitet">
+    <div class="section-content">
+      <div class="about-text">
+        <h2 class="section-title">{{univerzitet.naziv}}</h2>
+        <p class="section-description">
+          Univerzitet {{univerzitet.naziv}} je prestižna institucija posvećena akademskoj izvrsnosti, 
+          inovacijama i celokupnom razvoju svojih studenata. Nazvan u čast vrednosti osvetljenja, 
+          snage i jedinstva, naš univerzitet kombinuje bogate obrazovne tradicije sa najnovijim istraživanjima 
+          i modernim nastavnim metodologijama.
+        </p>
+        <p class="section-description">
+          Nudimo širok spektar osnovnih, master i doktorskih programa kroz različite discipline, 
+          od humanističkih i prirodnih nauka do tehnologije i biznisa. Naši studenti se podstiču da kritički misle, 
+          da se uključe u globalne izazove i da pozitivno doprinose društvu.
+        </p>
+        <mat-chip-listbox class="features-chips">
+          <mat-chip-option selected>Izvrsnost u istraživanju</mat-chip-option>
+          <mat-chip-option selected>Globalna partnerstva</mat-chip-option>
+          <mat-chip-option selected>Centar inovacija</mat-chip-option>
+          <mat-chip-option selected>Uspeh studenata</mat-chip-option>
+        </mat-chip-listbox>
+      </div>
+      <div class="about-image">
+        <mat-card class="image-card">
+          <div class="placeholder-image">
+            <mat-icon>school</mat-icon>
+            <p>Slika niverziteta</p>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs Section -->
+  <section class="programs-section">
+    <h2 class="section-title center">Naši programi</h2>
+    <div class="programs-grid">
+      <mat-card class="program-card">
+        <mat-card-header>
+          <mat-card-title>Inženjerstvo</mat-card-title>
+          <mat-card-subtitle>Osnovne & Master studije</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Najsavremeniji inženjerski programi sa praktičnim laboratorijskim iskustvom.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">Saznajte više</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="program-card">
+        <mat-card-header>
+          <mat-card-title>Biznis</mat-card-title>
+          <mat-card-subtitle>MBA & Osnovne studije</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Sveobuhvatno poslovno obrazovanje sa studijama slučaja iz stvarnog sveta.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">Saznajte više</button>
+        </mat-card-actions>
+      </mat-card>
+
+      <mat-card class="program-card">
+        <mat-card-header>
+          <mat-card-title>Medicina</mat-card-title>
+          <mat-card-subtitle>MD & Specijalizacije</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Medicinsko obrazovanje svetske klase sa modernim objektima i kliničkom obukom.</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary">Saznajte više</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2 class="section-title">Kontakt</h2>
+        <div class="contact-item">
+          <mat-icon>location_on</mat-icon>
+          <div>
+            <h3>Adresa</h3>
+            <p>Bulvar Mihajla Pupina 4a<br>Novi Sad, Srbija</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <mat-icon>phone</mat-icon>
+          <div>
+            <h3>Telefon</h3>
+            <p>+381 11 123456</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <mat-icon>email</mat-icon>
+          <div>
+            <h3>Email</h3>
+            <p>info&#64;university.edu</p>
+          </div>
+        </div>
+      </div>
+      <div class="contact-map">
+        <mat-card class="map-card">
+          <div class="map-header">
+            <mat-icon>location_on</mat-icon>
+            <h3>Lokacija univerziteta</h3>
+          </div>
+          <div class="embedded-map">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2781.234567890123!2d19.8444!3d45.253186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475b0e5b5b5b5b5b%3A0x5b5b5b5b5b5b5b5b!2zNDXCsDE1JzExLjUiTiAxOcKwNTAnNDAuMCJF!5e0!3m2!1sen!2srs!4v1692000000000"
+              width="100%" 
+              height="350" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+</div>
