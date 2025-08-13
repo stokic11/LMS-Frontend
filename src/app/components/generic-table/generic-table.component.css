@@ -1,0 +1,139 @@
+.table-container {
+  position: relative;
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 900px;
+  margin: 0 auto 20px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 32px 24px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}
+
+table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+table th {
+  padding: 15px 12px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+table th:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+table td {
+  padding: 12px;
+  border-bottom: 1px solid #e9ecef;
+  color: #495057;
+  transition: background-color 0.2s ease;
+}
+
+table tr:hover td {
+  background-color: #f8f9fa;
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+table tbody tr:nth-child(even):hover {
+  background-color: #e9ecef;
+}
+
+.table-actions {
+  position: absolute;
+  bottom: -50px;
+  right: 0;
+}
+
+.hero-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.hero-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.pagination-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+}
+
+.pagination-btn:disabled {
+  background: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.pagination-info {
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+  padding: 0 15px;
+  background: #f8f9fa;
+  border-radius: 20px;
+  padding: 8px 16px;
+  border: 1px solid #e9ecef;
+}

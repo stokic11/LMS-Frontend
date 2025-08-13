@@ -37,18 +37,26 @@ export class HomepageComponent implements OnInit {
     `;
   }
 
+  goToFakulteti() {
+    window.location.href = '/fakulteti';
+  }
+
+  goToStudijskiProgrami() {
+    window.location.href = '/studijski-programi';
+  }
+
   ngOnInit(): void {
     this.univerzitet = {
       id: 1,
-      naziv: 'Univerzitet u Novom Sadu',
-      datumOsnivanja: new Date('1960-06-28'),
+      naziv: 'Univerzitet Singidunum',
+      datumOsnivanja: new Date('2005-01-01'),
       adresa: {
         id: 1,
-        ulica: 'Dr Miće Vulkanizera',
-        broj: '1',
+        ulica: 'Danijelova',
+        broj: '32',
         mesto: {
           id: 1,
-          naziv: 'Novi Sad',
+          naziv: 'Beograd',
           drzava: {
             id: 1,
             naziv: 'Srbija'
@@ -57,11 +65,11 @@ export class HomepageComponent implements OnInit {
       },
       rektor: {
         id: 1,
-        korisnickoIme: 'rektor.uns',
+        korisnickoIme: 'rektor.singidunum',
         lozinka: 'password123',
-        email: 'rektor@uns.ac.rs',
-        ime: 'Miroslav Mićanović',
-        biografija: 'Renomirani akademik sa dugogodišnjim iskustvom u oblasti elektrotehnike i računarskih nauka.',
+        email: 'rektor@singidunum.ac.rs',
+        ime: 'Prof. dr Milovan Stanišić',
+        biografija: 'Renomirani akademik i osnivač Univerziteta Singidunum.',
         jmbg: '1503965800001',
         zvanje: 'Redovni profesor',
         uloga: {
