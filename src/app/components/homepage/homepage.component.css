@@ -172,6 +172,18 @@
   overflow: hidden;
 }
 
+.university-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.university-image:hover {
+  transform: scale(1.05);
+}
+
 .placeholder-image {
   height: 300px;
   display: flex;

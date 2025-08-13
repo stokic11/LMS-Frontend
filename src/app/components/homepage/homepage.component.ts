@@ -26,6 +26,17 @@ export class HomepageComponent implements OnInit {
 
   constructor(private univerzitetService: UniverzitetService) {}
 
+  onImageError(event: any): void {
+    // Fallback na placeholder ako slika ne može da se učita
+    event.target.style.display = 'none';
+    event.target.parentElement.innerHTML = `
+      <div class="placeholder-image">
+        <mat-icon>school</mat-icon>
+        <p>Slika univerziteta</p>
+      </div>
+    `;
+  }
+
   ngOnInit(): void {
     this.univerzitet = {
       id: 1,
