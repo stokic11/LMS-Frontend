@@ -6,6 +6,6 @@ export interface Poruka {
     datumPostavljanja: Date;
     sadrzaj: string;
     prilozi: Fajl[];
-    primalac: Korisnik;
+    primalac: Korisnik[];
     posiljalac: Korisnik;
 }

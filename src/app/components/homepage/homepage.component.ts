@@ -21,16 +21,43 @@ import { MatChipsModule } from '@angular/material/chips';
 })
 export class HomepageComponent implements OnInit {
   univerzitet: Univerzitet | null = null;
-  latitude: number = 45.253186; // Latituda za fakultet u Novom Sadu
-  longitude: number = 19.8444; // Longituda za fakultet u Novom Sadu
+  latitude: number = 45.253186;
+  longitude: number = 19.8444;
 
   constructor(private univerzitetService: UniverzitetService) {}
 
   ngOnInit(): void {
-    // Za sada cemo koristiti dummy podatke samo zbog provere da li radi
     this.univerzitet = {
       id: 1,
-      naziv: 'LMS Univerzitet'
+      naziv: 'Univerzitet u Novom Sadu',
+      datumOsnivanja: new Date('1960-06-28'),
+      adresa: {
+        id: 1,
+        ulica: 'Dr Miće Vulkanizera',
+        broj: '1',
+        mesto: {
+          id: 1,
+          naziv: 'Novi Sad',
+          drzava: {
+            id: 1,
+            naziv: 'Srbija'
+          }
+        }
+      },
+      rektor: {
+        id: 1,
+        korisnickoIme: 'rektor.uns',
+        lozinka: 'password123',
+        email: 'rektor@uns.ac.rs',
+        ime: 'Miroslav Mićanović',
+        biografija: 'Renomirani akademik sa dugogodišnjim iskustvom u oblasti elektrotehnike i računarskih nauka.',
+        jmbg: '1503965800001',
+        zvanje: 'Redovni profesor',
+        uloga: {
+          id: 1,
+          naziv: 'Rektor'
+        }
+      }
     };
   }
 }
