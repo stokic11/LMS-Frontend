@@ -1,0 +1,59 @@
+<div class="login-container">
+  <div class="login-form">
+    <h2>Login</h2>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit()">
+      <!-- Error message -->
+      <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+      </div>
+
+      <!-- Email field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email"
+          formControlName="email" 
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && fval['email'].errors }"
+        />
+        <div *ngIf="submitted && fval['email'].errors" class="invalid-feedback">
+          <div *ngIf="fval['email'].errors['required']">Email is required</div>
+          <div *ngIf="fval['email'].errors['email']">Please enter a valid email</div>
+        </div>
+      </div>
+
+      <!-- Password field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password"
+          formControlName="password" 
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && fval['password'].errors }"
+        />
+        <div *ngIf="submitted && fval['password'].errors" class="invalid-feedback">
+          <div *ngIf="fval['password'].errors['required']">Password is required</div>
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <button 
+        type="submit" 
+        class="btn btn-primary" 
+        [disabled]="loading"
+      >
+        <span *ngIf="loading" class="spinner"></span>
+        {{ loading ? 'Logging in...' : 'Login' }}
+      </button>
+
+      <!-- Register link -->
+      <div class="register-link">
+        <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+

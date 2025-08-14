@@ -1,85 +1,140 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import * as jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { AppConstants } from '../../constants';
 import { Korisnik } from '../../models/korisnik';
 import { BehaviorSubject } from 'rxjs';
+
+export interface RegistrationRequest {
+  korisnickoIme: string;
+  email: string;
+  password: string;
+  ime?: string;
+  prezime?: string;
+  datumRodjenja?: Date;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   private uloge: string[] = [];
-  isAuthenticated= new BehaviorSubject<boolean>(false);
+  isAuthenticated = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {
-    if(typeof localStorage !== 'undefined'){
-      this.isAuthenticated.next(!!(localStorage.getItem('token') ?? null));
+    if (typeof localStorage !== 'undefined') {
       const token = localStorage.getItem('token');
-      if(token){
+      if (token && this.isTokenValid(token)) {
         this.setRolesFromToken(token);
+        this.isAuthenticated.next(true);
+      } else {
+        localStorage.removeItem('token');
+        this.isAuthenticated.next(false);
       }
     }
-   }
-   getKorisnikId(){
-    return this.getDecodedAccessToken(localStorage.getItem('token') ?? '')["id"];
-
-   }
-   hasAnyRole(uloge: string[]): boolean {
-    return uloge.some(uloga => this.uloge.includes(uloga));
-  }
-  setRolesFromToken(token: string): void {
-    const decodedToken : any = jwt_decode.jwtDecode(token);
-    this.uloge = decodedToken.roles || [];
   }
 
-  getDecodedAccessToken(token:string): any{
-    try{
-      return jwt_decode.jwtDecode(token);
-    }catch(Error){
-      console.log(Error);
+  private isTokenValid(token: string): boolean {
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      return decodedToken.exp > currentTime;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  getKorisnikId(): number | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    
+    try {
+      const decodedToken = this.getDecodedAccessToken(token);
+      return decodedToken?.id || null;
+    } catch (error) {
       return null;
     }
   }
-  register(korisnik: Korisnik) {
-    console.log(korisnik);
-        return this.http.post<any>(`${AppConstants.BASE_URL}auth/signup`, korisnik).pipe(map(token => {
-            console.log(token);
-            localStorage.setItem('token', token['accessToken']);
 
-            let tokenData = this.getDecodedAccessToken(token['accessToken']);
-            this.uloge = tokenData.roles;
-
-            this.isAuthenticated.next(true);
-
-            return token;
-        }));
-
+  hasAnyRole(uloge: string[]): boolean {
+    return uloge.some(uloga => this.uloge.includes(uloga));
   }
-  registerWithoutLogin(korisnik:Korisnik){
+
+  getCurrentUserRoles(): string[] {
+    return [...this.uloge];
+  }
+
+  setRolesFromToken(token: string): void {
+    try {
+      const decodedToken: any = jwtDecode(token);
+      this.uloge = decodedToken.roles || decodedToken.uloge || [];
+      console.log('Roles set from token:', this.uloge);
+    } catch (error) {
+      console.error('Error decoding token for roles:', error);
+      this.uloge = [];
+    }
+  }
+
+  getDecodedAccessToken(token: string): any {
+    try {
+      return jwtDecode(token);
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
+
+  register(registrationData: RegistrationRequest) {
+    console.log('Registering user:', registrationData);
+    return this.http.post<any>(`${AppConstants.BASE_URL}auth/signup`, registrationData).pipe(
+      map(response => {
+        console.log('Registration response:', response);
+        
+        if (response && response.accessToken) {
+          localStorage.setItem('token', response.accessToken);
+          this.setRolesFromToken(response.accessToken);
+          this.isAuthenticated.next(true);
+        }
+        
+        return response;
+      })
+    );
+  }
+
+  registerWithoutLogin(korisnik: Korisnik) {
     return this.http.post<any>(`${AppConstants.BASE_URL}auth/signup`, korisnik);
   }
-  login(email: string , password: string){
-    return this.http.post<any>(`${AppConstants.BASE_URL}auth/singin`,{
+
+  login(email: string, password: string) {
+    return this.http.post<any>(`${AppConstants.BASE_URL}auth/signin`, {
       "username": email,
       "password": password
-    }).pipe(map(token => {
-      console.log(token);
-      let tokenData = this.getDecodedAccessToken(token['accessToken']);
-      this.uloge = tokenData.uloge;
-      console.log(tokenData);
-      this.isAuthenticated.next(true);
-      localStorage.setItem('token', token['accessToken']);
-      
-      return token;
-      }));
-    }
-    logout() {
-        localStorage.removeItem('token');
-        this.isAuthenticated.next(false);
-        this.uloge = [];
-    }
+    }).pipe(
+      map(response => {
+        console.log('Login response:', response);
+        
+        if (response && response.accessToken) {
+          localStorage.setItem('token', response.accessToken);
+          this.setRolesFromToken(response.accessToken);
+          this.isAuthenticated.next(true);
+          console.log('User roles after login:', this.uloge);
+        }
+        
+        return response;
+      })
+    );
+  }
 
+  logout() {
+    localStorage.removeItem('token');
+    this.isAuthenticated.next(false);
+    this.uloge = [];
+    console.log('User logged out');
+  }
 
+  get isCurrentlyAuthenticated(): boolean {
+    return this.isAuthenticated.value;
+  }
 }
 
