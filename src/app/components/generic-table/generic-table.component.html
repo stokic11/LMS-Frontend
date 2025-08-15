@@ -23,7 +23,28 @@
 	</table>
 	
 	<div class="table-actions">
-		<button (click)="downloadPdf()" class="hero-btn download-btn">Preuzmi</button>
+		<button (click)="openDownloadModal()" class="hero-btn download-btn">Preuzmi</button>
+	</div>
+</div>
+
+<div class="modal-overlay" *ngIf="showDownloadModal" (click)="closeDownloadModal()">
+	<div class="modal-content" (click)="$event.stopPropagation()">
+		<div class="modal-header">
+			<h3>Izaberite format za preuzimanje</h3>
+			<button class="close-btn" (click)="closeDownloadModal()">&times;</button>
+		</div>
+		<div class="modal-body">
+			<div class="format-buttons">
+				<button (click)="downloadAs('xml')" class="format-btn xml-btn">
+					<span class="format-icon">📄</span>
+					XML
+				</button>
+				<button (click)="downloadAs('pdf')" class="format-btn pdf-btn">
+					<span class="format-icon">📄</span>
+					PDF
+				</button>
+			</div>
+		</div>
 	</div>
 </div>
 

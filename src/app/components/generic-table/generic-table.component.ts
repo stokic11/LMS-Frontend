@@ -16,6 +16,57 @@ export interface TableColumn {
   styleUrls: ['./generic-table.component.css']
 })
 export class GenericTableComponent {
+  showDownloadModal: boolean = false;
+
+  openDownloadModal(): void {
+    this.showDownloadModal = true;
+  }
+
+  closeDownloadModal(): void {
+    this.showDownloadModal = false;
+  }
+
+  downloadAs(format: 'pdf' | 'xml'): void {
+    this.closeDownloadModal();
+    if (format === 'pdf') {
+      this.downloadPdf();
+    } else if (format === 'xml') {
+      this.downloadXml();
+    }
+  }
+
+  downloadXml(): void {
+    if (!this.columns?.length || !this.sortedData?.length) return;
+    
+    let xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xmlContent += '<table>\n';
+    
+    this.sortedData.forEach(row => {
+      xmlContent += '  <row>\n';
+      this.columns.forEach(col => {
+        const value = row[col.key] !== undefined ? String(row[col.key]) : '';
+        const escapedValue = value
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&apos;');
+        xmlContent += `    <${col.key}>${escapedValue}</${col.key}>\n`;
+      });
+      xmlContent += '  </row>\n';
+    });
+    
+    xmlContent += '</table>';
+    
+    const blob = new Blob([xmlContent], { type: 'application/xml' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'tabela.xml';
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
   downloadPdf(): void {
     if (!this.columns?.length || !this.sortedData?.length) return;
     const doc = new jsPDF();
