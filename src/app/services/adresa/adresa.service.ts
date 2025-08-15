@@ -9,6 +9,6 @@ import { Adresa } from '../../models/adresa';
 export class AdresaService extends CrudService<Adresa, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/adresa');
+    super(http, '/api/adrese');
   }
 }

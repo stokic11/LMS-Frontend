@@ -9,6 +9,6 @@ import { Objava } from '../../models/objava';
 export class ObjavaService extends CrudService<Objava, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/objava');
+    super(http, '/api/objave');
   }
 }

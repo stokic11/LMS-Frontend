@@ -9,6 +9,6 @@ import { TipEvaluacije } from '../../models/tipEvaluacije';
 export class TipEvaluacijeService extends ReadOnlyCrudService<TipEvaluacije, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/tipEvaluacije');
+    super(http, '/api/tipovi-evaluacije');
   }
 }

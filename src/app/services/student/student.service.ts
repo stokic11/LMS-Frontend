@@ -9,6 +9,6 @@ import { Student } from '../../models/student';
 export class StudentService extends WritableCrudService<Student, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/student');
+    super(http, '/api/studenti');
   }
 }

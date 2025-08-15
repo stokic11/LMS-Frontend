@@ -9,6 +9,6 @@ import { TerminNastave } from '../../models/terminNastave';
 export class TerminNastaveService extends CrudService<TerminNastave, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/terminNastave');
+    super(http, '/api/termini-nastave');
   }
 }

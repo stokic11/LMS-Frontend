@@ -9,6 +9,6 @@ import { Nastavnik } from '../../models/nastavnik';
 export class NastavnikService extends WritableCrudService<Nastavnik, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/nastavnik');
+    super(http, '/api/nastavnici');
   }
 }

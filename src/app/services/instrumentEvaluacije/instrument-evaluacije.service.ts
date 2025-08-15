@@ -9,6 +9,6 @@ import { InstrumentEvaluacije } from '../../models/instrumentEvaluacije';
 export class InstrumentEvaluacijeService extends CrudService<InstrumentEvaluacije, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/instrumentEvaluacije');
+    super(http, '/api/instrumenti-evaluacije');
   }
 }

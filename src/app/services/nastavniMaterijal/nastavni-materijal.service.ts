@@ -9,6 +9,6 @@ import { NastavniMaterijal } from '../../models/nastavniMaterijal';
 export class NastavniMaterijalService extends CrudService<NastavniMaterijal, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/nastavniMaterijal');
+    super(http, '/api/nastavni-materijali');
   }
 }

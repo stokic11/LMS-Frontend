@@ -9,6 +9,6 @@ import { Univerzitet } from '../../models/univerzitet';
 export class UniverzitetService extends ReadOnlyCrudService<Univerzitet, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/univerzitet');
+    super(http, '/api/univerziteti');
   }
 }

@@ -9,6 +9,6 @@ import { Forum } from '../../models/forum';
 export class ForumService extends CrudService<Forum, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/forum');
+    super(http, '/api/forumi');
   }
 }

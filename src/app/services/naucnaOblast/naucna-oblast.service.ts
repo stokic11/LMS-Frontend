@@ -9,6 +9,6 @@ import { NaucnaOblast } from '../../models/naucnaOblast';
 export class NaucnaOblastService extends ReadOnlyCrudService<NaucnaOblast, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/naucnaOblast');
+    super(http, '/api/naucne-oblasti');
   }
 }

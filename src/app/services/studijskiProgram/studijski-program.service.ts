@@ -9,6 +9,6 @@ import { StudijskiProgram } from '../../models/studijskiProgram';
 export class StudijskiProgramService extends WritableCrudService<StudijskiProgram, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/studijskiProgram');
+    super(http, '/api/studijski-programi');
   }
 }

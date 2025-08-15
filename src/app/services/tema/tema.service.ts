@@ -9,6 +9,6 @@ import { Tema } from '../../models/tema';
 export class TemaService extends CrudService<Tema, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/tema');
+    super(http, '/api/teme');
   }
 }

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login/login.component';
-import { RegisterComponent } from './components/register/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { AuthGuard } from './auth_guard';
 
@@ -11,13 +11,11 @@ export const routes: Routes = [
   
   // Example protected routes - add your actual components here
   { 
-    path: 'fakultet', 
-    loadComponent: () => import('./components/fakultet-table/fakultet-table.component').then(m => m.FakultetTableComponent),
-    canActivate: [AuthGuard],
-    data: { uloge: ['ADMIN', 'NASTAVNIK','KORISNIK'] } // Example roles
+    path: 'fakulteti', 
+    loadComponent: () => import('./components/fakultet-table/fakultet-table.component').then(m => m.FakultetTableComponent)
   },
   { 
-    path: 'studijski-program', 
+    path: 'studijski-programi',
     loadComponent: () => import('./components/studijski-program-table/studijski-program-table.component').then(m => m.StudijskiProgramTableComponent),
     canActivate: [AuthGuard],
     data: { uloge: ['ADMIN'] } // Example - only admin can access

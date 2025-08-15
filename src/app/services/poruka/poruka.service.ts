@@ -9,6 +9,6 @@ import { Poruka } from '../../models/poruka';
 export class PorukaService extends CrudService<Poruka, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/poruka');
+    super(http, '/api/poruke');
   }
 }

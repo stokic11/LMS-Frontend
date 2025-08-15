@@ -9,6 +9,6 @@ import { Uloga } from '../../models/uloga';
 export class UlogaService extends ReadOnlyCrudService<Uloga, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/uloga');
+    super(http, '/api/uloge');
   }
 }

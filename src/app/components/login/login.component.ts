@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
  
-import { AuthenticationService } from '../../../services/authentication/authentication.service';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { NgClass, NgIf } from '@angular/common';
  
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor, NgClass, RouterModule],
+  imports: [ReactiveFormsModule, NgIf, NgClass, RouterModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

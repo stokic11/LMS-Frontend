@@ -9,6 +9,6 @@ import { Fajl } from '../../models/fajl';
 export class FajlService extends CrudService<Fajl, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/fajl');
+    super(http, '/api/fajlovi');
   }
 }

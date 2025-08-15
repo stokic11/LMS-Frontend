@@ -9,6 +9,6 @@ import { Mesto } from '../../models/mesto';
 export class MestoService extends CrudService<Mesto, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/mesto');
+    super(http, '/api/mesta');
   }
 }

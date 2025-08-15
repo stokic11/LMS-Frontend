@@ -9,6 +9,6 @@ import { PohadjanjePredmeta } from '../../models/pohadjanjePredmeta';
 export class PohadjanjePredmetaService extends CrudService<PohadjanjePredmeta, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/pohadjanjePredmeta');
+    super(http, '/api/pohadjanje-predmeta');
   }
 }

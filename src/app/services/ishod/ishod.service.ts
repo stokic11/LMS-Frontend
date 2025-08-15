@@ -9,6 +9,6 @@ import { Ishod } from '../../models/ishod';
 export class IshodService extends CrudService<Ishod, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/ishod');
+    super(http, '/api/ishodi');
   }
 }

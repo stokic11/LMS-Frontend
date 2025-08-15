@@ -9,6 +9,6 @@ import { Polaganje } from '../../models/polaganje';
 export class PolaganjeService extends WritableCrudService<Polaganje, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/polaganje');
+    super(http, '/api/polaganja');
   }
 }

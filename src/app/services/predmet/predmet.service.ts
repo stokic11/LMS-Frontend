@@ -9,6 +9,6 @@ import { Predmet } from '../../models/predmet';
 export class PredmetService extends CrudService<Predmet, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/predmet');
+    super(http, '/api/predmeti');
   }
 }

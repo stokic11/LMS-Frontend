@@ -9,6 +9,6 @@ import { GodinaStudija } from '../../models/godinaStudija';
 export class GodinaStudijaService extends CrudService<GodinaStudija, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/godinaStudija');
+    super(http, '/api/godine-studija');
   }
 }

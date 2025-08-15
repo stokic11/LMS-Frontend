@@ -9,6 +9,6 @@ import { Drzava } from '../../models/drzava';
 export class DrzavaService extends ReadOnlyCrudService<Drzava, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/drzava');
+    super(http, '/api/drzave');
   }
 }

@@ -9,6 +9,6 @@ import { NastavnikNaRealizaciji } from '../../models/nastavnikNaRealizaciji';
 export class NastavnikNaRealizacijiService extends CrudService<NastavnikNaRealizaciji, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/nastavnikNaRealizaciji');
+    super(http, '/api/nastavnici-na-realizaciji');
   }
 }

@@ -9,6 +9,6 @@ import { RealizacijaPredmeta } from '../../models/realizacijaPredmeta';
 export class RealizacijaPredmetaService extends CrudService<RealizacijaPredmeta, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/realizacijaPredmeta');
+    super(http, '/api/realizacije-predmeta');
   }
 }

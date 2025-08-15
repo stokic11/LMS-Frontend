@@ -9,6 +9,6 @@ import { Obavestenje } from '../../models/obavestenje';
 export class ObavestenjeService extends CrudService<Obavestenje, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/obavestenje');
+    super(http, '/api/obavestenja');
   }
 }
