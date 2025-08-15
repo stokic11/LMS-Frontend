@@ -1,11 +1,8 @@
-import { Fajl } from "./fajl";
-import { Korisnik } from "./korisnik";
-
 export interface Poruka {
     id?: number;
-    datumPostavljanja: Date;
+    datumPohadjanja: Date;
     sadrzaj: string;
-    prilozi: Fajl[];
-    primalac: Korisnik[];
-    posiljalac: Korisnik;
+    priloziIds?: number[];
+    primalacId: number;
+    posiljalacId: number;
 }

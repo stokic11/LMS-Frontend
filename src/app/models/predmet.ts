@@ -1,4 +1,3 @@
-import { GodinaStudija } from "./godinaStudija";
 import { Ishod } from "./ishod";
 
 export interface Predmet { 
@@ -13,7 +12,8 @@ export interface Predmet {
     ostaliCasovi: number;
     brojSemestra: number;
     silabus: Ishod[];
-    godinaStudija: GodinaStudija;
-    preduslov: Predmet[];
-
+    godinaStudijaId: number;
+    realizacijePredmetaIds?: number[];
+    predusloviIds?: number[];
+    zavisniPredmetiIds?: number[];
 }

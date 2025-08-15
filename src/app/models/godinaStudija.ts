@@ -1,6 +1,7 @@
 export interface GodinaStudija {
     id?: number;
-    godinaPocetka: Date;
-    godinaKraja: Date;
-    
+    datumPocetka: Date;
+    datumKraja: Date;
+    studijskiProgramId: number;
+    predmetiIds?: number[];
 }

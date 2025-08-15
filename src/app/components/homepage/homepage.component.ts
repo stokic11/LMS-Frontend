@@ -63,20 +63,8 @@ export class HomepageComponent implements OnInit {
           }
         }
       },
-      rektor: {
-        id: 1,
-        korisnickoIme: 'rektor.singidunum',
-        lozinka: 'password123',
-        email: 'rektor@singidunum.ac.rs',
-        ime: 'Prof. dr Milovan Stanišić',
-        biografija: 'Renomirani akademik i osnivač Univerziteta Singidunum.',
-        jmbg: '1503965800001',
-        zvanje: 'Redovni profesor',
-        uloga: {
-          id: 1,
-          naziv: 'Rektor'
-        }
-      }
+      rektorId: 1,
+      fakultetiIds: [1, 2, 3]
     };
   }
 }

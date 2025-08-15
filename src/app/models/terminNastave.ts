@@ -6,5 +6,6 @@ export interface TerminNastave {
     vremePocetka: Date;
     vremeZavrsetka: Date;
     ishod: Ishod;
+    realizacijaPredmetaId: number;
     tipNastave: TipNastave;
 }

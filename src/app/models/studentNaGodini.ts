@@ -1,10 +1,7 @@
-import { Polaganje } from "./polaganje";
-import { Student } from "./student";
-
 export interface StudentNaGodini {
     id?: number;
-    datumStudija: Date;
+    datumUpisa: Date;
     brojIndeksa: string;
-    student: Student;
-    polaganja: Polaganje[];
+    studentId: number;
+    polaganjaIds?: number[];
 }

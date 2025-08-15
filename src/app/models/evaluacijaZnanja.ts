@@ -1,4 +1,3 @@
-import { InstrumentEvaluacije } from "./instrumentEvaluacije";
 import { Ishod } from "./ishod";
 import { TipEvaluacije } from "./tipEvaluacije";
 
@@ -8,6 +7,7 @@ export interface EvaluacijaZnanja {
     vremeZavrsetka: Date;
     bodovi: number;
     tipEvaluacije: TipEvaluacije;
+    realizacijaPredmetaId: number;
     ishod: Ishod;
-    instrumentEvaluacije: InstrumentEvaluacije[];
+    instrumentiEvaluacijeIds?: number[];
 }

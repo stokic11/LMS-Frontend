@@ -24,27 +24,31 @@ export class FakultetTableComponent implements OnInit {
   constructor(private fakultetService: FakultetService) {}
 
   ngOnInit(): void {
-    const univerzitet = {
-      id: 1,
-      naziv: 'Univerzitet Singidunum',
-      datumOsnivanja: new Date('2005-01-01'),
-      adresa: {
-        ulica: 'Danijelova',
-        broj: '32',
-        mesto: { naziv: 'Beograd', drzava: { naziv: 'Srbija' } }
+    this.loadFakulteti();
+  }
+  loadFakulteti(): void {
+    this.fakultetService.getAll().subscribe({
+      next: (data) => {
+        this.fakulteti = data;
+        this.fakultetiDisplay = this.fakulteti.map(f => ({
+          id: f.id,
+          naziv: f.naziv,
+          adresa: f.adresa?.ulica + ' ' + f.adresa?.broj + ', ' + f.adresa?.mesto?.naziv,
+          univerzitet: f.univerzitetId
+        }));
+        console.log('Dobijeni fakulteti:', data);
       },
-      rektor: {
-        id: 1,
-        korisnickoIme: 'rektor.singidunum',
-        lozinka: 'password123',
-        email: 'rektor@singidunum.ac.rs',
-        ime: 'Prof. dr Milovan Stanišić',
-        biografija: 'Renomirani akademik i osnivač Univerziteta Singidunum.',
-        jmbg: '1503965800001',
-        zvanje: 'Redovni profesor',
-        uloga: { id: 1, naziv: 'Rektor' }
+      error: (error) => {
+        console.error('Greška pri učitavanju fakulteta:', error);
+        if (error.status === 403) {
+          console.warn('Nedostaje autentifikacija - potrebno je prijaviti se');
+        }
+        this.loadMockData();
       }
-    };
+    });
+  }
+
+  private loadMockData(): void {
     this.fakulteti = [
       {
         id: 1,
@@ -54,7 +58,9 @@ export class FakultetTableComponent implements OnInit {
           broj: '32',
           mesto: { naziv: 'Beograd', drzava: { naziv: 'Srbija' } }
         },
-        univerzitet
+        univerzitetId: 1,
+        dekanId: 1,
+        studijskiProgramiIds: [1, 2]
       },
       {
         id: 2,
@@ -64,7 +70,9 @@ export class FakultetTableComponent implements OnInit {
           broj: '32',
           mesto: { naziv: 'Beograd', drzava: { naziv: 'Srbija' } }
         },
-        univerzitet
+        univerzitetId: 1,
+        dekanId: 2,
+        studijskiProgramiIds: [3]
       },
       {
         id: 3,
@@ -74,14 +82,16 @@ export class FakultetTableComponent implements OnInit {
           broj: '32',
           mesto: { naziv: 'Beograd', drzava: { naziv: 'Srbija' } }
         },
-        univerzitet
+        univerzitetId: 1,
+        dekanId: 3,
+        studijskiProgramiIds: [4, 5]
       }
     ];
     this.fakultetiDisplay = this.fakulteti.map(f => ({
       id: f.id,
       naziv: f.naziv,
       adresa: f.adresa?.ulica + ' ' + f.adresa?.broj + ', ' + f.adresa?.mesto?.naziv,
-      univerzitet: f.univerzitet?.naziv
+      univerzitet: f.univerzitetId
     }));
   }
 }
