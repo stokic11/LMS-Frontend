@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CrudService } from '../generic.service';
-import { Obavestenje } from '../../models/obavestnje';
+import { Obavestenje } from '../../models/obavestenje';
 
 @Injectable({
   providedIn: 'root'

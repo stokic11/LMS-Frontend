@@ -87,7 +87,7 @@ export class AuthenticationService {
 
   register(registrationData: RegistrationRequest) {
     console.log('Registering user:', registrationData);
-    return this.http.post<any>(`${AppConstants.BASE_URL}auth/signup`, registrationData).pipe(
+    return this.http.post<any>(`${AppConstants.BASE_URL}auth/registracija`, registrationData).pipe(
       map(response => {
         console.log('Registration response:', response);
         
@@ -103,11 +103,11 @@ export class AuthenticationService {
   }
 
   registerWithoutLogin(korisnik: Korisnik) {
-    return this.http.post<any>(`${AppConstants.BASE_URL}auth/signup`, korisnik);
+    return this.http.post<any>(`${AppConstants.BASE_URL}auth/registracija`, korisnik);
   }
 
   login(email: string, password: string) {
-    return this.http.post<any>(`${AppConstants.BASE_URL}auth/signin`, {
+    return this.http.post<any>(`${AppConstants.BASE_URL}auth/login`, {
       "username": email,
       "password": password
     }).pipe(

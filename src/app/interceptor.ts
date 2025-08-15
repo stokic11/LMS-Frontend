@@ -2,7 +2,7 @@ import { HttpHandlerFn, HttpRequest } from "@angular/common/http";
 
 export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
     // Skip authentication for auth endpoints
-    const authEndpoints = ['signin', 'signup', 'login', 'register'];
+    const authEndpoints = ['signin', 'signup', 'login', 'register', 'registracija'];
     const skipAuth = authEndpoints.some(endpoint => req.url.includes(endpoint));
     
     if (typeof localStorage !== 'undefined' && !skipAuth) {
