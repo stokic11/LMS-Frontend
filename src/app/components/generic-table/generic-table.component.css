@@ -18,6 +18,7 @@ table {
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   font-size: 14px;
+  table-layout: fixed;
 }
 
 table thead {
@@ -34,6 +35,7 @@ table th {
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  width: auto;
 }
 
 table th:hover {
@@ -49,6 +51,16 @@ table td {
 
 table tr:hover td {
   background-color: #f0f8f8;
+}
+
+table tbody tr.clickable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+table tbody tr.clickable:hover td {
+  background-color: #e8f4f4;
+  transform: translateX(2px);
 }
 
 table tr:last-child td {

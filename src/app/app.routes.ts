@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/fakultet-table/fakultet-table.component').then(m => m.FakultetTableComponent)
   },
   { 
+    path: 'fakulteti/:id', 
+    loadComponent: () => import('./components/fakultet-details/fakultet-details.component').then(m => m.FakultetDetailsComponent)
+  },
+  { 
     path: 'studijski-programi',
     loadComponent: () => import('./components/studijski-program-table/studijski-program-table.component').then(m => m.StudijskiProgramTableComponent),
     canActivate: [AuthGuard],

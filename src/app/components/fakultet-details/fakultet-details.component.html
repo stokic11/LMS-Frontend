@@ -1,0 +1,99 @@
+<div class="fakultet-details-container" *ngIf="!loading">
+  <div class="back-button-container">
+    <button class="back-btn" (click)="goBack()">
+      ← Nazad na fakultete
+    </button>
+  </div>
+
+  <div class="fakultet-card" *ngIf="fakultetInfo">
+    <div class="header-section">
+      <h1 class="fakultet-title">{{ fakultetInfo.naziv }}</h1>
+      <div class="fakultet-subtitle">Deo {{ fakultetInfo.univerzitetNaziv || 'Univerziteta' }}</div>
+    </div>
+
+    <div class="content-grid">
+      <!-- Opis fakulteta -->
+      <div class="description-section">
+        <h3 class="section-title">O fakultetu</h3>
+        <p class="description-text">
+          {{ fakultetInfo.naziv }} je prestižna obrazovna institucija koja kontinuirano razvija kvalitetne studijske programe i doprinosi razvoju nauke i obrazovanja.
+        </p>
+      </div>
+
+      <!-- Kontakt informacije -->
+      <div class="contact-section">
+        <h3 class="section-title">Kontakt informacije</h3>
+        <div class="contact-info">
+          <div class="contact-item">
+            <span class="contact-icon">🏫</span>
+            <div class="contact-text">
+              <strong>Fakultet:</strong><br>
+              {{ fakultetInfo.naziv }}
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon">🎓</span>
+            <div class="contact-text">
+              <strong>Univerzitet:</strong><br>
+              {{ fakultetInfo.univerzitetNaziv || 'Nisu dostupni podaci' }}
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <span class="contact-icon">📊</span>
+            <div class="contact-text">
+              <strong>Studijski programi:</strong><br>
+              {{ fakultetInfo.studijskiProgramiNazivi || 'Informacije o studijskim programima nisu dostupne' }}
+            </div>
+          </div>
+
+          <!-- Adresa fakulteta -->
+          <div class="contact-item" *ngIf="fakultetInfo.adresa">
+            <span class="contact-icon">📍</span>
+            <div class="contact-text">
+              <strong>Adresa:</strong><br>
+              {{ fakultetInfo.adresa.ulica }} {{ fakultetInfo.adresa.broj }}<br>
+              {{ fakultetInfo.adresa.mesto.naziv }}<br>
+              {{ fakultetInfo.adresa.mesto.drzava.naziv }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Informacije o dekanu -->
+      <div class="dean-section" *ngIf="dekan || fakultetInfo.dekanIme">
+        <h3 class="section-title">Dekan fakulteta</h3>
+        <div class="dean-info">
+          <div class="dean-header">
+            <h4 class="dean-name">{{ dekan?.ime || fakultetInfo.dekanIme || 'Podaci o dekanu nisu dostupni' }}</h4>
+            <span class="dean-title" *ngIf="dekan?.zvanje?.tipZvanja?.naziv">{{ dekan?.zvanje?.tipZvanja?.naziv }}</span>
+          </div>
+          
+          <div class="dean-contact" *ngIf="dekan">
+            <div class="dean-contact-item" *ngIf="dekan.email">
+              <strong>Email:</strong> <a href="mailto:{{ dekan.email }}">{{ dekan.email }}</a>
+            </div>
+            <div class="dean-contact-item" *ngIf="dekan.zvanje?.naucnaOblast?.naziv">
+              <strong>Naučna oblast:</strong> {{ dekan.zvanje.naucnaOblast.naziv }}
+            </div>
+          </div>
+
+          <div class="dean-bio" *ngIf="dekan?.biografija">
+            <p>{{ dekan?.biografija }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="error-message" *ngIf="error && !loading">
+    <h2>Fakultet nije pronađen</h2>
+    <p>Izvinjavamo se, ali traženi fakultet nije pronađen ili je došlo do greške pri učitavanju.</p>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="loading">
+  <div class="loading-spinner"></div>
+  <p>Učitavanje informacija o fakultetu...</p>
+</div>

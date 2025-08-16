@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { CommonModule } from '@angular/common';
@@ -114,6 +114,8 @@ export class GenericTableComponent {
   @Input() data: any[] = [];
   @Input() columns: TableColumn[] = [];
   @Input() pageSize: number = 10;
+  @Input() rowClickable: boolean = false;
+  @Output() rowClick = new EventEmitter<any>();
 
   currentPage: number = 1;
   sortColumn: string = '';
@@ -157,5 +159,11 @@ export class GenericTableComponent {
   goToPage(page: number) {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+  }
+
+  onRowClick(row: any) {
+    if (this.rowClickable) {
+      this.rowClick.emit(row);
+    }
   }
 }

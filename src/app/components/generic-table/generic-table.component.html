@@ -11,7 +11,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let row of pagedData">
+			<tr *ngFor="let row of pagedData" 
+			    [class.clickable]="rowClickable" 
+			    (click)="onRowClick(row)">
 				<td *ngFor="let col of columns">
 					{{ row[col.key] }}
 				</td>
