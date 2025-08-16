@@ -100,12 +100,12 @@ export class GenericTableComponent {
         cellPadding: 3,
       },
       headStyles: {
-        fillColor: [41, 128, 185],
+        fillColor: [36, 72, 85],
         textColor: 255,
         fontStyle: 'bold',
       },
       alternateRowStyles: {
-        fillColor: [245, 245, 245],
+        fillColor: [240, 248, 248],
       },
       margin: { top: 20 },
     });

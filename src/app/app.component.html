@@ -1,74 +1,70 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer mode="side" [(opened)]="isDrawerOpened" class="sidenav">
-    <div class="sidenav-header">
-      <div class="logo-container">
-        <mat-icon class="logo-icon">school</mat-icon>
-        <h3 class="logo-text">LMS Portal</h3>
-      </div>
-    </div>
+<div class="app-layout">
+  <mat-toolbar color="primary" class="main-header">
+    <button mat-icon-button (click)="toggleDrawer()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <a routerLink="/homepage" class="toolbar-title">LMS Univerzitet</a>
+    <span class="spacer"></span>
     
-    <div class="nav-section">
-      <h4 class="section-title">Navigacija</h4>
-      <mat-nav-list class="custom-nav-list">
-        <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
-          <mat-icon class="nav-icon">home</mat-icon>
-          <span class="nav-text">Home</span>
-        </a>
-        <a mat-list-item routerLink="/fakulteti" class="nav-item" routerLinkActive="active">
-          <mat-icon class="nav-icon">business</mat-icon>
-          <span class="nav-text">Fakulteti</span>
-        </a>
-        <!-- TODO: Ispraviti ovde teaching-materials na srpskom-->
-        <a mat-list-item routerLink="/nastavni-materijali" class="nav-item" routerLinkActive="active">
-          <mat-icon class="nav-icon">library_books</mat-icon>
-          <span class="nav-text">Nastavni materijali</span>
-        </a>
-        <a mat-list-item routerLink="/studenti" class="nav-item" routerLinkActive="active">
-          <mat-icon class="nav-icon">people</mat-icon>
-          <span class="nav-text">Studenti</span>
-        </a>
-        <!-- Ovde dodavati jos u sidebar ukoliko treba da stoji jos nesto ovde -->
-
-      </mat-nav-list>
-    </div>
-
-    <!-- Videti posle da li ce nam trebati ovo uopste (Za sada dodati samo zbog izgleda)-->
-    <div class="nav-section">
-      <h4 class="section-title">Nalog</h4>
-      <mat-nav-list class="custom-nav-list">
-        <a mat-list-item routerLink="/profil" class="nav-item" routerLinkActive="active">
-          <mat-icon class="nav-icon">person</mat-icon>
-          <span class="nav-text">Profil</span>
-        </a>
-        <a mat-list-item routerLink="/opcije" class="nav-item" routerLinkActive="active">
-          <mat-icon class="nav-icon">settings</mat-icon>
-          <span class="nav-text">Opcije</span>
-        </a>
-      </mat-nav-list>
-    </div>
-
-    <div class="sidenav-footer">
-      <button mat-button class="logout-btn">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </button>
-    </div>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button mat-icon-button (click)="toggleDrawer()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span class="toolbar-title">LMS Univerzitet</span>
-      <span class="spacer"></span>
+    <!-- Dugmad kada nije ulogovan -->
+    <ng-container *ngIf="!(isAuthenticated$ | async)">
       <button mat-button routerLink="/login">Login</button>
       <button mat-button routerLink="/register">Registracija</button>
-      <!-- <button mat-button (click)="logout()">Sign out</button> -->
-    </mat-toolbar>
+    </ng-container>
+    
+    <!-- Dugme kada je ulogovan -->
+    <ng-container *ngIf="isAuthenticated$ | async">
+      <button mat-button (click)="logout()">Odjavi se</button>
+    </ng-container>
+  </mat-toolbar>
 
-    <div class="container">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer mode="side" [(opened)]="isDrawerOpened" class="sidenav">
+      <div class="nav-section">
+        <h4 class="section-title">Navigacija</h4>
+        <mat-nav-list class="custom-nav-list">
+          <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">home</mat-icon>
+            <span class="nav-text">Home</span>
+          </a>
+          <a mat-list-item routerLink="/fakulteti" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">business</mat-icon>
+            <span class="nav-text">Fakulteti</span>
+          </a>
+          <!-- TODO: Ispraviti ovde teaching-materials na srpskom-->
+          <a mat-list-item routerLink="/nastavni-materijali" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">library_books</mat-icon>
+            <span class="nav-text">Nastavni materijali</span>
+          </a>
+          <a mat-list-item routerLink="/studenti" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">people</mat-icon>
+            <span class="nav-text">Studenti</span>
+          </a>
+          <!-- Ovde dodavati jos u sidebar ukoliko treba da stoji jos nesto ovde -->
+
+        </mat-nav-list>
+      </div>
+
+      <!-- Videti posle da li ce nam trebati ovo uopste (Za sada dodati samo zbog izgleda)-->
+      <div class="nav-section">
+        <h4 class="section-title">Nalog</h4>
+        <mat-nav-list class="custom-nav-list">
+          <a mat-list-item routerLink="/profil" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">person</mat-icon>
+            <span class="nav-text">Profil</span>
+          </a>
+          <a mat-list-item routerLink="/opcije" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">settings</mat-icon>
+            <span class="nav-text">Opcije</span>
+          </a>
+        </mat-nav-list>
+      </div>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="main-content">
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

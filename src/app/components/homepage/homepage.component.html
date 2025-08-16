@@ -1,9 +1,8 @@
 <div class="homepage-container">
-  <!-- Hero Section with Gradient Background -->
   <section class="hero-section" *ngIf="univerzitet">
     <div class="hero-content">
       <h1 class="hero-title">{{univerzitet.naziv}}</h1>
-      <p class="hero-subtitle">Oblikujemo lídere budućnosti kroz izvrsnost u obrazovanju</p>
+      <p class="hero-subtitle">Oblikujemo lidere budućnosti kroz izvrsnost u obrazovanju</p>
       <div class="hero-buttons">
         <button mat-raised-button color="accent" class="hero-btn" (click)="goToStudijskiProgrami()">Istražite programe</button>
         <button mat-stroked-button class="hero-btn-outline">Virtuelna tura</button>
@@ -13,7 +12,6 @@
     <div class="hero-decoration"></div>
   </section>
 
-  <!-- Quick Stats Cards -->
   <section class="stats-section">
     <div class="stats-grid">
       <mat-card class="stat-card">
@@ -43,7 +41,6 @@
     </div>
   </section>
 
-  <!-- About Section -->
   <section class="about-section" *ngIf="univerzitet">
     <div class="section-content">
       <div class="about-text">
@@ -83,7 +80,6 @@
     </div>
   </section>
 
-  <!-- Programs Section -->
   <section class="programs-section">
     <h2 class="section-title center">Naši programi</h2>
     <div class="programs-grid">
@@ -128,7 +124,6 @@
     </div>
   </section>
 
-  <!-- Contact Section -->
   <section class="contact-section">
     <div class="contact-grid">
       <div class="contact-info">

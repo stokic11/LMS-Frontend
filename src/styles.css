@@ -1,4 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+html, body { 
+  height: 100%; 
+  overflow-x: hidden;
+  background-color: #FFFFFF;
+  color: #244855;
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+*, *::before, *::after {
+  cursor: default !important;
+  caret-color: transparent !important;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+input, textarea {
+  cursor: text !important;
+  caret-color: #244855 !important;
+  transition: none !important;
+}
+
+input:focus, textarea:focus {
+  outline: 2px solid #244855 !important;
+  transition: none !important;
+}
+
+button, a {
+  cursor: pointer !important;
+}
+
+.mat-sidenav-container,
+.mat-sidenav-content,
+.mat-drawer-container,
+.mat-drawer-content {
+  overflow-x: hidden !important;
+}

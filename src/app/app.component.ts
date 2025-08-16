@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -26,17 +28,24 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AppComponent {
   title = 'University LMS';
+  isAuthenticated$: Observable<boolean>;
 
   @ViewChild('drawer') drawer!: MatSidenav;
   isDrawerOpened = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthenticationService) {
+    this.isAuthenticated$ = this.authService.isAuthenticated;
+  }
 
   toggleDrawer(): void {
     this.isDrawerOpened = !this.isDrawerOpened;
   }
 
-  // Metoda za navigaciju (ako želiš programsku navigaciju)
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/homepage']);
+  }
+
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }

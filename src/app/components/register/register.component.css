@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #90AEAD;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
 }
@@ -20,14 +20,10 @@
 
 h2 {
   text-align: center;
-  color: #2c3e50;
+  color: #244855;
   margin-bottom: 30px;
   font-size: 28px;
   font-weight: 600;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .form-group {
@@ -55,9 +51,10 @@ h2 {
 
 .form-control:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #90AEAD;
+  border-width: 1px;
   background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: none;
 }
 
 .form-control::placeholder {
@@ -91,9 +88,9 @@ h2 {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #E64833;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 15px rgba(230, 72, 51, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -135,7 +132,7 @@ h2 {
 }
 
 .login-link a {
-  color: #667eea;
+  color: #E64833;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
@@ -163,7 +160,6 @@ h2 {
   }
 }
 
-/* Responsive Design */
 @media (max-width: 480px) {
   .register-container {
     padding: 10px;
@@ -179,14 +175,12 @@ h2 {
   }
 }
 
-/* Focus states for accessibility */
 .form-control:focus,
 .btn:focus {
-  outline: 2px solid #667eea;
-  outline-offset: 2px;
+  outline: 1px solid #90AEAD;
+  outline-offset: 0px;
 }
 
-/* Loading state animation */
 .btn-primary:disabled .spinner {
   animation: spin 1s linear infinite;
 }

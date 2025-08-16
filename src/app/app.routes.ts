@@ -9,7 +9,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   
-  // Example protected routes - add your actual components here
   { 
     path: 'fakulteti', 
     loadComponent: () => import('./components/fakultet-table/fakultet-table.component').then(m => m.FakultetTableComponent)
@@ -18,9 +17,8 @@ export const routes: Routes = [
     path: 'studijski-programi',
     loadComponent: () => import('./components/studijski-program-table/studijski-program-table.component').then(m => m.StudijskiProgramTableComponent),
     canActivate: [AuthGuard],
-    data: { uloge: ['ADMIN'] } // Example - only admin can access
+    data: { uloge: ['korisnik'] }
   },
   
-  // Catch all route
   { path: '**', redirectTo: '' }
 ];

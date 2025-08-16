@@ -21,7 +21,7 @@ table {
 }
 
 table thead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #244855;
   color: white;
 }
 
@@ -37,18 +37,18 @@ table th {
 }
 
 table th:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #1a3440;
 }
 
 table td {
   padding: 12px;
-  border-bottom: 1px solid #e9ecef;
-  color: #495057;
+  border-bottom: 1px solid #90AEAD;
+  color: #244855;
   transition: background-color 0.2s ease;
 }
 
 table tr:hover td {
-  background-color: #f8f9fa;
+  background-color: #f0f8f8;
 }
 
 table tr:last-child td {
@@ -60,7 +60,7 @@ table tbody tr:nth-child(even) {
 }
 
 table tbody tr:nth-child(even):hover {
-  background-color: #e9ecef;
+  background-color: #e8f4f4;
 }
 
 .table-actions {
@@ -70,7 +70,7 @@ table tbody tr:nth-child(even):hover {
 }
 
 .hero-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #E64833;
   color: white;
   border: none;
   border-radius: 30px;
@@ -80,12 +80,13 @@ table tbody tr:nth-child(even):hover {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(230, 72, 51, 0.3);
 }
 
 .hero-btn:hover {
+  background-color: #c23e2a;
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 4px 15px rgba(230, 72, 51, 0.5);
 }
 
 .pagination {
@@ -99,7 +100,7 @@ table tbody tr:nth-child(even):hover {
 }
 
 .pagination-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #E64833;
   color: white;
   border: none;
   border-radius: 25px;
@@ -108,20 +109,21 @@ table tbody tr:nth-child(even):hover {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 8px rgba(230, 72, 51, 0.3);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .pagination-btn:hover:not(:disabled) {
+  background-color: #c23e2a;
   transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 4px 15px rgba(230, 72, 51, 0.5);
 }
 
 .pagination-btn:disabled {
-  background: #e9ecef;
-  color: #6c757d;
+  background-color: #90AEAD;
+  color: #555555;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
@@ -130,7 +132,7 @@ table tbody tr:nth-child(even):hover {
 .pagination-info {
   font-size: 16px;
   font-weight: 500;
-  color: #495057;
+  color: #244855;
   padding: 0 15px;
   background: #f8f9fa;
   border-radius: 20px;
@@ -217,7 +219,7 @@ table tbody tr:nth-child(even):hover {
 .format-btn {
   flex: 1;
   padding: 16px 12px;
-  border: 2px solid #e9ecef;
+  border: 2px solid #90AEAD;
   border-radius: 8px;
   background: white;
   cursor: pointer;
@@ -228,26 +230,26 @@ table tbody tr:nth-child(even):hover {
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: #495057;
+  color: #244855;
 }
 
 .format-btn:hover {
-  border-color: #667eea;
-  background-color: #f8f9ff;
+  border-color: #E64833;
+  background-color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 4px 12px rgba(230, 72, 51, 0.15);
 }
 
 .xml-btn:hover {
-  border-color: #667eea;
-  background-color: #f8f9ff;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  border-color: #E64833;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(230, 72, 51, 0.15);
 }
 
 .pdf-btn:hover {
-  border-color: #667eea;
-  background-color: #f8f9ff;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  border-color: #E64833;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(230, 72, 51, 0.15);
 }
 
 .format-icon {
