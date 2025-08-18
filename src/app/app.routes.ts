@@ -2,24 +2,34 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
+import { StudentHomepageComponent } from './components/student-homepage/student-homepage.component';
+import { FakultetTableComponent } from './components/fakultet-table/fakultet-table.component';
+import { FakultetDetailsComponent } from './components/fakultet-details/fakultet-details.component';
+import { StudijskiProgramTableComponent } from './components/studijski-program-table/studijski-program-table.component';
 import { AuthGuard } from './auth_guard';
 
 export const routes: Routes = [
-  { path: '', component: HomepageComponent },
+  { 
+    path: '', 
+    component: HomepageComponent
+  },
+  { 
+    path: 'homepage', 
+    component: HomepageComponent
+  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  
   { 
-    path: 'fakulteti', 
-    loadComponent: () => import('./components/fakultet-table/fakultet-table.component').then(m => m.FakultetTableComponent)
+    path: 'student-homepage', 
+    component: StudentHomepageComponent,
+  canActivate: [AuthGuard],
+  data: { uloge: ['student'] }
   },
+  { path: 'fakulteti', component: FakultetTableComponent },
+  { path: 'fakulteti/:id', component: FakultetDetailsComponent },
   { 
-    path: 'fakulteti/:id', 
-    loadComponent: () => import('./components/fakultet-details/fakultet-details.component').then(m => m.FakultetDetailsComponent)
-  },
-  { 
-    path: 'studijski-programi',
-    loadComponent: () => import('./components/studijski-program-table/studijski-program-table.component').then(m => m.StudijskiProgramTableComponent),
+    path: 'studijski-programi', 
+    component: StudijskiProgramTableComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['korisnik'] }
   },

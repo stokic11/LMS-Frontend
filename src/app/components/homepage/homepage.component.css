@@ -421,10 +421,10 @@
 }
 
 .location-section #map {
-  height: 90%; /* Visina mape se prilagođava kontejneru */
-  width: 100%;  /* Širina mape je 100% kontejnera */
+  height: 90%;
+  width: 100%; 
   border-radius: 8px;
-  margin: 0 auto; /* Centriranje mape unutar kontejnera */
+  margin: 0 auto;
 }
 
 .location-section {
@@ -433,8 +433,8 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
-  overflow: hidden; /* Sprečava izlazak sadržaja iz kontejnera */
-  height: 350px; /* Visina sekcije, u skladu sa mapom */
+  overflow: hidden;
+  height: 350px;
 }
 
 .location-icon {

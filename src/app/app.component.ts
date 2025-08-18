@@ -49,4 +49,8 @@ export class AppComponent {
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }
+
+  isStudent(): boolean {
+    return this.authService.hasRole('student');
+  }
 }

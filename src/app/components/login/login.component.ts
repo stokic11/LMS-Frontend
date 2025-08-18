@@ -54,7 +54,13 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (data) => {
           console.log('Login successful:', data);
-          this.router.navigate([this.returnUrl]);
+          
+          // Proverim da li je korisnik student i redirectujem ga na odgovarajuću stranicu
+          if (this.authenticationService.hasRole('student')) {
+            this.router.navigate(['/student-homepage']);
+          } else {
+            this.router.navigate([this.returnUrl]);
+          }
         },
         error: (error) => {
           console.error('Login error:', error);

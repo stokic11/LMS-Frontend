@@ -1,6 +1,6 @@
 <div class="app-layout">
   <mat-toolbar color="primary" class="main-header">
-    <button mat-icon-button (click)="toggleDrawer()">
+    <button mat-icon-button (click)="toggleDrawer()" *ngIf="!((isAuthenticated$ | async) && isStudent())">
       <mat-icon>menu</mat-icon>
     </button>
     <a routerLink="/homepage" class="toolbar-title">LMS Univerzitet</a>
@@ -19,8 +19,43 @@
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer mode="side" [(opened)]="isDrawerOpened" class="sidenav">
-      <div class="nav-section">
+    <mat-sidenav #drawer mode="side" [opened]="(isAuthenticated$ | async) && isStudent() ? true : isDrawerOpened" class="sidenav">
+      
+      <div class="nav-section" *ngIf="(isAuthenticated$ | async) && isStudent()">
+        <h4 class="section-title">Student Panel</h4>
+        <mat-nav-list class="custom-nav-list">
+          <a mat-list-item routerLink="/student-homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">dashboard</mat-icon>
+            <span class="nav-text">Portal</span>
+          </a>
+          <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">home</mat-icon>
+            <span class="nav-text">Glavna strana</span>
+          </a>
+          <a mat-list-item routerLink="/profil" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">person</mat-icon>
+            <span class="nav-text">Profil</span>
+          </a>
+          <a mat-list-item routerLink="/predmeti" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">school</mat-icon>
+            <span class="nav-text">Predmeti</span>
+          </a>
+          <a mat-list-item routerLink="/obavestenja" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">notifications</mat-icon>
+            <span class="nav-text">Obavestenja</span>
+          </a>
+          <a mat-list-item routerLink="/istorija" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">history</mat-icon>
+            <span class="nav-text">Istorija</span>
+          </a>
+          <a mat-list-item routerLink="/prijava-ispita" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">assignment</mat-icon>
+            <span class="nav-text">Prijava ispita</span>
+          </a>
+        </mat-nav-list>
+      </div>
+
+      <div class="nav-section" *ngIf="!((isAuthenticated$ | async) && isStudent())">
         <h4 class="section-title">Navigacija</h4>
         <mat-nav-list class="custom-nav-list">
           <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
@@ -40,22 +75,15 @@
             <mat-icon class="nav-icon">people</mat-icon>
             <span class="nav-text">Studenti</span>
           </a>
-          <!-- Ovde dodavati jos u sidebar ukoliko treba da stoji jos nesto ovde -->
-
         </mat-nav-list>
       </div>
 
-      <!-- Videti posle da li ce nam trebati ovo uopste (Za sada dodati samo zbog izgleda)-->
-      <div class="nav-section">
+      <div class="nav-section" *ngIf="(isAuthenticated$ | async) && !isStudent()">
         <h4 class="section-title">Nalog</h4>
         <mat-nav-list class="custom-nav-list">
           <a mat-list-item routerLink="/profil" class="nav-item" routerLinkActive="active">
             <mat-icon class="nav-icon">person</mat-icon>
             <span class="nav-text">Profil</span>
-          </a>
-          <a mat-list-item routerLink="/opcije" class="nav-item" routerLinkActive="active">
-            <mat-icon class="nav-icon">settings</mat-icon>
-            <span class="nav-text">Opcije</span>
           </a>
         </mat-nav-list>
       </div>

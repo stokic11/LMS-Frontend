@@ -11,20 +11,17 @@ export class AuthGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthenticationService) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    const expectedRoles: string[] = route.data['uloge'] || []; 
-    console.log('Expected roles:', expectedRoles);
+    const expectedRoles: string[] = route.data['uloge'] || [];
 
     return this.authService.isAuthenticated.pipe(
       take(1),
       map(isAuth => {
         if (!isAuth) {
-          console.log('User not authenticated, redirecting to login');
           this.router.navigate(['/login']);
           return false;
         }
 
         if (expectedRoles.length > 0 && !this.authService.hasAnyRole(expectedRoles)) {
-          console.log('User does not have required roles, redirecting to home');
           this.router.navigate(['/']);
           return false;
         }
