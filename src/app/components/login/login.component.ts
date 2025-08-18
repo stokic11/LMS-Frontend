@@ -55,9 +55,17 @@ export class LoginComponent implements OnInit {
         next: (data) => {
           console.log('Login successful:', data);
           
-          // Proverim da li je korisnik student i redirectujem ga na odgovarajuću stranicu
           if (this.authenticationService.hasRole('student')) {
             this.router.navigate(['/student-homepage']);
+          }
+          else if (this.authenticationService.hasRole('nastavnik')) {
+            this.router.navigate(['/nastavnik-homepage']);
+          }
+          else if (this.authenticationService.hasRole('studentska_sluzba')) {
+            this.router.navigate(['/studentska-sluzba-homepage']);
+          }
+          else if (this.authenticationService.hasRole('admin')) {
+            this.router.navigate(['/admin-homepage']);
           } else {
             this.router.navigate([this.returnUrl]);
           }

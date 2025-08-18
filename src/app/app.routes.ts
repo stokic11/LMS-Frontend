@@ -7,6 +7,9 @@ import { FakultetTableComponent } from './components/fakultet-table/fakultet-tab
 import { FakultetDetailsComponent } from './components/fakultet-details/fakultet-details.component';
 import { StudijskiProgramTableComponent } from './components/studijski-program-table/studijski-program-table.component';
 import { AuthGuard } from './auth_guard';
+import { NastavnikHomepageComponent } from './components/nastavnik-homepage/nastavnik-homepage.component';
+import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
+import { StudentskaSluzbaHomepageComponent } from './components/studentska-sluzba-homepage/studentska-sluzba-homepage.component';
 
 export const routes: Routes = [
   { 
@@ -24,6 +27,24 @@ export const routes: Routes = [
     component: StudentHomepageComponent,
   canActivate: [AuthGuard],
   data: { uloge: ['student'] }
+  },
+  { 
+    path: 'nastavnik-homepage', 
+    component: NastavnikHomepageComponent,
+  canActivate: [AuthGuard],
+  data: { uloge: ['nastavnik'] }
+  },
+  { 
+    path: 'admin-homepage', 
+    component: AdminHomepageComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['admin'] }
+  },
+  { 
+    path: 'studentska-sluzba-homepage', 
+    component: StudentskaSluzbaHomepageComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['studentska_sluzba'] }
   },
   { path: 'fakulteti', component: FakultetTableComponent },
   { path: 'fakulteti/:id', component: FakultetDetailsComponent },

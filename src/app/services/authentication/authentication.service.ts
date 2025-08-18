@@ -33,7 +33,9 @@ export interface AuthResponse {
 export class AuthenticationService {
   private uloge: string[] = [];
   private currentUserSubject = new BehaviorSubject<any>(null);
+  private rolesSubject = new BehaviorSubject<string[]>([]);
   public currentUser = this.currentUserSubject.asObservable();
+  public uloge$ = this.rolesSubject.asObservable();
   public isAuthenticated = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {
@@ -46,6 +48,7 @@ export class AuthenticationService {
       } else {
         localStorage.removeItem('token');
         this.isAuthenticated.next(false);
+        this.rolesSubject.next([]);
       }
     }
   }
@@ -95,11 +98,13 @@ export class AuthenticationService {
   setRolesFromToken(token: string): void {
     try {
       const decodedToken: any = jwtDecode(token);
-      this.uloge = decodedToken.roles || decodedToken.uloge || decodedToken.authorities || [];
+      this.uloge = decodedToken.uloge || [];
+      this.rolesSubject.next(this.uloge);
       console.log('Roles set from token:', this.uloge);
     } catch (error) {
       console.error('Error decoding token for roles:', error);
       this.uloge = [];
+      this.rolesSubject.next([]);
     }
   }
 
@@ -196,6 +201,7 @@ export class AuthenticationService {
     this.isAuthenticated.next(false);
     this.currentUserSubject.next(null);
     this.uloge = [];
+            this.rolesSubject.next([]);
     console.log('User logged out');
   }
 

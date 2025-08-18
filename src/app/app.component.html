@@ -1,27 +1,25 @@
 <div class="app-layout">
   <mat-toolbar color="primary" class="main-header">
-    <button mat-icon-button (click)="toggleDrawer()" *ngIf="!((isAuthenticated$ | async) && isStudent())">
+    <button mat-icon-button (click)="toggleDrawer()" *ngIf="!(isStudent$ | async)">
       <mat-icon>menu</mat-icon>
     </button>
     <a routerLink="/homepage" class="toolbar-title">LMS Univerzitet</a>
     <span class="spacer"></span>
     
-    <!-- Dugmad kada nije ulogovan -->
     <ng-container *ngIf="!(isAuthenticated$ | async)">
       <button mat-button routerLink="/login">Login</button>
       <button mat-button routerLink="/register">Registracija</button>
     </ng-container>
     
-    <!-- Dugme kada je ulogovan -->
     <ng-container *ngIf="isAuthenticated$ | async">
       <button mat-button (click)="logout()">Odjavi se</button>
     </ng-container>
   </mat-toolbar>
 
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer mode="side" [opened]="(isAuthenticated$ | async) && isStudent() ? true : isDrawerOpened" class="sidenav">
+    <mat-sidenav #drawer mode="side" [opened]="(isAuthenticated$ | async) ? true : isDrawerOpened" class="sidenav">
       
-      <div class="nav-section" *ngIf="(isAuthenticated$ | async) && isStudent()">
+      <div class="nav-section" *ngIf="isStudent$ | async">
         <h4 class="section-title">Student Panel</h4>
         <mat-nav-list class="custom-nav-list">
           <a mat-list-item routerLink="/student-homepage" class="nav-item" routerLinkActive="active">
@@ -55,7 +53,7 @@
         </mat-nav-list>
       </div>
 
-      <div class="nav-section" *ngIf="!((isAuthenticated$ | async) && isStudent())">
+      <div class="nav-section" *ngIf="!(isAuthenticated$ | async)">
         <h4 class="section-title">Navigacija</h4>
         <mat-nav-list class="custom-nav-list">
           <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
@@ -66,7 +64,6 @@
             <mat-icon class="nav-icon">business</mat-icon>
             <span class="nav-text">Fakulteti</span>
           </a>
-          <!-- TODO: Ispraviti ovde teaching-materials na srpskom-->
           <a mat-list-item routerLink="/nastavni-materijali" class="nav-item" routerLinkActive="active">
             <mat-icon class="nav-icon">library_books</mat-icon>
             <span class="nav-text">Nastavni materijali</span>
@@ -78,12 +75,130 @@
         </mat-nav-list>
       </div>
 
-      <div class="nav-section" *ngIf="(isAuthenticated$ | async) && !isStudent()">
-        <h4 class="section-title">Nalog</h4>
+      <div class="nav-section" *ngIf="isNastavnik$ | async">
+        <h4 class="section-title">Nastavnik Panel</h4>
         <mat-nav-list class="custom-nav-list">
+          <a mat-list-item routerLink="/nastavnik-homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">dashboard</mat-icon>
+            <span class="nav-text">Portal</span>
+          </a>
+          <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">home</mat-icon>
+            <span class="nav-text">Glavna strana</span>
+          </a>
+          <a mat-list-item routerLink="/predmeti" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">school</mat-icon>
+            <span class="nav-text">Predmeti</span>
+          </a>
+          <a mat-list-item routerLink="/termini" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">event</mat-icon>
+            <span class="nav-text">Termini</span>
+          </a>
+          <a mat-list-item routerLink="/obavestenja" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">notifications</mat-icon>
+            <span class="nav-text">Obavestenja</span>
+          </a>
+          <a mat-list-item routerLink="/studenti" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">people</mat-icon>
+            <span class="nav-text">Studenti</span>
+          </a>
+          <a mat-list-item routerLink="/ocene" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">grade</mat-icon>
+            <span class="nav-text">Ocene</span>
+          </a>
+        </mat-nav-list>
+      </div>
+
+      <div class="nav-section" *ngIf="isKorisnik$ | async">
+        <h4 class="section-title">Korisnik Panel</h4>
+        <mat-nav-list class="custom-nav-list">
+          <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">home</mat-icon>
+            <span class="nav-text">Home</span>
+          </a>
+          <a mat-list-item routerLink="/fakulteti" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">business</mat-icon>
+            <span class="nav-text">Fakulteti</span>
+          </a>
+          <a mat-list-item routerLink="/nastavni-materijali" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">library_books</mat-icon>
+            <span class="nav-text">Nastavni materijali</span>
+          </a>
+          <a mat-list-item routerLink="/studenti" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">people</mat-icon>
+            <span class="nav-text">Studenti</span>
+          </a>
           <a mat-list-item routerLink="/profil" class="nav-item" routerLinkActive="active">
             <mat-icon class="nav-icon">person</mat-icon>
             <span class="nav-text">Profil</span>
+          </a>
+        </mat-nav-list>
+      </div>
+
+      <div class="nav-section" *ngIf="isStudentskaSluzba$ | async">
+        <h4 class="section-title">Studentska služba</h4>
+        <mat-nav-list class="custom-nav-list">
+          <a mat-list-item routerLink="/studentska-sluzba-homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">dashboard</mat-icon>
+            <span class="nav-text">Portal</span>
+          </a>
+          <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">home</mat-icon>
+            <span class="nav-text">Glavna strana</span>
+          </a>
+          <a mat-list-item routerLink="/upis" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">person_add</mat-icon>
+            <span class="nav-text">Upis</span>
+          </a>
+          <a mat-list-item routerLink="/dokumenta" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">description</mat-icon>
+            <span class="nav-text">Dokumenta</span>
+          </a>
+          <a mat-list-item routerLink="/rasporedi" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">schedule</mat-icon>
+            <span class="nav-text">Rasporedi</span>
+          </a>
+          <a mat-list-item routerLink="/obavestenja" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">notifications</mat-icon>
+            <span class="nav-text">Obavestenja</span>
+          </a>
+          <a mat-list-item routerLink="/literatura" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">library_books</mat-icon>
+            <span class="nav-text">Literatura</span>
+          </a>
+          <a mat-list-item routerLink="/inventar" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">inventory</mat-icon>
+            <span class="nav-text">Inventar</span>
+          </a>
+        </mat-nav-list>
+      </div>
+
+      <div class="nav-section" *ngIf="isAdmin$ | async">
+        <h4 class="section-title">Admin Panel</h4>
+        <mat-nav-list class="custom-nav-list">
+          <a mat-list-item routerLink="/admin-homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">dashboard</mat-icon>
+            <span class="nav-text">Portal</span>
+          </a>
+          <a mat-list-item routerLink="/homepage" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">home</mat-icon>
+            <span class="nav-text">Glavna strana</span>
+          </a>
+          <a mat-list-item routerLink="/sifarnik" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">code</mat-icon>
+            <span class="nav-text">Šifarnik</span>
+          </a>
+          <a mat-list-item routerLink="/korisnici" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">people</mat-icon>
+            <span class="nav-text">Korisnici</span>
+          </a>
+          <a mat-list-item routerLink="/studijski-program" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">school</mat-icon>
+            <span class="nav-text">Studijski program</span>
+          </a>
+          <a mat-list-item routerLink="/organizacije" class="nav-item" routerLinkActive="active">
+            <mat-icon class="nav-icon">business</mat-icon>
+            <span class="nav-text">Organizacije</span>
           </a>
         </mat-nav-list>
       </div>
