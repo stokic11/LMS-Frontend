@@ -1,7 +1,7 @@
 <div class="homepage-container">
-  <section class="hero-section" *ngIf="univerzitet">
+  <section class="hero-section" *ngIf="univerzitetInfo">
     <div class="hero-content">
-      <h1 class="hero-title">{{univerzitet.naziv}}</h1>
+      <h1 class="hero-title">{{univerzitetInfo.naziv}}</h1>
       <p class="hero-subtitle">Oblikujemo lidere budućnosti kroz izvrsnost u obrazovanju</p>
       <div class="hero-buttons">
         <button mat-raised-button color="accent" class="hero-btn" (click)="goToStudijskiProgrami()">Istražite programe</button>
@@ -41,12 +41,12 @@
     </div>
   </section>
 
-  <section class="about-section" *ngIf="univerzitet">
+  <section class="about-section" *ngIf="univerzitetInfo">
     <div class="section-content">
       <div class="about-text">
-        <h2 class="section-title">{{univerzitet.naziv}}</h2>
+        <h2 class="section-title">{{univerzitetInfo.naziv}}</h2>
         <p class="section-description">
-          {{ univerzitet.naziv }} osnovan {{ univerzitet.datumOsnivanja | date: 'yyyy' }} je prestižna institucija posvećena akademskoj izvrsnosti, 
+          {{ univerzitetInfo.naziv }} osnovan {{ univerzitetInfo.datumOsnivanja | date: 'yyyy' }} je prestižna institucija posvećena akademskoj izvrsnosti, 
           inovacijama i celokupnom razvoju svojih studenata. Nazvan u čast vrednosti osvetljenja, 
           snage i jedinstva, naš univerzitet kombinuje bogate obrazovne tradicije sa najnovijim istraživanjima 
           i modernim nastavnim metodologijama.
@@ -56,9 +56,24 @@
           od humanističkih i prirodnih nauka do tehnologije i biznisa. Naši studenti se podstiču da kritički misle, 
           da se uključe u globalne izazove i da pozitivno doprinose društvu.
         </p>
-        <p class="section-description">
-          Rektor fakulteta - ID: {{ univerzitet.rektorId }}<br>
-          Renomirani akademik i osnivač Univerziteta Singidunum.
+        <p class="section-description" *ngIf="!loading">
+          <span *ngIf="rektor; else rektorFallback">
+            Rektor univerziteta - {{ rektor.ime }}<br>
+            {{ rektor.biografija }}
+          </span>
+          <ng-template #rektorFallback>
+            <span *ngIf="univerzitetInfo?.rektorIme; else rektorIdFallback">
+              Rektor univerziteta - {{ univerzitetInfo.rektorIme }}<br>
+              Renomirani akademik i osnivač {{ univerzitet?.naziv }}.
+            </span>
+            <ng-template #rektorIdFallback>
+              Rektor univerziteta - ID: {{ univerzitet?.rektorId }}<br>
+              Renomirani akademik i osnivač {{ univerzitet?.naziv }}.
+            </ng-template>
+          </ng-template>
+        </p>
+        <p class="section-description" *ngIf="loading">
+          Učitavam podatke o rektoru...
         </p>
         <mat-chip-listbox class="features-chips">
           <mat-chip-option selected>Izvrsnost u istraživanju</mat-chip-option>
@@ -71,7 +86,7 @@
         <mat-card class="image-card">
           <img 
             src="https://media.istockphoto.com/id/1218270210/photo/singidunum-university-faculty-building-in-novi-sad.jpg?s=170667a&w=0&k=20&c=gA3I2iaNQaqDKTtQMaKy7NX6EGPuSVMvng5uak2HnjA=" 
-            alt="{{univerzitet.naziv}}" 
+            alt="{{univerzitetInfo.naziv}}" 
             class="university-image"
             (error)="onImageError($event)"
           />

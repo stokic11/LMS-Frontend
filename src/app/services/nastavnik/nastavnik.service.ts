@@ -14,7 +14,6 @@ export class NastavnikService extends WritableCrudService<Nastavnik, number> {
   }
 
   override getById(id: number): Observable<Nastavnik> {
-    // Direktan poziv na backend za testiranje
     const backendUrl = `http://localhost:8080/api/nastavnici/${id}`;
     console.log('Pozivam direktno backend URL za nastavnika:', backendUrl);
     return this.http.get<Nastavnik>(backendUrl);

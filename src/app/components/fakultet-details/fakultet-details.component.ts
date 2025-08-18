@@ -40,25 +40,20 @@ export class FakultetDetailsComponent implements OnInit {
   loadFakultet(id: number): void {
     console.log('Pozivam getFakultetInfo za ID:', id);
     
-    // Pozovi oba endpoint-a paralelno
     const fakultetInfo$ = this.fakultetService.getFakultetInfo(id);
     const fakultetDetails$ = this.fakultetService.getById(id);
     
-    // Kombiniram podatke iz oba poziva
     fakultetInfo$.subscribe({
       next: (infoData) => {
         console.log('Uspešno dobijeni info podaci o fakultetu:', infoData);
         this.fakultetInfo = infoData;
-        this.error = false; // Reset error flag
+        this.error = false;
         
-        // Pozovi i osnovni endpoint za adresu
         fakultetDetails$.subscribe({
           next: (detailsData) => {
             console.log('Uspešno dobijeni detalji fakulteta sa adresom:', detailsData);
-            // Dodaj adresu u fakultetInfo
             this.fakultetInfo.adresa = detailsData.adresa;
             
-            // Učitaj podatke o dekanu ako postoji
             if (infoData && infoData.dekanId) {
               console.log('Pozivam loadDekan za dekanId:', infoData.dekanId);
               this.loadDekan(infoData.dekanId);
@@ -69,7 +64,6 @@ export class FakultetDetailsComponent implements OnInit {
           },
           error: (error) => {
             console.error('Greška pri učitavanju detalja fakulteta:', error);
-            // Nastavi bez adrese
             if (infoData && infoData.dekanId) {
               this.loadDekan(infoData.dekanId);
             } else {
@@ -91,7 +85,6 @@ export class FakultetDetailsComponent implements OnInit {
   }
 
   private loadMockData(id: number): void {
-    // Mock podaci kao fallback
     const mockData = [
       {
         id: 1,
