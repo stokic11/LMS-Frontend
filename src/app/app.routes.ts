@@ -48,12 +48,6 @@ export const routes: Routes = [
   },
   { path: 'fakulteti', component: FakultetTableComponent },
   { path: 'fakulteti/:id', component: FakultetDetailsComponent },
-  { 
-    path: 'studijski-programi', 
-    component: StudijskiProgramTableComponent,
-    canActivate: [AuthGuard],
-    data: { uloge: ['korisnik'] }
-  },
-  
+  { path: 'studijski-programi', component: StudijskiProgramTableComponent },
   { path: '**', redirectTo: '' }
 ];

@@ -66,7 +66,7 @@
         <h3 class="section-title">Dekan fakulteta</h3>
         <div class="dean-info">
           <div class="dean-header">
-            <h4 class="dean-name">{{ dekan?.ime || fakultetInfo.dekanIme || 'Podaci o dekanu nisu dostupni' }}</h4>
+            <h4 class="dean-name">{{ (dekan?.ime && dekan?.prezime) ? (dekan?.ime + ' ' + dekan?.prezime) : (fakultetInfo.dekanIme || 'Podaci o dekanu nisu dostupni') }}</h4>
             <span class="dean-title" *ngIf="dekan?.zvanje?.tipZvanja?.naziv">{{ dekan?.zvanje?.tipZvanja?.naziv }}</span>
           </div>
           
