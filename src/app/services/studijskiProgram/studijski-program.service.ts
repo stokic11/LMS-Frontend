@@ -31,10 +31,8 @@ export class StudijskiProgramService extends WritableCrudService<StudijskiProgra
             return;
           }
 
-          // Povuci dodatne informacije za svaki program
           const detailRequests = programiArray.map(program => 
             new Observable(obs => {
-              // Povuci fakultet info
               const fakultetUrl = `http://localhost:8080/api/fakulteti/${program.fakultetId}`;
               const nastavnikUrl = `http://localhost:8080/api/nastavnici/${program.rukovodilaId}`;
               

@@ -19,7 +19,6 @@ export class StudijskiProgramDetailsComponent implements OnInit {
   error = false;
   programId: number = 0;
 
-  // Properties for generic component
   title: string = '';
   infoSections: InfoSection[] = [];
   tableSections: TableSection[] = [];
@@ -62,7 +61,6 @@ export class StudijskiProgramDetailsComponent implements OnInit {
 
     this.title = this.programInfo.naziv;
 
-    // Setup info sections
     this.infoSections = [
       {
         title: 'Informacije o studijskom programu',
@@ -75,7 +73,6 @@ export class StudijskiProgramDetailsComponent implements OnInit {
       }
     ];
 
-    // Add rukovodilac section if exists
     if (this.programInfo.rukovodilac) {
       this.infoSections.push({
         title: 'Rukovodilac studijskog smera',
@@ -100,9 +97,7 @@ export class StudijskiProgramDetailsComponent implements OnInit {
       });
     }
 
-    // Setup table sections
     if (this.programInfo.godineStudija && this.programInfo.godineStudija.length > 0) {
-      // Flatten all predmeti from all godine
       const allPredmeti: any[] = [];
       this.programInfo.godineStudija.forEach((godina: any, index: number) => {
         if (godina.predmeti) {

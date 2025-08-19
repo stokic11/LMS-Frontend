@@ -9,7 +9,6 @@
   </div>
 
   <div class="content-grid" *ngIf="infoSections.length > 0 && !error">
-    <!-- Informacijske sekcije -->
     <mat-card class="info-card" *ngFor="let section of infoSections">
       <mat-card-header>
         <mat-card-title>
@@ -21,22 +20,18 @@
         <div class="info-item" *ngFor="let item of section.items">
           <strong>{{ item.label }}:</strong>
           
-          <!-- Email link -->
           <a *ngIf="isEmail(item.type)" [href]="'mailto:' + item.value">
             {{ formatValue(item) }}
           </a>
           
-          <!-- Custom link -->
           <a *ngIf="isLink(item.type)" [href]="item.href || item.value" target="_blank">
             {{ formatValue(item) }}
           </a>
           
-          <!-- Paragraph text -->
           <p *ngIf="isParagraph(item.type)" class="paragraph-text">
             {{ formatValue(item) }}
           </p>
           
-          <!-- Regular text -->
           <span *ngIf="!isEmail(item.type) && !isLink(item.type) && !isParagraph(item.type)">
             {{ formatValue(item) }}
           </span>
@@ -45,7 +40,6 @@
     </mat-card>
   </div>
 
-  <!-- Tabele sekcije -->
   <mat-card class="table-card" *ngFor="let tableSection of tableSections" [ngClass]="{'full-width': true}">
     <mat-card-header>
       <mat-card-title>
@@ -55,7 +49,6 @@
     </mat-card-header>
     <mat-card-content>
       
-      <!-- Expandable table (grouped) -->
       <mat-accordion *ngIf="tableSection.expandable && tableSection.data.length > 0">
         <mat-expansion-panel 
           *ngFor="let group of getGroupedData(tableSection); let i = index"
@@ -94,7 +87,6 @@
         </mat-expansion-panel>
       </mat-accordion>
       
-      <!-- Simple table (non-expandable) -->
       <div *ngIf="!tableSection.expandable && tableSection.data.length > 0" class="table-container">
         <table mat-table [dataSource]="tableSection.data" class="data-table">
           <ng-container *ngFor="let column of tableSection.displayedColumns" [matColumnDef]="column">
@@ -120,14 +112,12 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- Error state -->
   <div *ngIf="error" class="error-message">
     <mat-icon>error</mat-icon>
     <p>Došlo je do greške prilikom učitavanja podataka.</p>
   </div>
 </div>
 
-<!-- Loading state -->
 <div *ngIf="loading" class="loading-container">
   <p>Učitavanje...</p>
 </div>

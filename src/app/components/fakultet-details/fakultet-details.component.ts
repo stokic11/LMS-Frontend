@@ -22,7 +22,6 @@ export class FakultetDetailsComponent implements OnInit {
   loading = true;
   error = false;
 
-  // Properties for generic component
   title: string = '';
   infoSections: InfoSection[] = [];
   tableSections: TableSection[] = [];
@@ -244,7 +243,6 @@ export class FakultetDetailsComponent implements OnInit {
 
     this.title = this.fakultetInfo.naziv;
 
-    // Setup info sections
     this.infoSections = [
       {
         title: 'Osnovne informacije o fakultetu',
@@ -256,7 +254,6 @@ export class FakultetDetailsComponent implements OnInit {
       }
     ];
 
-    // Add address section if exists
     if (this.fakultetInfo.adresa) {
       this.infoSections.push({
         title: 'Adresa fakulteta',
@@ -269,7 +266,6 @@ export class FakultetDetailsComponent implements OnInit {
       });
     }
 
-    // Add dekan section if exists
     if (this.dekan) {
       this.infoSections.push({
         title: 'Dekan fakulteta',
@@ -285,7 +281,6 @@ export class FakultetDetailsComponent implements OnInit {
       });
     }
 
-    // Setup table sections for studijski programi
     if (this.fakultetInfo.studijskiProgrami && this.fakultetInfo.studijskiProgrami.length > 0) {
       this.tableSections = [
         {

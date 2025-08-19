@@ -262,6 +262,57 @@
   color: rgba(255,255,255,0.8);
 }
 
+.view-all-card {
+  background: linear-gradient(135deg, #874c62 0%, #c98686 100%);
+  color: white;
+  border: none;
+}
+
+.view-all-card mat-card-content {
+  text-align: center;
+  padding: 2rem;
+}
+
+.view-all-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.view-all-content mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  color: white;
+  opacity: 0.9;
+}
+
+.view-all-content h3 {
+  margin: 0;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.view-all-content p {
+  margin: 0;
+  color: rgba(255,255,255,0.9);
+  font-size: 1rem;
+}
+
+.view-all-card mat-card-actions {
+  background: rgba(255,255,255,0.1);
+  margin: -16px -24px -24px -24px;
+  padding: 16px 24px;
+  border-radius: 0 0 16px 16px;
+}
+
+.view-all-card mat-card-actions button {
+  color: white;
+  font-weight: 600;
+}
+
 .contact-section {
   padding: 100px 0;
   background: white;

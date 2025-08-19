@@ -3,11 +3,13 @@ import { Univerzitet } from '../../models/univerzitet';
 import { Nastavnik } from '../../models/nastavnik';
 import { UniverzitetService } from '../../services/univerzitet/univerzitet.service';
 import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
+import { StudijskiProgramService } from '../../services/studijskiProgram/studijski-program.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -25,6 +27,7 @@ export class HomepageComponent implements OnInit {
   univerzitet: Univerzitet | null = null;
   univerzitetInfo: any = null;
   rektor: Nastavnik | null = null;
+  studijskiProgrami: any[] = [];
   loading = false;
   error = false;
   latitude: number = 45.253186;
@@ -32,7 +35,9 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private univerzitetService: UniverzitetService,
-    private nastavnikService: NastavnikService
+    private nastavnikService: NastavnikService,
+    private studijskiProgramService: StudijskiProgramService,
+    private router: Router
   ) {}
 
   onImageError(event: any): void {
@@ -46,11 +51,15 @@ export class HomepageComponent implements OnInit {
   }
 
   goToFakulteti() {
-    window.location.href = '/fakulteti';
+    this.router.navigate(['/fakulteti']);
   }
 
   goToStudijskiProgrami() {
-    window.location.href = '/studijski-programi';
+    this.router.navigate(['/studijski-programi']);
+  }
+
+  goToStudijskiProgramDetails(programId: number) {
+    this.router.navigate(['/studijski-programi', programId]);
   }
 
   ngOnInit(): void {
@@ -76,6 +85,48 @@ export class HomepageComponent implements OnInit {
     };
 
     this.loadUniverzitetFromBackend(1);
+    this.loadStudijskiProgrami();
+  }
+
+  loadStudijskiProgrami(): void {
+    console.log('Učitavam studijske programe iz backend-a...');
+    
+    this.studijskiProgramService.getAllWithDetails().subscribe({
+      next: (data) => {
+        console.log('Uspešno dobijeni studijski programi:', data);
+        // Sačuvaj sve programe, a prikaži prva 3
+        this.studijskiProgrami = data;
+      },
+      error: (error) => {
+        console.error('Greška pri učitavanju studijskih programa:', error);
+        // Fallback na mock podatke ako nema backend-a
+        this.studijskiProgrami = [
+          {
+            id: 1,
+            naziv: 'Informacioni sistemi i tehnologije',
+            fakultet: { naziv: 'Fakultet informatike i računarstva' }
+          },
+          {
+            id: 2,
+            naziv: 'Menadžment i organizacija',
+            fakultet: { naziv: 'Poslovni fakultet' }
+          },
+          {
+            id: 3,
+            naziv: 'Digitalne komunikacije',
+            fakultet: { naziv: 'Fakultet za medije i komunikacije' }
+          }
+        ];
+      }
+    });
+  }
+
+  getDisplayedPrograms(): any[] {
+    return this.studijskiProgrami.slice(0, 3);
+  }
+
+  shouldShowViewAllCard(): boolean {
+    return this.studijskiProgrami.length > 3;
   }
 
   loadUniverzitetFromBackend(id: number): void {
