@@ -1,0 +1,223 @@
+.program-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.header-section {
+  margin-bottom: 30px;
+}
+
+.back-button {
+  margin-bottom: 20px;
+}
+
+.program-title {
+  color: #244855;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-card {
+  height: fit-content;
+}
+
+.info-card mat-card-header {
+  margin-bottom: 16px;
+}
+
+.info-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #244855;
+  font-weight: 600;
+}
+
+.info-item {
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.info-item strong {
+  color: #244855;
+  font-weight: 600;
+}
+
+.biografija p {
+  margin-top: 8px;
+  text-align: justify;
+  line-height: 1.6;
+  color: #555;
+}
+
+.rukovodilac-info a {
+  color: #874c62;
+  text-decoration: none;
+}
+
+.rukovodilac-info a:hover {
+  text-decoration: underline;
+}
+
+.predmeti-card {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.predmeti-card mat-card-header {
+  margin-bottom: 16px;
+}
+
+.predmeti-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #244855;
+  font-weight: 600;
+}
+
+.table-container {
+  overflow-x: auto;
+  margin-top: 16px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.predmeti-table {
+  width: 100%;
+  margin-top: 0;
+  border-collapse: collapse;
+}
+
+.predmeti-table th {
+  background-color: #f5f5f5;
+  color: #244855;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: center;
+  padding: 16px 8px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.predmeti-table td {
+  padding: 12px 8px;
+  text-align: center;
+  min-width: 120px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.predmeti-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+.predmeti-table tr:hover {
+  background-color: #e8f4f8;
+}
+
+mat-expansion-panel {
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+mat-expansion-panel-header {
+  height: 56px;
+}
+
+mat-panel-title {
+  color: #244855;
+  font-weight: 600;
+}
+
+mat-panel-description {
+  color: #666;
+}
+
+.no-predmeti, .no-godine {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Loading and Error States */
+.loading-container, .error-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+.loading-content, .error-content {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.loading-icon, .error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  color: #666;
+}
+
+.error-icon {
+  color: #f44336;
+}
+
+.loading-content p, .error-content p {
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.error-content h3 {
+  color: #244855;
+  margin-bottom: 8px;
+}
+
+/* Chip styling */
+mat-chip-option {
+  font-size: 12px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+mat-chip-option[color="primary"] {
+  background-color: #244855;
+  color: white;
+}
+
+mat-chip-option[color="accent"] {
+  background-color: #874c62;
+  color: white;
+}
+
+/* Animation for smooth transitions */
+.program-details-container {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -6,6 +6,7 @@ import { StudentHomepageComponent } from './components/student-homepage/student-
 import { FakultetTableComponent } from './components/fakultet-table/fakultet-table.component';
 import { FakultetDetailsComponent } from './components/fakultet-details/fakultet-details.component';
 import { StudijskiProgramTableComponent } from './components/studijski-program-table/studijski-program-table.component';
+import { StudijskiProgramDetailsComponent } from './components/studijski-program-details/studijski-program-details.component';
 import { AuthGuard } from './auth_guard';
 import { NastavnikHomepageComponent } from './components/nastavnik-homepage/nastavnik-homepage.component';
 import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
@@ -49,5 +50,6 @@ export const routes: Routes = [
   { path: 'fakulteti', component: FakultetTableComponent },
   { path: 'fakulteti/:id', component: FakultetDetailsComponent },
   { path: 'studijski-programi', component: StudijskiProgramTableComponent },
+  { path: 'studijski-programi/:id', component: StudijskiProgramDetailsComponent },
   { path: '**', redirectTo: '' }
 ];

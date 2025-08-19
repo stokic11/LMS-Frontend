@@ -6,11 +6,12 @@ import { AdresaService } from '../../services/adresa/adresa.service';
 import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
 import { Fakultet } from '../../models/fakultet';
 import { Nastavnik } from '../../models/nastavnik';
+import { GenericDetailsComponent, InfoSection, TableSection } from '../generic-details/generic-details.component';
 
 @Component({
   selector: 'app-fakultet-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, GenericDetailsComponent],
   templateUrl: './fakultet-details.component.html',
   styleUrl: './fakultet-details.component.css'
 })
@@ -20,6 +21,11 @@ export class FakultetDetailsComponent implements OnInit {
   dekan: Nastavnik | null = null;
   loading = true;
   error = false;
+
+  // Properties for generic component
+  title: string = '';
+  infoSections: InfoSection[] = [];
+  tableSections: TableSection[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -59,6 +65,7 @@ export class FakultetDetailsComponent implements OnInit {
               this.loadDekan(infoData.dekanId);
             } else {
               console.log('Nema dekanId u podacima, završavam loading');
+              this.setupGenericDetails();
               this.loading = false;
             }
           },
@@ -67,6 +74,7 @@ export class FakultetDetailsComponent implements OnInit {
             if (infoData && infoData.dekanId) {
               this.loadDekan(infoData.dekanId);
             } else {
+              this.setupGenericDetails();
               this.loading = false;
             }
           }
@@ -163,6 +171,7 @@ export class FakultetDetailsComponent implements OnInit {
       if (fakultetData.dekanId) {
         this.loadMockDekan(fakultetData.dekanId);
       } else {
+        this.setupGenericDetails();
         this.loading = false;
       }
     } else {
@@ -209,6 +218,7 @@ export class FakultetDetailsComponent implements OnInit {
     if (dekanData) {
       this.dekan = dekanData as any;
     }
+    this.setupGenericDetails();
     this.loading = false;
   }
 
@@ -218,6 +228,7 @@ export class FakultetDetailsComponent implements OnInit {
       next: (data) => {
         console.log('Uspešno dobijeni podaci o dekanu iz backend-a:', data);
         this.dekan = data;
+        this.setupGenericDetails();
         this.loading = false;
       },
       error: (error) => {
@@ -226,6 +237,69 @@ export class FakultetDetailsComponent implements OnInit {
         this.loadMockDekan(dekanId);
       }
     });
+  }
+
+  setupGenericDetails(): void {
+    if (!this.fakultetInfo) return;
+
+    this.title = this.fakultetInfo.naziv;
+
+    // Setup info sections
+    this.infoSections = [
+      {
+        title: 'Osnovne informacije o fakultetu',
+        icon: 'school',
+        items: [
+          { label: 'Naziv fakulteta', value: this.fakultetInfo.naziv },
+          { label: 'Univerzitet', value: this.fakultetInfo.univerzitetNaziv || 'N/A' }
+        ]
+      }
+    ];
+
+    // Add address section if exists
+    if (this.fakultetInfo.adresa) {
+      this.infoSections.push({
+        title: 'Adresa fakulteta',
+        icon: 'location_on',
+        items: [
+          { label: 'Ulica', value: `${this.fakultetInfo.adresa.ulica} ${this.fakultetInfo.adresa.broj}` },
+          { label: 'Mesto', value: this.fakultetInfo.adresa.mesto?.naziv || 'N/A' },
+          { label: 'Država', value: this.fakultetInfo.adresa.mesto?.drzava?.naziv || 'N/A' }
+        ]
+      });
+    }
+
+    // Add dekan section if exists
+    if (this.dekan) {
+      this.infoSections.push({
+        title: 'Dekan fakulteta',
+        icon: 'person',
+        items: [
+          { 
+            label: 'Ime i prezime', 
+            value: `${this.dekan.ime} ${this.dekan.prezime}` 
+          },
+          { label: 'Email', value: this.dekan.email || 'N/A', type: 'email' },
+          { label: 'Biografija', value: this.dekan.biografija || 'N/A', type: 'paragraph' }
+        ]
+      });
+    }
+
+    // Setup table sections for studijski programi
+    if (this.fakultetInfo.studijskiProgrami && this.fakultetInfo.studijskiProgrami.length > 0) {
+      this.tableSections = [
+        {
+          title: 'Studijski programi',
+          icon: 'list',
+          data: this.fakultetInfo.studijskiProgrami,
+          displayedColumns: ['naziv'],
+          columnLabels: {
+            'naziv': 'Naziv studijskog programa'
+          },
+          expandable: false
+        }
+      ];
+    }
   }
 
   goBack(): void {

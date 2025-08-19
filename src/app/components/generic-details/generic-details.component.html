@@ -1,0 +1,133 @@
+<div class="details-container" *ngIf="!loading">
+  <div class="header-section">
+    <button mat-raised-button color="primary" (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+      {{ backButtonText }}
+    </button>
+    
+    <h1 class="details-title" *ngIf="title">{{ title }}</h1>
+  </div>
+
+  <div class="content-grid" *ngIf="infoSections.length > 0 && !error">
+    <!-- Informacijske sekcije -->
+    <mat-card class="info-card" *ngFor="let section of infoSections">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>{{ section.icon }}</mat-icon>
+          {{ section.title }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-item" *ngFor="let item of section.items">
+          <strong>{{ item.label }}:</strong>
+          
+          <!-- Email link -->
+          <a *ngIf="isEmail(item.type)" [href]="'mailto:' + item.value">
+            {{ formatValue(item) }}
+          </a>
+          
+          <!-- Custom link -->
+          <a *ngIf="isLink(item.type)" [href]="item.href || item.value" target="_blank">
+            {{ formatValue(item) }}
+          </a>
+          
+          <!-- Paragraph text -->
+          <p *ngIf="isParagraph(item.type)" class="paragraph-text">
+            {{ formatValue(item) }}
+          </p>
+          
+          <!-- Regular text -->
+          <span *ngIf="!isEmail(item.type) && !isLink(item.type) && !isParagraph(item.type)">
+            {{ formatValue(item) }}
+          </span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Tabele sekcije -->
+  <mat-card class="table-card" *ngFor="let tableSection of tableSections" [ngClass]="{'full-width': true}">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>{{ tableSection.icon }}</mat-icon>
+        {{ tableSection.title }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      
+      <!-- Expandable table (grouped) -->
+      <mat-accordion *ngIf="tableSection.expandable && tableSection.data.length > 0">
+        <mat-expansion-panel 
+          *ngFor="let group of getGroupedData(tableSection); let i = index"
+          [expanded]="i === 0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ group.label }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ group.description }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div *ngIf="group.items && group.items.length > 0" class="table-container">
+            <table mat-table [dataSource]="group.items" class="data-table">
+              <ng-container *ngFor="let column of tableSection.displayedColumns" [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef>{{ tableSection.columnLabels[column] || column }}</th>
+                <td mat-cell *matCellDef="let item">
+                  <span *ngIf="typeof item[column] === 'boolean'">
+                    {{ item[column] ? 'Da' : 'Ne' }}
+                  </span>
+                  <span *ngIf="typeof item[column] !== 'boolean'">
+                    {{ item[column] }}
+                  </span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="tableSection.displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: tableSection.displayedColumns;"></tr>
+            </table>
+          </div>
+          
+          <div *ngIf="!group.items || group.items.length === 0" class="no-data">
+            Nema podataka za prikaz.
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      
+      <!-- Simple table (non-expandable) -->
+      <div *ngIf="!tableSection.expandable && tableSection.data.length > 0" class="table-container">
+        <table mat-table [dataSource]="tableSection.data" class="data-table">
+          <ng-container *ngFor="let column of tableSection.displayedColumns" [matColumnDef]="column">
+            <th mat-header-cell *matHeaderCellDef>{{ tableSection.columnLabels[column] || column }}</th>
+            <td mat-cell *matCellDef="let item">
+              <span *ngIf="typeof item[column] === 'boolean'">
+                {{ item[column] ? 'Da' : 'Ne' }}
+              </span>
+              <span *ngIf="typeof item[column] !== 'boolean'">
+                {{ item[column] }}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="tableSection.displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: tableSection.displayedColumns;"></tr>
+        </table>
+      </div>
+      
+      <div *ngIf="tableSection.data.length === 0" class="no-data">
+        Nema podataka za prikaz.
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Error state -->
+  <div *ngIf="error" class="error-message">
+    <mat-icon>error</mat-icon>
+    <p>Došlo je do greške prilikom učitavanja podataka.</p>
+  </div>
+</div>
+
+<!-- Loading state -->
+<div *ngIf="loading" class="loading-container">
+  <p>Učitavanje...</p>
+</div>

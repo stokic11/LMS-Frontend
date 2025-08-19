@@ -8,7 +8,13 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
     
     
     const authEndpoints = ['signin', 'signup', 'login', 'register', 'registracija'];
-    const skipAuth = authEndpoints.some(endpoint => req.url.includes(endpoint));
+    const publicEndpoints = [
+        'univerziteti', 'fakulteti', 'studijski-programi', 'godine-studija', 
+        'predmeti', 'nastavnici', 'adrese', 'mesta', 'drzave', 
+        'nastavni-materijali', 'forumi'
+    ];
+    const skipAuth = authEndpoints.some(endpoint => req.url.includes(endpoint)) ||
+                     publicEndpoints.some(endpoint => req.url.includes(endpoint));
     
     
     if (typeof localStorage !== 'undefined' && !skipAuth) {

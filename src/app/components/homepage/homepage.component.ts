@@ -36,7 +36,6 @@ export class HomepageComponent implements OnInit {
   ) {}
 
   onImageError(event: any): void {
-    // Fallback na placeholder ako slika ne može da se učita
     event.target.style.display = 'none';
     event.target.parentElement.innerHTML = `
       <div class="placeholder-image">
@@ -55,7 +54,6 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Prvo postavljamo osnovne podatke
     this.univerzitet = {
       id: 1,
       naziv: 'Univerzitet Singidunum',
@@ -77,7 +75,6 @@ export class HomepageComponent implements OnInit {
       fakultetiIds: [1, 2, 3]
     };
 
-    // Zatim pokušavamo da učitamo podatke iz backend-a
     this.loadUniverzitetFromBackend(1);
   }
 
@@ -89,26 +86,22 @@ export class HomepageComponent implements OnInit {
         console.log('Uspešno dobijeni info podaci o univerzitetu:', infoData);
         this.univerzitetInfo = infoData;
         
-        // Učitamo i punu informaciju o univerzitetu
         this.univerzitetService.getById(id).subscribe({
           next: (detailsData) => {
             console.log('Uspešno dobijeni detalji univerziteta:', detailsData);
             this.univerzitet = detailsData;
             
-            // Ako imamo rektorId, učitamo i rektora
             if (infoData && infoData.rektorId) {
               this.loadRektorFromBackend(infoData.rektorId);
             }
           },
           error: (error) => {
             console.error('Greška pri učitavanju detalja univerziteta:', error);
-            // Ostavljamo dummy podatke
           }
         });
       },
       error: (error) => {
         console.error('Greška pri učitavanju info o univerzitetu:', error);
-        // Ostavljamo dummy podatke
         this.univerzitetInfo = {
           id: 1,
           naziv: 'Univerzitet Singidunum',
@@ -129,7 +122,6 @@ export class HomepageComponent implements OnInit {
       },
       error: (error) => {
         console.error('Greška pri učitavanju rektora:', error);
-        // Koristimo dummy podatke
         this.rektor = {
           id: 1,
           ime: 'Prof. dr Dragan Domazet',

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { StudijskiProgram } from '../../models/studijskiProgram';
+import { Router } from '@angular/router';
+import { StudijskiProgramService } from '../../services/studijskiProgram/studijski-program.service';
 import { GenericTableComponent, TableColumn } from '../generic-table/generic-table.component';
 
 @Component({
@@ -9,45 +10,46 @@ import { GenericTableComponent, TableColumn } from '../generic-table/generic-tab
   styleUrl: './studijski-program-table.component.css'
 })
 export class StudijskiProgramTableComponent implements OnInit {
-  studijskiProgrami: StudijskiProgram[] = [];
   studijskiProgramiDisplay: any[] = [];
   columns: TableColumn[] = [
     { key: 'id', label: 'ID' },
     { key: 'naziv', label: 'Naziv' },
-    { key: 'fakultet', label: 'Fakultet' },
-    { key: 'rukovodilac', label: 'Rukovodilac' }
+    { key: 'fakultetNaziv', label: 'Fakultet' },
+    { key: 'rukovodiocImePrezime', label: 'Rukovodilac' },
+    { key: 'action', label: 'Akcije' }
   ];
 
-  ngOnInit(): void {
-    this.studijskiProgrami = [
-      {
-        id: 1,
-        naziv: 'Informacioni sistemi i tehnologije',
-        godineStudijaIds: [1, 2, 3, 4],
-        rukovodilaId: 1,
-        fakultetId: 1
-      },
-      {
-        id: 2,
-        naziv: 'Menadžment i organizacija',
-        godineStudijaIds: [1, 2, 3, 4],
-        rukovodilaId: 2,
-        fakultetId: 2
-      },
-      {
-        id: 3,
-        naziv: 'Digitalne komunikacije',
-        godineStudijaIds: [1, 2, 3, 4],
-        rukovodilaId: 3,
-        fakultetId: 3
-      }
-    ];
+  constructor(
+    private studijskiProgramService: StudijskiProgramService,
+    private router: Router
+  ) {}
 
-    this.studijskiProgramiDisplay = this.studijskiProgrami.map(sp => ({
-      id: sp.id,
-      naziv: sp.naziv,
-      fakultet: `Fakultet ID: ${sp.fakultetId}`,
-      rukovodilac: `Nastavnik ID: ${sp.rukovodilaId}`
-    }));
+  ngOnInit(): void {
+    this.loadStudijskiProgrami();
+  }
+
+  loadStudijskiProgrami(): void {
+    this.studijskiProgramService.getAllWithDetails().subscribe({
+      next: (data) => {
+        console.log('Podaci iz baze sa detaljima:', data);
+        this.studijskiProgramiDisplay = data.map(sp => ({
+          id: sp.id,
+          naziv: sp.naziv,
+          fakultetNaziv: sp.fakultetNaziv,
+          rukovodiocImePrezime: sp.rukovodiocImePrezime,
+          action: 'Prikaži detalje'
+        }));
+      },
+      error: (error) => {
+        console.error('Greška pri učitavanju studijskih programa:', error);
+        alert('Greška pri učitavanju podataka iz baze. Proverite da li je backend pokrenut.');
+      }
+    });
+  }
+
+  onRowClick(row: any): void {
+    if (row && row.id) {
+      this.router.navigate(['/studijski-programi', row.id]);
+    }
   }
 }
