@@ -8,6 +8,7 @@
 						{{ sortDirection === 'asc' ? '▲' : '▼' }}
 					</span>
 				</th>
+				<th *ngIf="hasActions">Akcije</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -17,9 +18,17 @@
 				<td *ngFor="let col of columns">
 					{{ row[col.key] }}
 				</td>
+				<td *ngIf="hasActions" class="actions-cell">
+					<button *ngFor="let action of actions" 
+					        class="action-btn"
+					        [class]="'btn-' + (action.color || 'primary')"
+					        (click)="onActionClick(action, row, $event)">
+						{{ action.label }}
+					</button>
+				</td>
 			</tr>
 			<tr *ngIf="pagedData.length === 0">
-				<td [attr.colspan]="columns.length" style="text-align:center">No data</td>
+				<td [attr.colspan]="columns.length + (hasActions ? 1 : 0)" style="text-align:center">No data</td>
 			</tr>
 		</tbody>
 	</table>

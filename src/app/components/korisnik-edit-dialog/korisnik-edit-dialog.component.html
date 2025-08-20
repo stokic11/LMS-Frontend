@@ -1,0 +1,79 @@
+<div class="dialog-container">
+  <h2 mat-dialog-title class="dialog-title">{{title}}</h2>
+  
+  <mat-dialog-content class="dialog-content">
+    <form [formGroup]="korisnikForm" class="korisnik-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Korisničko ime</mat-label>
+          <input matInput formControlName="korisnickoIme" placeholder="Unesite korisničko ime">
+          <mat-error *ngIf="korisnikForm.get('korisnickoIme')?.errors?.['required']">
+            Korisničko ime je obavezno
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="Unesite email">
+          <mat-error *ngIf="korisnikForm.get('email')?.errors?.['required']">
+            Email je obavezan
+          </mat-error>
+          <mat-error *ngIf="korisnikForm.get('email')?.errors?.['email']">
+            Email format nije valjan
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Ime</mat-label>
+          <input matInput formControlName="ime" placeholder="Unesite ime">
+          <mat-error *ngIf="korisnikForm.get('ime')?.errors?.['required']">
+            Ime je obavezno
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Prezime</mat-label>
+          <input matInput formControlName="prezime" placeholder="Unesite prezime">
+          <mat-error *ngIf="korisnikForm.get('prezime')?.errors?.['required']">
+            Prezime je obavezno
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Password field only for new users -->
+      <div class="form-row" *ngIf="isNew">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Lozinka</mat-label>
+          <input matInput type="password" formControlName="lozinka" placeholder="Unesite lozinku">
+          <mat-error *ngIf="korisnikForm.get('lozinka')?.errors?.['required']">
+            Lozinka je obavezna
+          </mat-error>
+          <mat-error *ngIf="korisnikForm.get('lozinka')?.errors?.['minlength']">
+            Lozinka mora imati najmanje 6 karaktera
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field full-width">
+          <mat-label>Datum rođenja</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="datumRodjenja">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onCancel()" class="cancel-button">
+      Otkaži
+    </button>
+    <button mat-raised-button color="primary" (click)="onSave()" 
+            [disabled]="!korisnikForm.valid" class="save-button">
+      {{isNew ? 'Dodaj' : 'Sačuvaj'}}
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,124 @@
+.korisnik-table-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 0;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.add-button {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(44, 62, 80, 0.4);
+}
+
+.table-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(44, 62, 80, 0.1);
+  border: 1px solid rgba(44, 62, 80, 0.1);
+  overflow: hidden;
+  background: white;
+}
+
+.table-card mat-card-content {
+  padding: 0;
+}
+
+.loading-container,
+.no-data-container {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6c757d;
+}
+
+.no-data-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #dee2e6;
+  margin-bottom: 16px;
+}
+
+.no-data-text {
+  font-size: 18px;
+  color: #6c757d;
+  margin: 0;
+}
+
+
+.korisnik-table-container app-generic-table .action-btn {
+  min-width: 60px;
+  height: 28px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 0 2px;
+}
+
+.korisnik-table-container app-generic-table .actions-cell {
+  padding: 8px 12px;
+  text-align: center;
+}
+
+
+@media (max-width: 768px) {
+  .korisnik-table-container {
+    padding: 16px;
+  }
+  
+  .header-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .page-title {
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .add-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .korisnik-table-container app-generic-table .action-btn {
+    min-width: 50px;
+    height: 26px;
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+}

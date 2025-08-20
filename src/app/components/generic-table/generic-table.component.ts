@@ -6,6 +6,14 @@ import { CommonModule } from '@angular/common';
 export interface TableColumn {
   key: string;
   label: string;
+  isAction?: boolean; 
+}
+
+export interface TableAction {
+  label: string;
+  icon?: string;
+  color?: string;
+  action: (item: any) => void;
 }
 
 @Component({
@@ -115,6 +123,7 @@ export class GenericTableComponent {
   @Input() columns: TableColumn[] = [];
   @Input() pageSize: number = 10;
   @Input() rowClickable: boolean = false;
+  @Input() actions: TableAction[] = []; 
   @Output() rowClick = new EventEmitter<any>();
 
   currentPage: number = 1;
@@ -165,5 +174,14 @@ export class GenericTableComponent {
     if (this.rowClickable) {
       this.rowClick.emit(row);
     }
+  }
+
+  onActionClick(action: TableAction, item: any, event: Event) {
+    event.stopPropagation(); 
+    action.action(item);
+  }
+
+  get hasActions(): boolean {
+    return this.actions && this.actions.length > 0;
   }
 }

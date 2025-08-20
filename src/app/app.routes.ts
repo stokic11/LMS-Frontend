@@ -11,6 +11,7 @@ import { AuthGuard } from './auth_guard';
 import { NastavnikHomepageComponent } from './components/nastavnik-homepage/nastavnik-homepage.component';
 import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
 import { StudentskaSluzbaHomepageComponent } from './components/studentska-sluzba-homepage/studentska-sluzba-homepage.component';
+import { KorisnikTableComponent } from './components/korisnik-table/korisnik-table.component';
 
 export const routes: Routes = [
   { 
@@ -51,5 +52,11 @@ export const routes: Routes = [
   { path: 'fakulteti/:id', component: FakultetDetailsComponent },
   { path: 'studijski-programi', component: StudijskiProgramTableComponent },
   { path: 'studijski-programi/:id', component: StudijskiProgramDetailsComponent },
+  { 
+    path: 'korisnici',
+    component: KorisnikTableComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['admin'] }
+  },
   { path: '**', redirectTo: '' }
 ];

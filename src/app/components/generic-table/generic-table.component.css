@@ -2,32 +2,28 @@
   position: relative;
   margin-bottom: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  max-width: 900px;
-  margin: 0 auto 20px auto;
+  width: 100%;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-  padding: 32px 24px;
+  overflow: hidden;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin: 0;
   font-size: 14px;
-  table-layout: fixed;
 }
 
 table thead {
-  background-color: #244855;
+  background: #244855;
   color: white;
 }
 
 table th {
-  padding: 15px 12px;
+  padding: 16px 12px;
   text-align: left;
   font-weight: 600;
   text-transform: uppercase;
@@ -35,32 +31,32 @@ table th {
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  width: auto;
+  font-size: 12px;
 }
 
 table th:hover {
-  background-color: #1a3440;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 table td {
-  padding: 12px;
-  border-bottom: 1px solid #90AEAD;
-  color: #244855;
+  padding: 14px 12px;
+  border-bottom: 1px solid #e9ecef;
+  color: #495057;
+  vertical-align: middle;
   transition: background-color 0.2s ease;
 }
 
-table tr:hover td {
-  background-color: #f0f8f8;
+table tbody tr {
+  transition: all 0.2s ease;
+}
+
+table tbody tr:hover {
+  background-color: #f8f9fa;
+  transform: translateX(2px);
 }
 
 table tbody tr.clickable {
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-table tbody tr.clickable:hover td {
-  background-color: #e8f4f4;
-  transform: translateX(2px);
 }
 
 table tr:last-child td {
@@ -68,11 +64,71 @@ table tr:last-child td {
 }
 
 table tbody tr:nth-child(even) {
-  background-color: #f8f9fa;
+  background-color: #fdfdfd;
 }
 
-table tbody tr:nth-child(even):hover {
-  background-color: #e8f4f4;
+/* Action buttons styles */
+.actions-cell {
+  white-space: nowrap;
+  text-align: center;
+  padding: 8px 12px;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  margin: 0 3px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  height: 28px;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.action-btn.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.action-btn.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.action-btn.btn-warn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+}
+
+.action-btn.btn-warn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.action-btn.btn-accent {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(78, 205, 196, 0.3);
+}
+
+.action-btn.btn-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+}
+
+.action-icon {
+  font-size: 14px;
 }
 
 .table-actions {
@@ -82,28 +138,28 @@ table tbody tr:nth-child(even):hover {
 }
 
 .hero-btn {
-  background-color: #E64833;
+  background: #244855;
   color: white;
   border: none;
   border-radius: 30px;
-  padding: 8px 20px;
+  padding: 10px 24px;
   font-size: 0.9rem;
   text-transform: uppercase;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(230, 72, 51, 0.3);
+  box-shadow: 0 4px 15px rgba(36, 72, 85, 0.3);
 }
 
 .hero-btn:hover {
-  background-color: #c23e2a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(230, 72, 51, 0.5);
+  background: #1a3440;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(36, 72, 85, 0.4);
 }
 
 .pagination {
   text-align: center;
-  margin-top: 12px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -112,7 +168,7 @@ table tbody tr:nth-child(even):hover {
 }
 
 .pagination-btn {
-  background-color: #E64833;
+  background: #244855;
   color: white;
   border: none;
   border-radius: 25px;
@@ -121,21 +177,21 @@ table tbody tr:nth-child(even):hover {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(230, 72, 51, 0.3);
+  box-shadow: 0 4px 15px rgba(36, 72, 85, 0.3);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .pagination-btn:hover:not(:disabled) {
-  background-color: #c23e2a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(230, 72, 51, 0.5);
+  background: #1a3440;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(36, 72, 85, 0.4);
 }
 
 .pagination-btn:disabled {
-  background-color: #90AEAD;
-  color: #555555;
+  background: #e9ecef;
+  color: #6c757d;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
@@ -144,12 +200,125 @@ table tbody tr:nth-child(even):hover {
 .pagination-info {
   font-size: 16px;
   font-weight: 500;
-  color: #244855;
-  padding: 0 15px;
+  color: #495057;
+  padding: 8px 16px;
   background: #f8f9fa;
   border-radius: 20px;
-  padding: 8px 16px;
   border: 1px solid #e9ecef;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 0 24px;
+  border-bottom: 1px solid #e9ecef;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #495057;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #adb5bd;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #f8f9fa;
+  color: #495057;
+}
+
+.modal-body {
+  padding: 0 24px 24px 24px;
+}
+
+.format-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.format-btn {
+  flex: 1;
+  padding: 16px 12px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+}
+
+.format-btn:hover {
+  border-color: #667eea;
+  background-color: #f8f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.format-icon {
+  font-size: 24px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modal-overlay {
@@ -282,4 +451,58 @@ table tbody tr:nth-child(even):hover {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+}
+
+
+.actions-cell {
+  white-space: nowrap;
+  text-align: center;
+}
+
+.action-btn {
+  padding: 6px 12px;
+  margin: 0 2px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.action-btn.btn-primary {
+  background-color: #244855;
+  color: white;
+}
+
+.action-btn.btn-primary:hover {
+  background-color: #1a3440;
+  transform: translateY(-1px);
+}
+
+.action-btn.btn-warn {
+  background-color: #E64833;
+  color: white;
+}
+
+.action-btn.btn-warn:hover {
+  background-color: #c23e2a;
+  transform: translateY(-1px);
+}
+
+.action-btn.btn-accent {
+  background-color: #90AEAD;
+  color: white;
+}
+
+.action-btn.btn-accent:hover {
+  background-color: #7a9899;
+  transform: translateY(-1px);
+}
+
+.action-icon {
+  font-size: 14px;
 }

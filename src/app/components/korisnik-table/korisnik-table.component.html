@@ -1,0 +1,31 @@
+<div class="korisnik-table-container">
+  <div class="header-section">
+    <h1 class="page-title">Upravljanje Korisnicima</h1>
+    <button mat-raised-button color="primary" (click)="addKorisnik()" class="add-button">
+      <mat-icon>add</mat-icon>
+      Dodaj Korisnika
+    </button>
+  </div>
+
+  <mat-card class="table-card">
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-container">
+        <p>Učitavanje korisnika...</p>
+      </div>
+
+      <div *ngIf="!loading && korisnici.length === 0" class="no-data-container">
+        <mat-icon class="no-data-icon">people_outline</mat-icon>
+        <p class="no-data-text">Nema korisnika za prikaz</p>
+      </div>
+
+      <app-generic-table 
+        *ngIf="!loading && korisnici.length > 0"
+        [data]="korisnici" 
+        [columns]="columns"
+        [actions]="actions"
+        [rowClickable]="false"
+        (rowClick)="onRowClick($event)">
+      </app-generic-table>
+    </mat-card-content>
+  </mat-card>
+</div>
