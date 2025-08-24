@@ -8,13 +8,19 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
     
     
     const authEndpoints = ['signin', 'signup', 'login', 'register', 'registracija'];
-    const publicEndpoints = [
+    
+    // Only GET requests to these endpoints should be public
+    const publicGetEndpoints = [
         'univerziteti', 'fakulteti', 'studijski-programi', 'godine-studija', 
         'predmeti', 'nastavnici', 'adrese', 'mesta', 'drzave', 
         'nastavni-materijali', 'forumi'
     ];
-    const skipAuth = authEndpoints.some(endpoint => req.url.includes(endpoint)) ||
-                     publicEndpoints.some(endpoint => req.url.includes(endpoint));
+    
+    const isAuthEndpoint = authEndpoints.some(endpoint => req.url.includes(endpoint));
+    const isPublicGetRequest = req.method === 'GET' && 
+                               publicGetEndpoints.some(endpoint => req.url.includes(endpoint));
+    
+    const skipAuth = isAuthEndpoint || isPublicGetRequest;
     
     
     if (typeof localStorage !== 'undefined' && !skipAuth) {
@@ -32,11 +38,15 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
 
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
-            
-            if ((error.status === 401 || error.status === 403) && !skipAuth) {
-                console.log('Authentication error, clearing token and redirecting to login');
+            // Only clear token and redirect on 401 (Unauthorized), not 403 (Forbidden)
+            // 403 means the token is valid but user lacks permissions
+            if (error.status === 401 && !skipAuth) {
+                console.log('Authentication error (401), clearing token and redirecting to login');
                 localStorage.removeItem('token');
                 router.navigate(['/login']);
+            } else if (error.status === 403 && !skipAuth) {
+                console.log('Forbidden error (403) - insufficient permissions, but token is valid');
+                // Don't clear token or redirect on 403 - just log the error
             }
             return throwError(() => error);
         })

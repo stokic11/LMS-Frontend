@@ -1,0 +1,38 @@
+.dialog-container {
+  min-width: 400px;
+  max-width: 600px;
+}
+
+.generic-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+button:disabled {
+  opacity: 0.6;
+}
+
+@media (max-width: 600px) {
+  .dialog-container {
+    min-width: 300px;
+  }
+}

@@ -1,0 +1,17 @@
+<div class="admin-studijski-program-table-wrapper">
+  <div class="table-header">
+    <h2>Studijski programi - Administracija</h2>
+    <button mat-raised-button color="primary" class="dodaj-button" (click)="onDodaj()">
+      <mat-icon>add</mat-icon>
+      Dodaj novi
+    </button>
+  </div>
+
+  <app-generic-table 
+    [data]="studijskiProgramiDisplay" 
+    [columns]="columns"
+    [actions]="actions"
+    [rowClickable]="false"
+    (rowClick)="onRowClick($event)">
+  </app-generic-table>
+</div>

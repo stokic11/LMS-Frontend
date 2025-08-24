@@ -1,0 +1,8 @@
+<app-generic-dialog 
+  *ngIf="dialogConfig" 
+  [data]="dialogConfig">
+</app-generic-dialog>
+
+<div *ngIf="!dialogConfig" class="loading-container">
+  <p>Učitavanje...</p>
+</div>

@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin } from 'rxjs';
-import { WritableCrudService } from '../generic.service';
+import { CrudService } from '../generic.service';
 import { StudijskiProgram } from '../../models/studijskiProgram';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StudijskiProgramService extends WritableCrudService<StudijskiProgram, number> {
+export class StudijskiProgramService extends CrudService<StudijskiProgram, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/studijski-programi');
+    super(http, 'http://localhost:8080/api/studijski-programi');
+  }
+
+  // Add update method for full entity updates
+  update(id: number, studijskiProgram: StudijskiProgram): Observable<StudijskiProgram> {
+    return this.http.put<StudijskiProgram>(`${this.baseUrl}/${id}`, studijskiProgram);
   }
 
   getStudijskiProgramInfo(id: number): Observable<any> {
