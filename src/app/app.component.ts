@@ -90,11 +90,11 @@ export class AppComponent {
   }
 
   openProfileDialog(): void {
-    // Dohvatamo ID trenutnog korisnika
+    
     const korisnikId = this.authService.getKorisnikId();
     
     if (korisnikId) {
-      // Pozivamo API da dohvatimo kompletne podatke korisnika
+      
       this.korisnikService.getById(korisnikId).subscribe({
         next: (korisnik) => {
           console.log('Loaded user data:', korisnik);
@@ -108,7 +108,7 @@ export class AppComponent {
 
           dialogRef.afterClosed().subscribe(result => {
             if (result) {
-              // Pozivamo API za ažuriranje korisničkih podataka
+              
               this.korisnikService.patch(korisnikId, result).subscribe({
                 next: (updatedKorisnik: any) => {
                   console.log('Korisnik uspešno ažuriran:', updatedKorisnik);

@@ -10,6 +10,7 @@ import { StudijskiProgramDetailsComponent } from './components/studijski-program
 import { PredmetTableComponent } from './components/predmet-table/predmet-table.component';
 import { PredmetDetailsComponent } from './components/predmet-details/predmet-details.component';
 import { AdminStudijskiProgramTableComponent } from './components/admin-studijski-program-table/admin-studijski-program-table.component';
+import { AdminZaposleniComponent } from './components/admin-zaposleni/admin-zaposleni.component';
 import { AuthGuard } from './auth_guard';
 import { NastavnikHomepageComponent } from './components/nastavnik-homepage/nastavnik-homepage.component';
 import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
@@ -66,6 +67,12 @@ export const routes: Routes = [
   { 
     path: 'admin/studijski-programi',
     component: AdminStudijskiProgramTableComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['admin'] }
+  },
+  { 
+    path: 'admin/zaposleni',
+    component: AdminZaposleniComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['admin'] }
   },

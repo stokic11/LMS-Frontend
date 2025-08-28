@@ -1,0 +1,116 @@
+.admin-zaposleni-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.header-section h2 {
+  font-size: 2rem;
+  color: #244855;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.header-section p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 32px;
+  justify-items: center;
+}
+
+.employee-card {
+  width: 100%;
+  max-width: 450px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.employee-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.employee-card mat-card-header {
+  padding-bottom: 16px;
+}
+
+.card-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  background: linear-gradient(45deg, #244855, #90AEAD);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.employee-card mat-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #244855;
+}
+
+.employee-card mat-card-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.employee-card mat-card-content {
+  padding: 16px 0;
+}
+
+.employee-card mat-card-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+.employee-card mat-card-actions {
+  padding-top: 16px;
+  justify-content: center;
+}
+
+.employee-card button {
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 500;
+  text-transform: none;
+  font-size: 1rem;
+}
+
+.employee-card button mat-icon {
+  margin-right: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .employee-card {
+    max-width: 100%;
+  }
+  
+  .header-section h2 {
+    font-size: 1.75rem;
+  }
+}

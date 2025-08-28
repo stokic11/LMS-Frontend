@@ -177,5 +177,143 @@ export class DialogConfigService {
     };
   }
 
+  getZaposleniConfig(data?: any, isNew: boolean = false, tip: 'nastavnik' | 'studentska_sluzba' | 'student' = 'nastavnik'): DialogConfig {
+    const title = isNew ? 
+      (tip === 'nastavnik' ? 'Dodaj Nastavnika' : 
+       tip === 'student' ? 'Dodaj Studenta' : 'Dodaj Člana Studentske Službe') :
+      (tip === 'nastavnik' ? 'Izmeni Nastavnika' : 
+       tip === 'student' ? 'Izmeni Studenta' : 'Izmeni Člana Studentske Službe');
+
+    const baseFields: FieldConfig[] = [
+      {
+        name: 'korisnickoIme',
+        label: 'Korisničko ime',
+        type: 'text',
+        required: true,
+        placeholder: 'Unesite korisničko ime'
+      },
+      {
+        name: 'email',
+        label: 'Email',
+        type: 'email',
+        required: true,
+        placeholder: 'Unesite email'
+      },
+      {
+        name: 'ime',
+        label: 'Ime',
+        type: 'text',
+        required: true,
+        placeholder: 'Unesite ime'
+      },
+      {
+        name: 'prezime',
+        label: 'Prezime',
+        type: 'text',
+        required: true,
+        placeholder: 'Unesite prezime'
+      },
+      {
+        name: 'lozinka',
+        label: 'Lozinka',
+        type: 'password',
+        required: true,
+        placeholder: 'Unesite lozinku',
+        minLength: 6,
+        fullWidth: true
+      }
+    ];
+
+    
+    if (tip === 'nastavnik') {
+      baseFields.push(
+        {
+          name: 'jmbg',
+          label: 'JMBG',
+          type: 'text',
+          required: true,
+          placeholder: 'Unesite JMBG',
+          fullWidth: true
+        },
+        {
+          name: 'biografija',
+          label: 'Biografija',
+          type: 'textarea',
+          placeholder: 'Unesite biografiju nastavnika',
+          fullWidth: true
+        },
+        {
+          name: 'tipZvanjaNaziv',
+          label: 'Tip Zvanja',
+          type: 'text',
+          placeholder: 'Unesite tip zvanja (npr. docent, vanredni profesor)'
+        },
+        {
+          name: 'naucnaOblastNaziv',
+          label: 'Naučna Oblast',
+          type: 'text',
+          placeholder: 'Unesite naučnu oblast (npr. Informatika, Matematika)'
+        },
+        {
+          name: 'datumIzbora',
+          label: 'Datum Izbora',
+          type: 'date',
+          fullWidth: true
+        },
+        {
+          name: 'datumPrestanka',
+          label: 'Datum Prestanka',
+          type: 'date',
+          fullWidth: true
+        }
+      );
+    }
+    
+    
+    if (tip === 'student') {
+      baseFields.push(
+        {
+          name: 'jmbg',
+          label: 'JMBG',
+          type: 'text',
+          required: true,
+          placeholder: 'Unesite JMBG',
+          fullWidth: true
+        },
+        {
+          name: 'ulica',
+          label: 'Ulica',
+          type: 'text',
+          placeholder: 'Unesite naziv ulice'
+        },
+        {
+          name: 'broj',
+          label: 'Broj',
+          type: 'text',
+          placeholder: 'Unesite broj'
+        },
+        {
+          name: 'nazivMesta',
+          label: 'Mesto',
+          type: 'text',
+          placeholder: 'Unesite naziv mesta'
+        },
+        {
+          name: 'nazivDrzave',
+          label: 'Država',
+          type: 'text',
+          placeholder: 'Unesite naziv države'
+        }
+      );
+    }
+
+    return {
+      title,
+      isNew,
+      data,
+      fields: baseFields
+    };
+  }
+
   
 }
