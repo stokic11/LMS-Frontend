@@ -16,6 +16,10 @@ import { NastavnikHomepageComponent } from './components/nastavnik-homepage/nast
 import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
 import { StudentskaSluzbaHomepageComponent } from './components/studentska-sluzba-homepage/studentska-sluzba-homepage.component';
 import { KorisnikTableComponent } from './components/korisnik-table/korisnik-table.component';
+import { ObavestenjeTableComponent } from './components/obavestenje-table/obavestenje-table.component';
+import { ObavestenjeDetailsComponent } from './components/obavestenje-details/obavestenje-details.component';
+import { StudentIstorijaComponent } from './components/student-istorija/student-istorija.component';
+import { PrijavaIspitaComponent } from './components/prijava-ispita/prijava-ispita.component';
 
 export const routes: Routes = [
   { 
@@ -75,6 +79,30 @@ export const routes: Routes = [
     component: AdminZaposleniComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['admin'] }
+  },
+  { 
+    path: 'obavestenja',
+    component: ObavestenjeTableComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['student']}
+  },
+  { 
+    path: 'obavestenja/:id',
+    component: ObavestenjeDetailsComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['student']}
+  },
+  { 
+    path: 'istorija',
+    component: StudentIstorijaComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['student']}
+  },
+  { 
+    path: 'prijava-ispita',
+    component: PrijavaIspitaComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['student']}
   },
   { path: '**', redirectTo: '' }
 ];

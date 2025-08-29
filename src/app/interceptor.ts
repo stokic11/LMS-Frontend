@@ -9,7 +9,6 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
     
     const authEndpoints = ['signin', 'signup', 'login', 'register', 'registracija'];
     
-    // Only GET requests to these endpoints should be public
     const publicGetEndpoints = [
         'univerziteti', 'fakulteti', 'studijski-programi', 'godine-studija', 
         'predmeti', 'nastavnici', 'adrese', 'mesta', 'drzave', 

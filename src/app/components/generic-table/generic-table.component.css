@@ -56,7 +56,18 @@ table tbody tr:hover {
 }
 
 table tbody tr.clickable {
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+table tbody tr.clickable td {
+  cursor: pointer !important;
+}
+
+table tbody tr.clickable:hover {
+  background-color: #f8f9fa !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer !important;
 }
 
 table tr:last-child td {
@@ -125,6 +136,18 @@ table tbody tr:nth-child(even) {
 .action-btn.btn-accent:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+}
+
+.action-btn.btn-custom {
+  background: #244855;
+  color: white;
+  box-shadow: 0 2px 8px rgba(36, 72, 85, 0.3);
+}
+
+.action-btn.btn-custom:hover {
+  background: #1e3a42;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(36, 72, 85, 0.4);
 }
 
 .action-icon {

@@ -3,4 +3,8 @@ export interface PohadjanjePredmeta {
     konacnaOcena: number;
     realizacijaPredmetaId: number;
     studentId: number;
+    nazivPredmeta?: string;
+    espb?: number;
+    obavezan?: boolean;
+    brojSemestra?: number;
 }

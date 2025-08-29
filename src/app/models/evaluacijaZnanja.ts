@@ -8,6 +8,6 @@ export interface EvaluacijaZnanja {
     bodovi: number;
     tipEvaluacije: TipEvaluacije;
     realizacijaPredmetaId: number;
-    ishod: Ishod;
+    ishod?: Ishod;
     instrumentiEvaluacijeIds?: number[];
 }

@@ -1,0 +1,97 @@
+.istorija-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #244855;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.summary-card {
+  text-align: center;
+}
+
+.summary-card mat-card-title {
+  color: #244855;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.summary-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #244855;
+}
+
+.history-table-wrapper {
+  margin-top: 20px;
+}
+
+.history-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Stilovi za ocene */
+.ocena-odlican {
+  background-color: #4caf50;
+  color: white;
+}
+
+.ocena-vrlo-dobar {
+  background-color: #8bc34a;
+  color: white;
+}
+
+.ocena-dobar {
+  background-color: #ffc107;
+  color: black;
+}
+
+.ocena-dovoljan {
+  background-color: #ff9800;
+  color: white;
+}
+
+.ocena-nedovoljan {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Stilovi za status */
+.status-polozeno {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-palo {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .istorija-container {
+    padding: 15px;
+  }
+  
+  .page-title {
+    font-size: 24px;
+  }
+}

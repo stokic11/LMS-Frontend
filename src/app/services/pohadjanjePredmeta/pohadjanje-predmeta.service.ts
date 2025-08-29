@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { CrudService } from '../generic.service';
 import { PohadjanjePredmeta } from '../../models/pohadjanjePredmeta';
 
@@ -10,5 +11,9 @@ export class PohadjanjePredmetaService extends CrudService<PohadjanjePredmeta, n
 
   constructor(http: HttpClient) {
     super(http, '/api/pohadjanje-predmeta');
+  }
+
+  getByStudentId(studentId: number): Observable<PohadjanjePredmeta[]> {
+    return this.http.get<PohadjanjePredmeta[]>(`http://localhost:8080/api/pohadjanje-predmeta/student/${studentId}`);
   }
 }

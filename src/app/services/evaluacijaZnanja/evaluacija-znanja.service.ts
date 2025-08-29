@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { CrudService } from '../generic.service';
 import { EvaluacijaZnanja } from '../../models/evaluacijaZnanja';
 
@@ -10,5 +11,9 @@ export class EvaluacijaZnanjaService extends CrudService<EvaluacijaZnanja, numbe
 
   constructor(http: HttpClient) {
     super(http, '/api/evaluacije-znanja');
+  }
+
+  getDostupneIspiteZaStudenta(studentId: number): Observable<EvaluacijaZnanja[]> {
+    return this.http.get<EvaluacijaZnanja[]>(`http://localhost:8080/api/evaluacije-znanja/student/${studentId}/dostupni-ispiti`);
   }
 }
