@@ -16,8 +16,10 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
     ];
     
     const isAuthEndpoint = authEndpoints.some(endpoint => req.url.includes(endpoint));
+    const isRdfRequest = req.url.includes('/api/rdf/');
     const isPublicGetRequest = req.method === 'GET' && 
-                               publicGetEndpoints.some(endpoint => req.url.includes(endpoint));
+                               publicGetEndpoints.some(endpoint => req.url.includes(endpoint)) &&
+                               !isRdfRequest;
     
     const skipAuth = isAuthEndpoint || isPublicGetRequest;
     

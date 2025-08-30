@@ -1,40 +1,42 @@
-<div class="table-container">
-	<table>
-		<thead>
-			<tr>
-				<th *ngFor="let col of columns" (click)="setSort(col.key)" style="cursor:pointer">
-					{{ col.label }}
-					<span *ngIf="sortColumn === col.key">
-						{{ sortDirection === 'asc' ? '▲' : '▼' }}
-					</span>
-				</th>
-				<th *ngIf="hasActions">Akcije</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let row of pagedData" 
-			    [class.clickable]="rowClickable" 
-			    (click)="onRowClick(row)">
-				<td *ngFor="let col of columns">
-					{{ row[col.key] }}
-				</td>
-				<td *ngIf="hasActions" class="actions-cell">
-					<button *ngFor="let action of actions" 
-					        class="action-btn"
-					        [class]="'btn-' + (action.color || 'primary')"
-					        (click)="onActionClick(action, row, $event)">
-						{{ action.label }}
-					</button>
-				</td>
-			</tr>
-			<tr *ngIf="pagedData.length === 0">
-				<td [attr.colspan]="columns.length + (hasActions ? 1 : 0)" style="text-align:center">No data</td>
-			</tr>
-		</tbody>
-	</table>
-	
+<div class="table-wrapper">
 	<div class="table-actions">
 		<button (click)="openDownloadModal()" class="hero-btn download-btn">Preuzmi</button>
+	</div>
+	
+	<div class="table-container">
+		<table>
+			<thead>
+				<tr>
+					<th *ngFor="let col of columns" (click)="setSort(col.key)" style="cursor:pointer">
+						{{ col.label }}
+						<span *ngIf="sortColumn === col.key">
+							{{ sortDirection === 'asc' ? '▲' : '▼' }}
+						</span>
+					</th>
+					<th *ngIf="hasActions">Akcije</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let row of pagedData" 
+				    [class.clickable]="rowClickable" 
+				    (click)="onRowClick(row)">
+					<td *ngFor="let col of columns">
+						{{ row[col.key] }}
+					</td>
+					<td *ngIf="hasActions" class="actions-cell">
+						<button *ngFor="let action of actions" 
+						        class="action-btn"
+						        [class]="'btn-' + (action.color || 'primary')"
+						        (click)="onActionClick(action, row, $event)">
+							{{ action.label }}
+						</button>
+					</td>
+				</tr>
+				<tr *ngIf="pagedData.length === 0">
+					<td [attr.colspan]="columns.length + (hasActions ? 1 : 0)" style="text-align:center">No data</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
 

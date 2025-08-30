@@ -20,6 +20,7 @@ import { ObavestenjeTableComponent } from './components/obavestenje-table/obaves
 import { ObavestenjeDetailsComponent } from './components/obavestenje-details/obavestenje-details.component';
 import { StudentIstorijaComponent } from './components/student-istorija/student-istorija.component';
 import { PrijavaIspitaComponent } from './components/prijava-ispita/prijava-ispita.component';
+import { DrzavaRdfTableComponent } from './components/drzava-rdf-table/drzava-rdf-table.component';
 
 export const routes: Routes = [
   { 
@@ -103,6 +104,12 @@ export const routes: Routes = [
     component: PrijavaIspitaComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['student']}
+  },
+  { 
+    path: 'rdf/drzave',
+    component: DrzavaRdfTableComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['admin'] }
   },
   { path: '**', redirectTo: '' }
 ];
