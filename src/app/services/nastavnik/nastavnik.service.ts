@@ -18,4 +18,9 @@ export class NastavnikService extends WritableCrudService<Nastavnik, number> {
     console.log('Pozivam direktno backend URL za nastavnika:', backendUrl);
     return this.http.get<Nastavnik>(backendUrl);
   }
+
+  getPredmeti(nastavnikId: number): Observable<any[]> {
+    const backendUrl = `http://localhost:8080/api/nastavnici/${nastavnikId}/predmeti`;
+    return this.http.get<any[]>(backendUrl);
+  }
 }

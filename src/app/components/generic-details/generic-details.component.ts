@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 
 export interface InfoSection {
@@ -31,6 +32,7 @@ export interface TableSection {
   groupBy?: string;
   groupLabelFunction?: (group: any, index: number) => string;
   groupDescriptionFunction?: (group: any) => string;
+  editable?: boolean;
 }
 
 @Component({
@@ -42,7 +44,8 @@ export interface TableSection {
     MatIconModule,
     MatChipsModule,
     MatExpansionModule,
-    MatTableModule
+    MatTableModule,
+    MatTooltipModule
   ],
   templateUrl: './generic-details.component.html',
   styleUrl: './generic-details.component.css'
@@ -57,6 +60,7 @@ export class GenericDetailsComponent {
   @Input() tableSections: TableSection[] = [];
   
   @Output() backButtonClick = new EventEmitter<void>();
+  @Output() editTableSectionClick = new EventEmitter<TableSection>();
 
   constructor(private router: Router) {}
 
@@ -66,6 +70,10 @@ export class GenericDetailsComponent {
     } else {
       this.backButtonClick.emit();
     }
+  }
+
+  editTableSection(tableSection: TableSection): void {
+    this.editTableSectionClick.emit(tableSection);
   }
 
   getGroupedData(tableSection: TableSection): any[] {

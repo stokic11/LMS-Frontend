@@ -6,5 +6,6 @@
   [backButtonRoute]="'/predmeti'"
   [infoSections]="infoSections"
   [tableSections]="tableSections"
-  (backButtonClick)="goBack()">
+  (backButtonClick)="goBack()"
+  (editTableSectionClick)="onEditTableSection($event)">
 </app-generic-details>

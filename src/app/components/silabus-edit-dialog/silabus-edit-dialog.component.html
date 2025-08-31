@@ -1,0 +1,86 @@
+<div class="silabus-dialog">
+  <h1 mat-dialog-title>Uređivanje silabusa - {{data.predmetNaziv}}</h1>
+  
+  <div mat-dialog-content class="dialog-content">
+    <div class="add-button-container">
+      <button mat-raised-button color="primary" (click)="addNewIshod()" [disabled]="loading">
+        <mat-icon>add</mat-icon>
+        Dodaj novi ishod
+      </button>
+    </div>
+
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="silabus-table">
+        <ng-container matColumnDef="opis">
+          <th mat-header-cell *matHeaderCellDef>Opis ishoda</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <mat-form-field appearance="outline" class="full-width">
+              <input matInput [(ngModel)]="element.opis" placeholder="Unesite opis ishoda">
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="obrazovniCilj">
+          <th mat-header-cell *matHeaderCellDef>Obrazovni cilj</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-select [value]="element.obrazovniCilj?.id" 
+                         (selectionChange)="onObrazovniCiljChange(element, $event.value)"
+                         placeholder="Izaberite ili unesite novi obrazovni cilj">
+                <mat-option value="new">
+                  <em>+ Kreiraj novi obrazovni cilj</em>
+                </mat-option>
+                <mat-option *ngFor="let cilj of obrazovniCiljevi" [value]="cilj.id">
+                  {{cilj.opis}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+            <!-- Polje za unos novog obrazovnog cilja -->
+            <mat-form-field appearance="outline" class="full-width" 
+                           *ngIf="element.isCreatingNewCilj">
+              <input matInput [(ngModel)]="element.newCiljOpis" 
+                     placeholder="Unesite opis novog obrazovnog cilja"
+                     (blur)="saveNewObrazovniCilj(element)"
+                     (keydown.enter)="saveNewObrazovniCilj(element)">
+              <mat-hint>Pritisnite Enter ili kliknite izvan polja da sačuvate</mat-hint>
+            </mat-form-field>
+            
+            <!-- Prikaz trenutnog cilja ako nije kreiranje novog -->
+            <div *ngIf="!element.isCreatingNewCilj && element.obrazovniCilj?.opis" 
+                 class="current-cilj">
+              <small>Trenutni: {{element.obrazovniCilj.opis}}</small>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Akcije</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <button mat-icon-button color="warn" (click)="deleteIshod(i)" [disabled]="loading">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <div *ngIf="ishodi.length === 0" class="no-data">
+      <p>Nema definisanih ishoda. Kliknite "Dodaj novi ishod" da biste dodali prvi ishod.</p>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="cancel()" [disabled]="loading">Otkaži</button>
+    <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="loading">
+      Sačuvaj izmene
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-spinner">Čuvanje...</div>
+  </div>
+</div>

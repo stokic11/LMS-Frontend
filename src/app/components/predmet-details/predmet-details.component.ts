@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Predmet } from '../../models/predmet';
 import { NastavniMaterijal } from '../../models/nastavniMaterijal';
 import { PredmetService } from '../../services/predmet/predmet.service';
 import { NastavniMaterijalService } from '../../services/nastavniMaterijal/nastavni-materijal.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { GenericDetailsComponent, InfoSection, TableSection } from '../generic-details/generic-details.component';
+import { SilabusEditDialogComponent } from '../silabus-edit-dialog/silabus-edit-dialog.component';
 
 @Component({
   selector: 'app-predmet-details',
@@ -19,7 +22,8 @@ export class PredmetDetailsComponent implements OnInit {
   predmet: Predmet | null = null;
   nastavniMaterijali: NastavniMaterijal[] = [];
   loading = true;
-  error = false;
+  error = false; 
+  isNastavnik = false;
 
   title: string = '';
   infoSections: InfoSection[] = [];
@@ -29,14 +33,22 @@ export class PredmetDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private predmetService: PredmetService,
-    private nastavniMaterijalService: NastavniMaterijalService
+    private nastavniMaterijalService: NastavniMaterijalService,
+    private authService: AuthenticationService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
+      this.checkNastavnikRole();
       this.loadPredmet(+id);
     }
+  }
+
+  checkNastavnikRole(): void {
+    const currentUser = this.authService.getCurrentUser();
+    this.isNastavnik = currentUser?.uloge?.includes('nastavnik') || false;
   }
 
   loadPredmet(id: number): void {
@@ -109,7 +121,8 @@ export class PredmetDetailsComponent implements OnInit {
         columnLabels: {
           'opis': 'Ishod',
           'obrazovni_cilj': 'Obrazovni cilj'
-        }
+        },
+        editable: this.isNastavnik
       });
     } else {
       this.tableSections.push({
@@ -117,7 +130,8 @@ export class PredmetDetailsComponent implements OnInit {
         icon: 'warning',
         data: [],
         displayedColumns: [],
-        columnLabels: {}
+        columnLabels: {},
+        editable: this.isNastavnik
       });
     }
 
@@ -162,5 +176,32 @@ export class PredmetDetailsComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/predmeti']);
+  }
+
+  onEditTableSection(tableSection: TableSection): void {
+    if (tableSection.title === 'Silabus') {
+      this.editSilabus();
+    }
+  }
+
+  editSilabus(): void {
+    if (!this.predmet) return;
+    
+    const dialogRef = this.dialog.open(SilabusEditDialogComponent, {
+      width: '90vw',
+      maxWidth: '1200px',
+      height: '80vh',
+      data: {
+        predmetId: this.predmet.id,
+        predmetNaziv: this.predmet.naziv,
+        ishodi: this.predmet.silabus || []
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadPredmet(this.predmet!.id!);
+      }
+    });
   }
 }

@@ -7,6 +7,7 @@ import { PohadjanjePredmeta } from '../../models/pohadjanjePredmeta';
 import { PredmetService } from '../../services/predmet/predmet.service';
 import { PohadjanjePredmetaService } from '../../services/pohadjanjePredmeta/pohadjanje-predmeta.service';
 import { RealizacijaPredmetaService } from '../../services/realizacijaPredmeta/realizacija-predmeta.service';
+import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
@@ -16,7 +17,7 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   template: `
     <div class="predmet-table-wrapper">
       <h2 style="text-align:center; margin-bottom: 24px; color: #244855; font-weight: 600;">
-        {{ isStudent ? 'Moji Predmeti' : 'Predmeti' }}
+        {{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti na kojima sam angažovan' : 'Predmeti') }}
       </h2>
       <app-generic-table 
         [data]="data"
@@ -31,6 +32,7 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 export class PredmetTableComponent implements OnInit {
   data: any[] = [];
   isStudent: boolean = false;
+  isNastavnik: boolean = false;
   columns = [
     { key: 'naziv', label: 'Naziv' },
     { key: 'espb', label: 'ESPB' },
@@ -44,20 +46,23 @@ export class PredmetTableComponent implements OnInit {
     private predmetService: PredmetService,
     private pohadjanjePredmetaService: PohadjanjePredmetaService,
     private realizacijaPredmetaService: RealizacijaPredmetaService,
+    private nastavnikService: NastavnikService,
     private authService: AuthenticationService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.checkIfStudent();
+    this.checkUserRole();
     this.loadData();
   }
 
-  checkIfStudent(): void {
+  checkUserRole(): void {
     const roles = this.authService.getCurrentUserRoles();
     console.log('Current user roles:', roles);
     this.isStudent = roles.includes('student');
+    this.isNastavnik = roles.includes('nastavnik');
     console.log('Is student:', this.isStudent);
+    console.log('Is nastavnik:', this.isNastavnik);
     
     if (this.isStudent) {
       this.columns = [
@@ -87,12 +92,26 @@ export class PredmetTableComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error loading student predmeti:', error);
-            console.error('Error status:', error.status);
-            console.error('Error message:', error.message);
-            console.error('Error URL:', error.url);
-            if (error.error) {
-              console.error('Error details:', error.error);
-            }
+          }
+        });
+      }
+    } else if (this.isNastavnik) {
+      const userId = this.authService.getKorisnikId();
+      if (userId) {
+        this.nastavnikService.getPredmeti(userId).subscribe({
+          next: (predmeti) => {
+            this.data = predmeti.map((row: any[]) => ({
+              id: row[0],
+              naziv: row[1],
+              espb: row[2],
+              obavezan: row[3] ? 'Obavezan' : 'Izborni',
+              brojSemestra: row[4],
+              brojPredavanja: row[5],
+              brojVezbi: row[6]
+            }));
+          },
+          error: (error) => {
+            console.error('Error loading nastavnik predmeti:', error);
           }
         });
       }
@@ -113,7 +132,6 @@ export class PredmetTableComponent implements OnInit {
 
   onPredmetClick(predmet: any): void {
     if (this.isStudent) {
-      // Za studenta, koristimo naziv predmeta da nađemo pravi predmet ID
       if (predmet.naziv) {
         this.predmetService.getAll().subscribe({
           next: (predmeti) => {
@@ -128,7 +146,6 @@ export class PredmetTableComponent implements OnInit {
         });
       }
     } else {
-      // Za administratore, direktno koristimo predmet ID
       if (predmet.id) {
         this.router.navigate(['/predmeti', predmet.id]);
       }

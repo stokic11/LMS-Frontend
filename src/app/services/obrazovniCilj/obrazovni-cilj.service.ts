@@ -9,6 +9,6 @@ import { ObrazovniCilj } from '../../models/obrazovniCilj';
 export class ObrazovniCiljService extends CrudService<ObrazovniCilj, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/obrazovni-ciljevi');
+    super(http, 'http://localhost:8080/api/obrazovni-ciljevi');
   }
 }

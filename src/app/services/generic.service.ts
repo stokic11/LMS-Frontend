@@ -41,6 +41,10 @@ export abstract class CrudService<T, ID = number> extends WritableCrudService<T,
   delete(id: ID): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  put(id: ID, body: T): Observable<T> {
+    return this.http.put<T>(`${this.baseUrl}/${id}`, body);
+  }
 }
 
 export type IGetAll<T> = Pick<ReadOnlyCrudService<T>, 'getAll'>;
