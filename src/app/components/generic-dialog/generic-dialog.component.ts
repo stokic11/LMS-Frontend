@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DialogConfig, FieldConfig } from './field-config.interface';
 
 @Component({
@@ -22,7 +24,9 @@ import { DialogConfig, FieldConfig } from './field-config.interface';
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './generic-dialog.component.html',
   styleUrl: './generic-dialog.component.css'

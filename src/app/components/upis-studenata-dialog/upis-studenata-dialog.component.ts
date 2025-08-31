@@ -1,0 +1,131 @@
+import { Component, OnInit, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+import { StudentService, GodinaStudija, StudentNaGodini } from '../../services/student/student.service';
+import { Student } from '../../models/student';
+
+@Component({
+  selector: 'app-upis-studenata-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatTableModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    FormsModule
+  ],
+  templateUrl: './upis-studenata-dialog.component.html',
+  styleUrls: ['./upis-studenata-dialog.component.css']
+})
+export class UpisStudenataDialogComponent implements OnInit {
+  
+  studenti: Student[] = [];
+  godineStudija: GodinaStudija[] = [];
+  selectedStudent: Student | null = null;
+  selectedGodinaStudija: GodinaStudija | null = null;
+  brojIndeksa = '';
+  loading = false;
+  
+  displayedColumns: string[] = ['ime', 'prezime', 'email', 'jmbg', 'akcije'];
+  
+  constructor(
+    public dialogRef: MatDialogRef<UpisStudenataDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private studentService: StudentService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    this.loadNeupisaniStudenti();
+    this.loadGodineStudija();
+  }
+
+  async loadNeupisaniStudenti(): Promise<void> {
+    this.loading = true;
+    try {
+      const response = await firstValueFrom(
+        this.studentService.getNeupisaniStudenti()
+      );
+      this.studenti = response;
+      console.log('Učitani neupisani studenti:', this.studenti);
+    } catch (error) {
+      console.error('Greška pri učitavanju neupisanih studenata:', error);
+      this.snackBar.open('Greška pri učitavanju studenata', 'Zatvori', { duration: 3000 });
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  async loadGodineStudija(): Promise<void> {
+    try {
+      const response = await firstValueFrom(
+        this.studentService.getGodineStudija()
+      );
+      this.godineStudija = response;
+      console.log('Učitane godine studija:', this.godineStudija);
+    } catch (error) {
+      console.error('Greška pri učitavanju godina studija:', error);
+      this.snackBar.open('Greška pri učitavanju godina studija', 'Zatvori', { duration: 3000 });
+    }
+  }
+
+  selectStudent(student: Student): void {
+    this.selectedStudent = student;
+    console.log('Izabran student:', student);
+  }
+
+  async upisStudent(): Promise<void> {
+    if (!this.selectedStudent || !this.selectedGodinaStudija || !this.brojIndeksa.trim()) {
+      this.snackBar.open('Molimo izaberite studenta, godinu studija i unesite broj indeksa', 'Zatvori', { duration: 3000 });
+      return;
+    }
+
+    this.loading = true;
+    try {
+      const response = await firstValueFrom(
+        this.studentService.upisStudentaNaGodinu(
+          this.selectedStudent.id!,
+          this.selectedGodinaStudija.id,
+          this.brojIndeksa
+        )
+      );
+      
+      console.log('Student uspešno upisan:', response);
+      this.snackBar.open(`Student ${this.selectedStudent.ime} ${this.selectedStudent.prezime} je uspešno upisan!`, 'Zatvori', { duration: 5000 });
+      
+      
+      this.studenti = this.studenti.filter(s => s.id !== this.selectedStudent!.id);
+      
+      
+      this.selectedStudent = null;
+      this.selectedGodinaStudija = null;
+      this.brojIndeksa = '';
+      
+    } catch (error) {
+      console.error('Greška pri upisu studenta:', error);
+      this.snackBar.open('Greška pri upisu studenta', 'Zatvori', { duration: 3000 });
+    } finally {
+      this.loading = false;
+    }
+  }
+
+  close(): void {
+    this.dialogRef.close();
+  }
+}

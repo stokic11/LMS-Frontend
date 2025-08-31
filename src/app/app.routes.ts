@@ -21,6 +21,8 @@ import { ObavestenjeDetailsComponent } from './components/obavestenje-details/ob
 import { StudentIstorijaComponent } from './components/student-istorija/student-istorija.component';
 import { PrijavaIspitaComponent } from './components/prijava-ispita/prijava-ispita.component';
 import { DrzavaRdfTableComponent } from './components/drzava-rdf-table/drzava-rdf-table.component';
+import { UpisStudenataComponent } from './components/upis-studenata/upis-studenata.component';
+
 
 export const routes: Routes = [
   { 
@@ -80,6 +82,12 @@ export const routes: Routes = [
     component: AdminZaposleniComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['admin'] }
+  },
+  { 
+    path: 'upis-studenata',
+    component: UpisStudenataComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['studentska_sluzba'] }
   },
   { 
     path: 'obavestenja',

@@ -1,100 +1,149 @@
 <div class="dialog-container">
-  <h2 mat-dialog-title>{{title}}</h2>
   
-  <mat-dialog-content>
-    <form [formGroup]="form" class="generic-form">
-      
-      <ng-container *ngFor="let field of getVisibleFields()">
-        
-        
-        <mat-form-field 
-          *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password'" 
-          appearance="outline" 
-          [class.full-width]="field.fullWidth">
-          <mat-label>{{field.label}}</mat-label>
-          <input 
-            matInput 
-            [type]="field.type === 'password' ? 'password' : 'text'"
-            [formControlName]="field.name" 
-            [placeholder]="field.placeholder || ''">
-          <mat-error *ngFor="let error of getFieldErrors(field.name)">
-            {{error}}
-          </mat-error>
-        </mat-form-field>
+  <div class="dialog-header">
+    <div class="header-content">
+      <div class="dialog-icon">
+        <mat-icon>{{config.icon || 'edit'}}</mat-icon>
+      </div>
+      <div class="header-text">
+        <h2 mat-dialog-title class="dialog-title">{{title}}</h2>
+        <p class="dialog-subtitle" *ngIf="config.subtitle">{{config.subtitle}}</p>
+      </div>
+    </div>
+  </div>
+  
+  <mat-dialog-content class="dialog-content">
+    
+    <div class="loading-section" *ngIf="isLoading">
+      <div class="loading-content">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Obrađujemo zahtev...</p>
+      </div>
+    </div>
 
+    
+    <div class="form-section" *ngIf="!isLoading">
+      <form [formGroup]="form" class="generic-form">
         
-        <mat-form-field 
-          *ngIf="field.type === 'number'" 
-          appearance="outline" 
-          [class.full-width]="field.fullWidth">
-          <mat-label>{{field.label}}</mat-label>
-          <input 
-            matInput 
-            type="number"
-            [formControlName]="field.name" 
-            [placeholder]="field.placeholder || ''">
-          <mat-error *ngFor="let error of getFieldErrors(field.name)">
-            {{error}}
-          </mat-error>
-        </mat-form-field>
+        <ng-container *ngFor="let field of getVisibleFields()">
+          
+          
+          <div class="form-row" *ngIf="field.type === 'text' || field.type === 'email' || field.type === 'password'">
+            <mat-form-field 
+              appearance="outline" 
+              class="form-field"
+              [class.full-width]="field.fullWidth !== false">
+              <mat-label>{{field.label}}</mat-label>
+              <input 
+                matInput 
+                [type]="field.type === 'password' ? 'password' : 'text'"
+                [formControlName]="field.name" 
+                [placeholder]="field.placeholder || ''">
+              <mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
+              <mat-error *ngFor="let error of getFieldErrors(field.name)">
+                {{error}}
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-        
-        <mat-form-field 
-          *ngIf="field.type === 'select'" 
-          appearance="outline" 
-          [class.full-width]="field.fullWidth">
-          <mat-label>{{field.label}}</mat-label>
-          <mat-select [formControlName]="field.name">
-            <mat-option *ngFor="let option of field.options" [value]="option.value">
-              {{option.label}}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngFor="let error of getFieldErrors(field.name)">
-            {{error}}
-          </mat-error>
-        </mat-form-field>
+          
+          <div class="form-row" *ngIf="field.type === 'number'">
+            <mat-form-field 
+              appearance="outline" 
+              class="form-field"
+              [class.full-width]="field.fullWidth !== false">
+              <mat-label>{{field.label}}</mat-label>
+              <input 
+                matInput 
+                type="number"
+                [formControlName]="field.name" 
+                [placeholder]="field.placeholder || ''">
+              <mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
+              <mat-error *ngFor="let error of getFieldErrors(field.name)">
+                {{error}}
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-        
-        <mat-form-field 
-          *ngIf="field.type === 'date'" 
-          appearance="outline" 
-          [class.full-width]="field.fullWidth">
-          <mat-label>{{field.label}}</mat-label>
-          <input matInput [matDatepicker]="datePicker" [formControlName]="field.name">
-          <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
-          <mat-datepicker #datePicker></mat-datepicker>
-          <mat-error *ngFor="let error of getFieldErrors(field.name)">
-            {{error}}
-          </mat-error>
-        </mat-form-field>
+          
+          <div class="form-row" *ngIf="field.type === 'select'">
+            <mat-form-field 
+              appearance="outline" 
+              class="form-field"
+              [class.full-width]="field.fullWidth !== false">
+              <mat-label>{{field.label}}</mat-label>
+              <mat-select [formControlName]="field.name">
+                <mat-option *ngFor="let option of field.options" [value]="option.value">
+                  {{option.label}}
+                </mat-option>
+              </mat-select>
+              <mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
+              <mat-error *ngFor="let error of getFieldErrors(field.name)">
+                {{error}}
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-        
-        <mat-form-field 
-          *ngIf="field.type === 'textarea'" 
-          appearance="outline" 
-          [class.full-width]="field.fullWidth">
-          <mat-label>{{field.label}}</mat-label>
-          <textarea 
-            matInput 
-            [formControlName]="field.name" 
-            [placeholder]="field.placeholder || ''"
-            rows="4">
-          </textarea>
-          <mat-error *ngFor="let error of getFieldErrors(field.name)">
-            {{error}}
-          </mat-error>
-        </mat-form-field>
+         
+          <div class="form-row" *ngIf="field.type === 'date'">
+            <mat-form-field 
+              appearance="outline" 
+              class="form-field"
+              [class.full-width]="field.fullWidth !== false">
+              <mat-label>{{field.label}}</mat-label>
+              <input matInput [matDatepicker]="datePicker" [formControlName]="field.name">
+              <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+              <mat-datepicker #datePicker></mat-datepicker>
+              <mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
+              <mat-error *ngFor="let error of getFieldErrors(field.name)">
+                {{error}}
+              </mat-error>
+            </mat-form-field>
+          </div>
 
-      </ng-container>
-    </form>
+         
+          <div class="form-row" *ngIf="field.type === 'textarea'">
+            <mat-form-field 
+              appearance="outline" 
+              class="form-field"
+              [class.full-width]="field.fullWidth !== false">
+              <mat-label>{{field.label}}</mat-label>
+              <textarea 
+                matInput 
+                [formControlName]="field.name" 
+                [placeholder]="field.placeholder || ''"
+                [rows]="field.rows || 4">
+              </textarea>
+              <mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
+              <mat-error *ngFor="let error of getFieldErrors(field.name)">
+                {{error}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </ng-container>
+      </form>
+    </div>
   </mat-dialog-content>
 
-  <mat-dialog-actions>
-    <button mat-button (click)="onCancel()" [disabled]="isLoading">
+ 
+  <mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-stroked-button 
+      color="warn"
+      (click)="onCancel()" 
+      [disabled]="isLoading"
+      class="cancel-button">
+      <mat-icon>close</mat-icon>
       Otkaži
     </button>
-    <button mat-raised-button color="primary" (click)="onSave()" 
-            [disabled]="!form.valid || isLoading">
+    <button 
+      mat-raised-button 
+      color="primary" 
+      (click)="onSave()" 
+      [disabled]="!form.valid || isLoading"
+      class="save-button">
+      <mat-icon>{{isNew ? 'add' : 'save'}}</mat-icon>
       {{isNew ? 'Dodaj' : 'Sačuvaj'}}
     </button>
   </mat-dialog-actions>

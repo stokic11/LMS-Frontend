@@ -4,8 +4,10 @@ export interface FieldConfig {
   type: 'text' | 'email' | 'password' | 'number' | 'date' | 'select' | 'textarea';
   required?: boolean;
   placeholder?: string;
+  hint?: string;
   options?: { value: any; label: string }[];
   fullWidth?: boolean;
+  rows?: number; 
   minLength?: number;
   maxLength?: number;
   showOnNew?: boolean;
@@ -14,6 +16,8 @@ export interface FieldConfig {
 
 export interface DialogConfig {
   title: string;
+  subtitle?: string;
+  icon?: string;
   fields: FieldConfig[];
   data?: any;
   isNew?: boolean;

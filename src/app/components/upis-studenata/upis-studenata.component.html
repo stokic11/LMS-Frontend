@@ -1,0 +1,161 @@
+<div class="upis-studenata-container">
+  
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>school</mat-icon>
+        Upis studenata na godine studija
+      </h1>
+      <p class="page-subtitle">Upravljajte upisom studenata na odgovarajuće godine studija</p>
+    </div>
+  </div>
+
+  
+  <div class="main-content">
+    
+    
+    <div class="loading-section" *ngIf="loading">
+      <mat-card class="loading-card">
+        <div class="loading-content">
+          <mat-spinner></mat-spinner>
+          <p>Učitavamo podatke...</p>
+        </div>
+      </mat-card>
+    </div>
+
+    
+    <div class="content-grid" *ngIf="!loading">
+      
+      
+      <div class="students-section">
+        <mat-card class="section-card">
+          <mat-card-header>
+            <div mat-card-avatar class="section-icon">
+              <mat-icon>people</mat-icon>
+            </div>
+            <mat-card-title>Studenti za upis ({{studenti.length}})</mat-card-title>
+            <mat-card-subtitle>Studenti koji nisu upisani na nijednu godinu studija</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="table-container" *ngIf="studenti.length > 0">
+              <table mat-table [dataSource]="studenti" class="students-table">
+                
+                <ng-container matColumnDef="ime">
+                  <th mat-header-cell *matHeaderCellDef>Ime</th>
+                  <td mat-cell *matCellDef="let student">{{student.ime}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="prezime">
+                  <th mat-header-cell *matHeaderCellDef>Prezime</th>
+                  <td mat-cell *matCellDef="let student">{{student.prezime}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                  <th mat-header-cell *matHeaderCellDef>Email</th>
+                  <td mat-cell *matCellDef="let student">{{student.email}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="jmbg">
+                  <th mat-header-cell *matHeaderCellDef>JMBG</th>
+                  <td mat-cell *matCellDef="let student">{{student.jmbg}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="akcije">
+                  <th mat-header-cell *matHeaderCellDef>Akcije</th>
+                  <td mat-cell *matCellDef="let student">
+                    <button 
+                      mat-raised-button 
+                      [color]="selectedStudent?.id === student.id ? 'accent' : 'primary'"
+                      (click)="selectStudent(student)">
+                      <mat-icon>{{selectedStudent?.id === student.id ? 'check' : 'person_add'}}</mat-icon>
+                      {{selectedStudent?.id === student.id ? 'Izabran' : 'Izaberi'}}
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+                    [class.selected-row]="selectedStudent?.id === row.id"></tr>
+              </table>
+            </div>
+
+            <div class="no-students-message" *ngIf="studenti.length === 0">
+              <mat-icon>check_circle</mat-icon>
+              <h3>Svi studenti su već upisani</h3>
+              <p>Trenutno nema studenata koji nisu upisani na godine studija.</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      
+      <div class="upis-form-section">
+        <mat-card class="form-card" [ngClass]="{'disabled-card': !selectedStudent}">
+          <mat-card-header>
+            <div mat-card-avatar class="form-icon">
+              <mat-icon>edit</mat-icon>
+            </div>
+            <mat-card-title>Forma za upis</mat-card-title>
+            <mat-card-subtitle>
+              {{selectedStudent ? 'Student: ' + selectedStudent.ime + ' ' + selectedStudent.prezime : 'Izaberite studenta za upis'}}
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="form-content" *ngIf="selectedStudent; else selectStudentMessage">
+              
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                  <mat-label>Godina studija</mat-label>
+                  <mat-select [(value)]="selectedGodinaStudija" placeholder="Izaberite godinu studija">
+                    <mat-option *ngFor="let godina of godineStudija" [value]="godina">
+                      {{godina.godinaPocetka}} - {{godina.godinaKraja}} ({{godina.studijskiProgramNaziv}})
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>Izaberite akademsku godinu i studijski program za upis</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                  <mat-label>Broj indeksa</mat-label>
+                  <input matInput [(ngModel)]="brojIndeksa" placeholder="npr. 2025/001" required>
+                  <mat-hint>Unesite jedinstveni broj indeksa</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button 
+                  mat-raised-button 
+                  color="primary" 
+                  (click)="upisStudent()"
+                  [disabled]="!selectedGodinaStudija || !brojIndeksa.trim() || loading"
+                  class="upis-button">
+                  <mat-icon>save</mat-icon>
+                  Upiši studenta
+                </button>
+
+                <button 
+                  mat-stroked-button 
+                  color="warn" 
+                  (click)="resetSelection()"
+                  class="reset-button">
+                  <mat-icon>clear</mat-icon>
+                  Poništi
+                </button>
+              </div>
+            </div>
+
+            <ng-template #selectStudentMessage>
+              <div class="select-student-message">
+                <mat-icon>info</mat-icon>
+                <p>Molimo izaberite studenta iz tabele da biste mogli da ga upišete na godinu studija.</p>
+              </div>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

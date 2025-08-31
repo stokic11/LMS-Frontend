@@ -1,0 +1,106 @@
+<div class="upis-dialog-container">
+  <h2 mat-dialog-title>
+    <mat-icon>school</mat-icon>
+    Upis studenata na godine studija
+  </h2>
+
+  <mat-dialog-content class="dialog-content">
+    <div class="content-section" *ngIf="loading">
+      <div class="loading-container">
+        <mat-spinner></mat-spinner>
+        <p>Učitavamo podatke...</p>
+      </div>
+    </div>
+
+    <div class="content-section" *ngIf="!loading">
+      
+      <div class="students-section">
+        <h3>Studenti koji nisu upisani na nijednu godinu studija ({{studenti.length}})</h3>
+        
+        <div class="table-container" *ngIf="studenti.length > 0">
+          <table mat-table [dataSource]="studenti" class="students-table">
+            
+            <ng-container matColumnDef="ime">
+              <th mat-header-cell *matHeaderCellDef>Ime</th>
+              <td mat-cell *matCellDef="let student">{{student.ime}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="prezime">
+              <th mat-header-cell *matHeaderCellDef>Prezime</th>
+              <td mat-cell *matCellDef="let student">{{student.prezime}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let student">{{student.email}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="jmbg">
+              <th mat-header-cell *matHeaderCellDef>JMBG</th>
+              <td mat-cell *matCellDef="let student">{{student.jmbg}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="akcije">
+              <th mat-header-cell *matHeaderCellDef>Akcije</th>
+              <td mat-cell *matCellDef="let student">
+                <button 
+                  mat-raised-button 
+                  color="primary" 
+                  [color]="selectedStudent?.id === student.id ? 'accent' : 'primary'"
+                  (click)="selectStudent(student)">
+                  <mat-icon>{{selectedStudent?.id === student.id ? 'check' : 'person_add'}}</mat-icon>
+                  {{selectedStudent?.id === student.id ? 'Izabran' : 'Izaberi'}}
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+                [class.selected-row]="selectedStudent?.id === row.id"></tr>
+          </table>
+        </div>
+
+        <div class="no-students-message" *ngIf="studenti.length === 0">
+          <mat-icon>check_circle</mat-icon>
+          <p>Svi studenti su već upisani na godine studija.</p>
+        </div>
+      </div>
+
+      
+      <div class="upis-form-section" *ngIf="selectedStudent">
+        <h3>Upis studenta: {{selectedStudent.ime}} {{selectedStudent.prezime}}</h3>
+        
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Godina studija</mat-label>
+            <mat-select [(value)]="selectedGodinaStudija" placeholder="Izaberite godinu studija">
+              <mat-option *ngFor="let godina of godineStudija" [value]="godina">
+                {{godina.godinaPocetka | date:'yyyy'}} - {{godina.godinaKraja | date:'yyyy'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Broj indeksa</mat-label>
+            <input matInput [(ngModel)]="brojIndeksa" placeholder="npr. 2025/001" required>
+          </mat-form-field>
+        </div>
+
+        <div class="upis-actions">
+          <button 
+            mat-raised-button 
+            color="primary" 
+            (click)="upisStudent()"
+            [disabled]="!selectedGodinaStudija || !brojIndeksa.trim() || loading">
+            <mat-icon>save</mat-icon>
+            Upiši studenta
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="close()">Zatvori</button>
+  </mat-dialog-actions>
+</div>
