@@ -3,8 +3,8 @@ import { TipNastave } from "./tipNastave";
 
 export interface TerminNastave {
     id?: number;
-    vremePocetka: Date;
-    vremeZavrsetka: Date;
+    vremePocetka: string;
+    vremeZavrsetka: string;
     ishod: Ishod;
     realizacijaPredmetaId: number;
     tipNastave: TipNastave;

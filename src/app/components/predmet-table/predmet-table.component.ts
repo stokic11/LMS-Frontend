@@ -17,7 +17,7 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   template: `
     <div class="predmet-table-wrapper">
       <h2 style="text-align:center; margin-bottom: 24px; color: #244855; font-weight: 600;">
-        {{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti na kojima sam angažovan' : 'Predmeti') }}
+        {{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti' : 'Predmeti') }}
       </h2>
       <app-generic-table 
         [data]="data"

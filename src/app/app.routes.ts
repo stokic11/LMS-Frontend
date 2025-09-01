@@ -22,6 +22,7 @@ import { StudentIstorijaComponent } from './components/student-istorija/student-
 import { PrijavaIspitaComponent } from './components/prijava-ispita/prijava-ispita.component';
 import { DrzavaRdfTableComponent } from './components/drzava-rdf-table/drzava-rdf-table.component';
 import { UpisStudenataComponent } from './components/upis-studenata/upis-studenata.component';
+import { TerminiRasporedComponent } from './components/termini-raspored/termini-raspored.component';
 
 
 export const routes: Routes = [
@@ -118,6 +119,12 @@ export const routes: Routes = [
     component: DrzavaRdfTableComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['admin'] }
+  },
+  { 
+    path: 'termini',
+    component: TerminiRasporedComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['nastavnik'] }
   },
   { path: '**', redirectTo: '' }
 ];

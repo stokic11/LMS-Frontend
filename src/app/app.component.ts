@@ -28,8 +28,7 @@ import { map } from 'rxjs/operators';
     MatSidenavModule,
     MatListModule, 
     MatIconModule,
-    MatDialogModule,
-    GenericDialogComponent
+    MatDialogModule
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
