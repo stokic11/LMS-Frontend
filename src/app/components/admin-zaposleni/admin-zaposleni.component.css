@@ -114,3 +114,12 @@
     font-size: 1.75rem;
   }
 }
+
+/* ZELENI TEKST ZA DUGMAD */
+button {
+  color: #244855 !important;
+}
+
+.employee-card button {
+  color: #244855 !important;
+}

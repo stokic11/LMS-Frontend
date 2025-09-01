@@ -7,12 +7,12 @@
     <span class="spacer"></span>
     
     <ng-container *ngIf="!(isAuthenticated$ | async)">
-      <button mat-button routerLink="/login">Login</button>
-      <button mat-button routerLink="/register">Registracija</button>
+      <button mat-button routerLink="/login" class="toolbar-button">Login</button>
+      <button mat-button routerLink="/register" class="toolbar-button">Registracija</button>
     </ng-container>
     
     <ng-container *ngIf="isAuthenticated$ | async">
-      <button mat-button (click)="logout()">Odjavi se</button>
+      <button mat-button (click)="logout()" class="toolbar-button">Odjavi se</button>
     </ng-container>
   </mat-toolbar>
 

@@ -1,6 +1,20 @@
 <div class="table-wrapper">
 	<div class="table-actions">
-		<button (click)="openDownloadModal()" class="hero-btn download-btn">Preuzmi</button>
+		<button *ngIf="showAddButton" 
+		        mat-raised-button 
+		        color="primary" 
+		        (click)="onAddClick()" 
+		        class="add-btn">
+			<mat-icon>{{ addButtonIcon }}</mat-icon>
+			{{ addButtonLabel }}
+		</button>
+		<button mat-raised-button 
+		        color="accent" 
+		        (click)="openDownloadModal()" 
+		        class="download-btn">
+			<mat-icon>download</mat-icon>
+			Preuzmi
+		</button>
 	</div>
 	
 	<div class="table-container">
@@ -25,9 +39,10 @@
 					</td>
 					<td *ngIf="hasActions" class="actions-cell">
 						<button *ngFor="let action of actions" 
-						        class="action-btn"
-						        [class]="'btn-' + (action.color || 'primary')"
-						        (click)="onActionClick(action, row, $event)">
+						        mat-raised-button
+						        [color]="action.color || 'primary'"
+						        (click)="onActionClick(action, row, $event)"
+						        class="action-btn">
 							{{ action.label }}
 						</button>
 					</td>
@@ -62,11 +77,19 @@
 </div>
 
 <div class="pagination" *ngIf="totalPages > 1">
-	<button class="pagination-btn" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">
-		<span>←</span> Nazad
+	<button mat-stroked-button 
+	        (click)="goToPage(currentPage - 1)" 
+	        [disabled]="currentPage === 1"
+	        class="pagination-btn">
+		<mat-icon>chevron_left</mat-icon>
+		Nazad
 	</button>
 	<span class="pagination-info">Strana {{ currentPage }} od {{ totalPages }}</span>
-	<button class="pagination-btn" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">
-		Napred <span>→</span>
+	<button mat-stroked-button 
+	        (click)="goToPage(currentPage + 1)" 
+	        [disabled]="currentPage === totalPages"
+	        class="pagination-btn">
+		Napred
+		<mat-icon>chevron_right</mat-icon>
 	</button>
 </div>

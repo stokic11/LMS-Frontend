@@ -85,6 +85,7 @@
   border-radius: 4px;
   font-size: 12px;
   margin: 0 2px;
+  color: #244855 !important;
 }
 
 .korisnik-table-container app-generic-table .actions-cell {

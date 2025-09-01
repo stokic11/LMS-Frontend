@@ -2,6 +2,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface TableColumn {
   key: string;
@@ -19,7 +22,7 @@ export interface TableAction {
 @Component({
   selector: 'app-generic-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.css']
 })
@@ -124,7 +127,11 @@ export class GenericTableComponent {
   @Input() pageSize: number = 10;
   @Input() rowClickable: boolean = false;
   @Input() actions: TableAction[] = []; 
+  @Input() showAddButton: boolean = false;
+  @Input() addButtonLabel: string = 'Dodaj';
+  @Input() addButtonIcon: string = 'add';
   @Output() rowClick = new EventEmitter<any>();
+  @Output() addClick = new EventEmitter<void>();
 
   currentPage: number = 1;
   sortColumn: string = '';
@@ -183,5 +190,35 @@ export class GenericTableComponent {
 
   get hasActions(): boolean {
     return this.actions && this.actions.length > 0;
+  }
+
+  onAddClick() {
+    this.addClick.emit();
+  }
+
+  static createEditAction(callback: (item: any) => void): TableAction {
+    return {
+      label: 'Izmeni',
+      color: 'accent',
+      action: callback
+    };
+  }
+
+  static createDeleteAction(callback: (item: any) => void): TableAction {
+    return {
+      label: 'Obriši',
+      color: 'warn',
+      action: callback
+    };
+  }
+
+  static createDefaultActions(
+    editCallback: (item: any) => void,
+    deleteCallback: (item: any) => void
+  ): TableAction[] {
+    return [
+      this.createEditAction(editCallback),
+      this.createDeleteAction(deleteCallback)
+    ];
   }
 }

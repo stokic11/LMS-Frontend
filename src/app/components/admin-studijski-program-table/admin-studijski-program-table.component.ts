@@ -25,26 +25,10 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
     { key: 'rukovodiocImePrezime', label: 'Rukovodilac' }
   ];
 
-  actions: TableAction[] = [
-    {
-      label: 'Prikaži',
-      icon: 'visibility',
-      color: 'primary',
-      action: (item: any) => this.onPrikazi(item)
-    },
-    {
-      label: 'Izmeni',
-      icon: 'edit',
-      color: 'accent',
-      action: (item: any) => this.onIzmeni(item)
-    },
-    {
-      label: 'Obriši',
-      icon: 'delete',
-      color: 'warn',
-      action: (item: any) => this.onObrisi(item)
-    }
-  ];
+  actions: TableAction[] = GenericTableComponent.createDefaultActions(
+    (item: any) => this.onIzmeni(item),
+    (item: any) => this.onObrisi(item)
+  );
 
   constructor(
     private studijskiProgramService: StudijskiProgramService,
@@ -59,7 +43,6 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
   loadStudijskiProgrami(): void {
     this.studijskiProgramService.getAllWithDetails().subscribe({
       next: (data) => {
-        console.log('Podaci iz baze sa detaljima:', data);
         this.studijskiProgramiDisplay = data.map(sp => ({
           id: sp.id,
           naziv: sp.naziv,
@@ -74,30 +57,7 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
     });
   }
 
-  onRowClick(row: any): void {
-    // Disable row click for admin table since we'll use action buttons
-  }
-
-  onDodaj(): void {
-    const dialogData: StudijskiProgramDialogData = {
-      isEdit: false
-    };
-
-    const dialogRef = this.dialog.open(StudijskiProgramDialogComponent, {
-      width: '500px',
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Kreiran novi studijski program:', result);
-        this.loadStudijskiProgrami(); // Reload data
-      }
-    });
-  }
-
   onIzmeni(studijskiProgram: any): void {
-    // Load full studijski program data first
     this.studijskiProgramService.getById(studijskiProgram.id).subscribe({
       next: (fullProgram) => {
         const dialogData: StudijskiProgramDialogData = {
@@ -112,8 +72,7 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            console.log('Ažuriran studijski program:', result);
-            this.loadStudijskiProgrami(); // Reload data
+            this.loadStudijskiProgrami();
           }
         });
       },
@@ -128,9 +87,8 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
     if (confirm(`Da li ste sigurni da želite da obrišete studijski program "${studijskiProgram.naziv}"?`)) {
       this.studijskiProgramService.delete(studijskiProgram.id).subscribe({
         next: () => {
-          console.log('Studijski program je uspešno obrisan');
           alert('Studijski program je uspešno obrisan.');
-          this.loadStudijskiProgrami(); // Reload data
+          this.loadStudijskiProgrami();
         },
         error: (error) => {
           console.error('Greška pri brisanju studijskog programa:', error);
@@ -144,5 +102,23 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
     if (studijskiProgram && studijskiProgram.id) {
       this.router.navigate(['/studijski-programi', studijskiProgram.id]);
     }
+  }
+
+  onDodajNovi(): void {
+    const dialogData: StudijskiProgramDialogData = {
+      studijskiProgram: undefined,
+      isEdit: false
+    };
+
+    const dialogRef = this.dialog.open(StudijskiProgramDialogComponent, {
+      width: '500px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadStudijskiProgrami();
+      }
+    });
   }
 }

@@ -47,10 +47,9 @@
           <mat-icon>{{ tableSection.icon }}</mat-icon>
           <span style="margin-left: 8px;">{{ tableSection.title }}</span>
         </div>
-        <button *ngIf="tableSection.editable" mat-icon-button color="primary" 
-                (click)="editTableSection(tableSection)" 
-                matTooltip="Uredi {{ tableSection.title }}">
-          <mat-icon>edit</mat-icon>
+        <button *ngIf="tableSection.editable" mat-raised-button color="primary" 
+                (click)="editTableSection(tableSection)">
+          Uredi
         </button>
       </mat-card-title>
     </mat-card-header>

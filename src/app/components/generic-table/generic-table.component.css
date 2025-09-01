@@ -4,9 +4,24 @@
 
 .table-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   padding: 0 0 16px 0;
   margin-bottom: 8px;
+  gap: 12px;
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
 }
 
 .table-container {
@@ -94,43 +109,29 @@ table tbody tr:nth-child(even) {
   white-space: nowrap;
   text-align: center;
   padding: 8px 12px;
+  width: 180px;
 }
 
 .action-btn {
-  padding: 6px 12px;
-  margin: 0 3px;
-  border: none;
-  border-radius: 4px;
+  margin: 0 4px;
   font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 60px;
-  height: 28px;
+  padding: 6px 12px;
+  transition: all 0.2s ease;
+  min-width: 70px;
 }
 
 .action-btn:hover {
-  transform: translateY(-1px);
+  transform: scale(1.1);
 }
 
-.action-btn.btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+/* Clickable row styles */
+.clickable {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.action-btn.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.action-btn.btn-warn {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+.clickable:hover {
+  background-color: #f8f9fa !important;
 }
 
 .action-btn.btn-warn:hover {
@@ -203,33 +204,15 @@ table tbody tr:nth-child(even) {
 }
 
 .pagination-btn {
-  background: #244855;
-  color: white;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(36, 72, 85, 0.3);
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.pagination-btn:hover:not(:disabled) {
-  background: #1a3440;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(36, 72, 85, 0.4);
+  transition: all 0.2s ease;
 }
 
 .pagination-btn:disabled {
-  background: #e9ecef;
-  color: #6c757d;
+  opacity: 0.5;
   cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
 }
 
 .pagination-info {
@@ -540,4 +523,34 @@ table tbody tr:nth-child(even) {
 
 .action-icon {
   font-size: 14px;
+}
+
+/* ZELENI TEKST ZA SVA DUGMAD U GENERIC-TABLE */
+button {
+  color: #244855 !important;
+}
+
+.add-btn {
+  color: #244855 !important;
+}
+
+.download-btn {
+  color: #244855 !important;
+}
+
+.action-btn {
+  color: #244855 !important;
+}
+
+/* DODATNO ZA MATERIAL DESIGN DUGMAD */
+::ng-deep button[mat-raised-button] {
+  color: #244855 !important;
+}
+
+::ng-deep button[mat-button] {
+  color: #244855 !important;
+}
+
+::ng-deep button[mat-stroked-button] {
+  color: #244855 !important;
 }
