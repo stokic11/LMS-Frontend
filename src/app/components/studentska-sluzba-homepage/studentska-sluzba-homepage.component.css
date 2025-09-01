@@ -105,6 +105,44 @@
   font-weight: 500;
 }
 
+/* Akcije sekcija */
+.sluzba-actions-section {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+.action-button {
+  width: 100%;
+  max-width: 250px;
+  height: 60px;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease !important;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+.action-button mat-icon {
+  margin-right: 0 !important;
+}
+
 /* Animacije */
 @keyframes fadeInUp {
   from {

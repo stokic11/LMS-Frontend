@@ -5,7 +5,6 @@
   min-height: calc(100vh - 120px);
 }
 
-
 .header-section {
   margin-bottom: 30px;
 }
@@ -38,6 +37,11 @@
   margin: 0;
 }
 
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .loading-section {
   display: flex;
   justify-content: center;
@@ -48,6 +52,8 @@
   padding: 40px;
   text-align: center;
   min-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
 }
 
 .loading-content {
@@ -62,7 +68,6 @@
   color: #666;
   font-size: 1.1rem;
 }
-
 
 .content-grid {
   display: grid;
@@ -98,53 +103,17 @@
   height: 24px;
 }
 
-
 .table-container {
-  max-height: 400px;
-  overflow-y: auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  margin-top: 20px;
 }
 
-.students-table {
-  width: 100%;
-}
-
-.students-table th {
-  background-color: #f5f5f5;
-  font-weight: 600;
-  color: #333;
-}
-
-.students-table td, .students-table th {
-  padding: 12px 16px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.students-table tr:last-child td {
-  border-bottom: none;
-}
-
-.selected-row {
-  background-color: #e3f2fd !important;
-}
-
-.students-table button {
-  min-width: 100px;
-}
-
-.students-table button mat-icon {
-  margin-right: 8px;
-}
-
-
-.no-students-message {
+.no-students-message, .select-student-message {
   text-align: center;
   padding: 40px 20px;
   color: #666;
 }
 
-.no-students-message mat-icon {
+.no-students-message mat-icon, .select-student-message mat-icon {
   font-size: 48px;
   width: 48px;
   height: 48px;
@@ -152,16 +121,16 @@
   margin-bottom: 16px;
 }
 
-.no-students-message h3 {
+.no-students-message h3, .select-student-message h3 {
   margin: 16px 0 8px 0;
   color: #333;
 }
 
-.no-students-message p {
+.no-students-message p, .select-student-message p {
   margin: 0;
   font-size: 1rem;
+  line-height: 1.5;
 }
-
 
 .form-card {
   position: sticky;
@@ -201,28 +170,6 @@
   margin-right: 8px;
 }
 
-
-.select-student-message {
-  text-align: center;
-  padding: 40px 20px;
-  color: #666;
-}
-
-.select-student-message mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #244855;
-  margin-bottom: 16px;
-}
-
-.select-student-message p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-
 @media (max-width: 768px) {
   .upis-studenata-container {
     padding: 15px;
@@ -243,14 +190,6 @@
   .form-actions {
     flex-direction: column;
   }
-  
-  .table-container {
-    font-size: 0.9rem;
-  }
-  
-  .students-table td, .students-table th {
-    padding: 8px 12px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -261,21 +200,7 @@
   .page-subtitle {
     font-size: 1rem;
   }
-  
-  .students-table {
-    font-size: 0.8rem;
-  }
-  
-  .students-table td, .students-table th {
-    padding: 6px 8px;
-  }
-  
-  .students-table button {
-    min-width: 80px;
-    font-size: 0.9rem;
-  }
 }
-
 
 .mat-mdc-card-header {
   padding-bottom: 16px;
@@ -293,15 +218,6 @@
   max-height: 300px;
 }
 
-
 .upis-studenata-container * {
   transition: all 0.3s ease;
-}
-
-.students-table tr:hover {
-  background-color: #f9f9f9;
-}
-
-.selected-row:hover {
-  background-color: #e3f2fd !important;
 }

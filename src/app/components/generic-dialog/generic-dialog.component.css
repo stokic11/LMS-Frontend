@@ -9,7 +9,7 @@
 
 
 .dialog-header {
-  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  background: linear-gradient(135deg, #244855 0%, #1a3440 100%);
   color: white;
   padding: 24px;
   margin: -24px -24px 24px -24px;
@@ -166,8 +166,8 @@ button:disabled {
 }
 
 .save-button:hover:not(:disabled) {
-  background-color: #1565c0;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  background-color: #1a3440;
+  box-shadow: 0 4px 12px rgba(36, 72, 85, 0.3);
 }
 
 
@@ -262,7 +262,7 @@ button:disabled {
 
 
 ::ng-deep .generic-dialog .mat-mdc-form-field.mat-focused .mat-mdc-form-field-outline {
-  border-color: #1976d2;
+  border-color: #244855;
   border-width: 2px;
 }
 
@@ -290,5 +290,5 @@ button:disabled {
 
 
 ::ng-deep .generic-dialog .mat-mdc-progress-spinner circle {
-  stroke: #1976d2;
+  stroke: #244855;
 }

@@ -1,0 +1,58 @@
+<div class="rasporedi-evaluacije-container">
+  <div class="header-section">
+    <h1 class="page-title">Rasporedi i Evaluacije</h1>
+    <p class="page-subtitle">Pregled termina nastave i evaluacija znanja</p>
+  </div>
+
+  <div class="content-section" *ngIf="!loading">
+    
+    <!-- Tabela za Evaluacije znanja -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Evaluacije znanja</mat-card-title>
+        <mat-card-subtitle>Ukupno: {{evaluacijeZnanja.length}} evaluacija</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="evaluacijeZnanja"
+          [columns]="evaluacijeColumns"
+          downloadFileName="evaluacije-znanja">
+        </app-generic-table>
+        <div class="action-section">
+          <button mat-raised-button color="primary" (click)="kreirajNovuEvaluaciju()" class="create-button">
+            <mat-icon>add</mat-icon>
+            Kreiraj novu evaluaciju
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Tabela za Termine nastave -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Termini nastave</mat-card-title>
+        <mat-card-subtitle>Ukupno: {{terminiNastave.length}} termina</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="terminiNastave"
+          [columns]="terminiColumns"
+          downloadFileName="termini-nastave">
+        </app-generic-table>
+        <div class="action-section">
+          <button mat-raised-button color="primary" (click)="kreirajNoviTermin()" class="create-button">
+            <mat-icon>add</mat-icon>
+            Kreiraj novi termin
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <!-- Loading spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <p>Učitavam podatke...</p>
+  </div>
+</div>

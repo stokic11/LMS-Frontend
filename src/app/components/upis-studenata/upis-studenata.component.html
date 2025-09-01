@@ -39,45 +39,13 @@
           
           <mat-card-content>
             <div class="table-container" *ngIf="studenti.length > 0">
-              <table mat-table [dataSource]="studenti" class="students-table">
-                
-                <ng-container matColumnDef="ime">
-                  <th mat-header-cell *matHeaderCellDef>Ime</th>
-                  <td mat-cell *matCellDef="let student">{{student.ime}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="prezime">
-                  <th mat-header-cell *matHeaderCellDef>Prezime</th>
-                  <td mat-cell *matCellDef="let student">{{student.prezime}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="email">
-                  <th mat-header-cell *matHeaderCellDef>Email</th>
-                  <td mat-cell *matCellDef="let student">{{student.email}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="jmbg">
-                  <th mat-header-cell *matHeaderCellDef>JMBG</th>
-                  <td mat-cell *matCellDef="let student">{{student.jmbg}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="akcije">
-                  <th mat-header-cell *matHeaderCellDef>Akcije</th>
-                  <td mat-cell *matCellDef="let student">
-                    <button 
-                      mat-raised-button 
-                      [color]="selectedStudent?.id === student.id ? 'accent' : 'primary'"
-                      (click)="selectStudent(student)">
-                      <mat-icon>{{selectedStudent?.id === student.id ? 'check' : 'person_add'}}</mat-icon>
-                      {{selectedStudent?.id === student.id ? 'Izabran' : 'Izaberi'}}
-                    </button>
-                  </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
-                    [class.selected-row]="selectedStudent?.id === row.id"></tr>
-              </table>
+              <app-generic-table 
+                [data]="studenti"
+                [columns]="tableColumns" 
+                [actions]="tableActions"
+                [pageSize]="10"
+                [rowClickable]="false">
+              </app-generic-table>
             </div>
 
             <div class="no-students-message" *ngIf="studenti.length === 0">

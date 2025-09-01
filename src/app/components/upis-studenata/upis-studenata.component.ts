@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { StudentService, GodinaStudija, StudentNaGodini } from '../../services/student/student.service';
 import { Student } from '../../models/student';
+import { GenericTableComponent, TableColumn, TableAction } from '../generic-table/generic-table.component';
 
 @Component({
   selector: 'app-upis-studenata',
@@ -28,7 +29,8 @@ import { Student } from '../../models/student';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatCardModule,
-    FormsModule
+    FormsModule,
+    GenericTableComponent
   ],
   templateUrl: './upis-studenata.component.html',
   styleUrls: ['./upis-studenata.component.css']
@@ -42,7 +44,21 @@ export class UpisStudenataComponent implements OnInit {
   brojIndeksa = '';
   loading = false;
   
-  displayedColumns: string[] = ['ime', 'prezime', 'email', 'jmbg', 'akcije'];
+  // Configuration for generic table
+  tableColumns: TableColumn[] = [
+    { key: 'ime', label: 'Ime' },
+    { key: 'prezime', label: 'Prezime' },
+    { key: 'email', label: 'Email' },
+    { key: 'jmbg', label: 'JMBG' }
+  ];
+
+  tableActions: TableAction[] = [
+    {
+      label: 'Izaberi',
+      color: 'primary',
+      action: (student: Student) => this.selectStudent(student)
+    }
+  ];
   
   constructor(
     private studentService: StudentService,

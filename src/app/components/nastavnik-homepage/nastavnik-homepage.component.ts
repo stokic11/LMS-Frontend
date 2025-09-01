@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-nastavnik-homepage',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, RouterModule],
   templateUrl: './nastavnik-homepage.component.html',
   styleUrl: './nastavnik-homepage.component.css'
 })

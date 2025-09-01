@@ -12,7 +12,7 @@ export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
     const publicGetEndpoints = [
         'univerziteti', 'fakulteti', 'studijski-programi', 'godine-studija', 
         'predmeti', 'nastavnici', 'adrese', 'mesta', 'drzave', 
-        'nastavni-materijali', 'forumi'
+        'nastavni-materijali', 'forumi', 'termini-nastave'
     ];
     
     const isAuthEndpoint = authEndpoints.some(endpoint => req.url.includes(endpoint));

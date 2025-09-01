@@ -1,0 +1,141 @@
+<div class="upis-studenata-container">
+  
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>assignment</mat-icon>
+        Organizacija nastave
+      </h1>
+      <p class="page-subtitle">Dodeljujte nastavnike na predmete sa tipom nastave i brojem časova</p>
+    </div>
+  </div>
+
+  
+  <div class="main-content">
+    
+    
+    <div class="loading-section" *ngIf="loading">
+      <mat-card class="loading-card">
+        <div class="loading-content">
+          <mat-spinner></mat-spinner>
+          <p>Učitavamo podatke...</p>
+        </div>
+      </mat-card>
+    </div>
+
+    
+    <div class="content-grid" *ngIf="!loading">
+      
+      
+      <div class="students-section">
+        <mat-card class="section-card">
+          <mat-card-header>
+            <div mat-card-avatar class="section-icon">
+              <mat-icon>people</mat-icon>
+            </div>
+            <mat-card-title>Nastavnici ({{nastavnici.length}})</mat-card-title>
+            <mat-card-subtitle>Izaberite nastavnika za dodelu na predmet</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="table-container" *ngIf="nastavnici.length > 0">
+              <app-generic-table 
+                [data]="nastavnici"
+                [columns]="tableColumns" 
+                [actions]="tableActions"
+                [pageSize]="10"
+                [rowClickable]="false">
+              </app-generic-table>
+            </div>
+
+            <div class="no-students-message" *ngIf="nastavnici.length === 0">
+              <mat-icon>info</mat-icon>
+              <h3>Nema dostupnih nastavnika</h3>
+              <p>Trenutno nema nastavnika u sistemu.</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      
+      <div class="upis-form-section">
+        <mat-card class="form-card" [ngClass]="{'disabled-card': !selectedNastavnik}">
+          <mat-card-header>
+            <div mat-card-avatar class="form-icon">
+              <mat-icon>assignment_add</mat-icon>
+            </div>
+            <mat-card-title>Forma za dodelu</mat-card-title>
+            <mat-card-subtitle>
+              {{selectedNastavnik ? 'Nastavnik: ' + selectedNastavnik.ime + ' ' + selectedNastavnik.prezime : 'Izaberite nastavnika za dodelu'}}
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="form-content" *ngIf="selectedNastavnik; else selectNastavnikMessage">
+              
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                  <mat-label>Predmet</mat-label>
+                  <mat-select [(value)]="selectedPredmet" placeholder="Izaberite predmet">
+                    <mat-option *ngFor="let predmet of predmeti" [value]="predmet">
+                      {{predmet.naziv}} ({{predmet.espb}} ESPB)
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>Izaberite predmet na koji dodeljujete nastavnika</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                  <mat-label>Tip nastave</mat-label>
+                  <mat-select [(value)]="selectedTipNastave" placeholder="Izaberite tip nastave">
+                    <mat-option *ngFor="let tip of tipoviNastave" [value]="tip">
+                      {{tip.naziv}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>Izaberite tip nastave (predavanja, vežbe, laboratorije...)</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="form-field">
+                  <mat-label>Broj časova</mat-label>
+                  <input matInput type="number" [(ngModel)]="brojCasova" placeholder="Unesite broj časova" min="1" required>
+                  <mat-hint>Unesite broj časova koje nastavnik drži</mat-hint>
+                </mat-form-field>
+              </div>
+
+              <div class="form-actions">
+                <button 
+                  mat-raised-button 
+                  color="primary" 
+                  (click)="dodajNastavnikaNaRealizaciju()"
+                  [disabled]="!selectedTipNastave || !selectedPredmet || brojCasova <= 0 || loading"
+                  class="upis-button">
+                  <mat-icon>save</mat-icon>
+                  Dodeli nastavnika
+                </button>
+
+                <button 
+                  mat-stroked-button 
+                  color="warn" 
+                  (click)="resetSelection()"
+                  class="reset-button">
+                  <mat-icon>clear</mat-icon>
+                  Poništi
+                </button>
+              </div>
+            </div>
+
+            <ng-template #selectNastavnikMessage>
+              <div class="select-student-message">
+                <mat-icon>info</mat-icon>
+                <p>Molimo izaberite nastavnika iz tabele da biste mogli da ga dodelite na predmet.</p>
+              </div>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

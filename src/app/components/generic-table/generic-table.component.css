@@ -313,10 +313,10 @@ table tbody tr:nth-child(even) {
 }
 
 .format-btn:hover {
-  border-color: #667eea;
+  border-color: #2196F3;
   background-color: #f8f9ff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.15);
 }
 
 .format-icon {

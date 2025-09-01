@@ -23,6 +23,9 @@ import { PrijavaIspitaComponent } from './components/prijava-ispita/prijava-ispi
 import { DrzavaRdfTableComponent } from './components/drzava-rdf-table/drzava-rdf-table.component';
 import { UpisStudenataComponent } from './components/upis-studenata/upis-studenata.component';
 import { TerminiRasporedComponent } from './components/termini-raspored/termini-raspored.component';
+import { OrganizacijaNastaveComponent } from './components/organizacija-nastave/organizacija-nastave.component';
+import { RasporeidiEvaluacijeComponent } from './components/rasporedi-evaluacije/rasporedi-evaluacije.component';
+import { ObavestenjaUpravljanjeComponent } from './components/obavestenja-upravljanje/obavestenja-upravljanje.component';
 
 
 export const routes: Routes = [
@@ -125,6 +128,24 @@ export const routes: Routes = [
     component: TerminiRasporedComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['nastavnik'] }
+  },
+  {
+    path: 'organizacija-nastave',
+    component: OrganizacijaNastaveComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['admin'] }
+  },
+  { 
+    path: 'rasporedi',
+    component: RasporeidiEvaluacijeComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['studentska_sluzba'] }
+  },
+  { 
+    path: 'obavestenja-upravljanje',
+    component: ObavestenjaUpravljanjeComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['admin', 'nastavnik', 'studentska_sluzba'] }
   },
   { path: '**', redirectTo: '' }
 ];
