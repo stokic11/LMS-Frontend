@@ -1,27 +1,93 @@
 <div class="korisnik-table-container">
   <div class="header-section">
-    <h1 class="page-title">Upravljanje Korisnicima</h1>
+    <h1 class="page-title">
+      <mat-icon>people</mat-icon>
+      Upravljanje Korisnicima
+    </h1>
+    <p class="page-subtitle">Administracija svih tipova korisnika u sistemu</p>
   </div>
 
+  
   <div *ngIf="loading" class="loading-container">
-    <p>Učitavanje korisnika...</p>
+    <mat-spinner></mat-spinner>
+    <p>Učitavanje podataka...</p>
   </div>
 
-  <div *ngIf="!loading && korisnici.length === 0" class="no-data-container">
-    <mat-icon class="no-data-icon">people_outline</mat-icon>
-    <p class="no-data-text">Nema korisnika za prikaz</p>
-  </div>
+  <div *ngIf="!loading">
+    
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="section-icon">people</mat-icon>
+          Korisnici Sistema
+        </mat-card-title>
+        <mat-card-subtitle>Upravljanje osnovnim korisnicima</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="korisnici.length === 0" class="no-data-container">
+          <mat-icon class="no-data-icon">people_outline</mat-icon>
+          <p class="no-data-text">Nema korisnika za prikaz</p>
+        </div>
+        <app-generic-table 
+          *ngIf="korisnici.length > 0"
+          [data]="korisnici" 
+          [columns]="korisniciColumns"
+          [actions]="korisniciActions"
+          [rowClickable]="false"
+          [showAddButton]="true"
+          addButtonLabel="Dodaj Korisnika"
+          addButtonIcon="person_add"
+          (addClick)="addKorisnik()">
+        </app-generic-table>
+      </mat-card-content>
+    </mat-card>
 
-  <app-generic-table 
-    *ngIf="!loading && korisnici.length > 0"
-    [data]="korisnici" 
-    [columns]="columns"
-    [actions]="actions"
-    [rowClickable]="false"
-    [showAddButton]="true"
-    addButtonLabel="Dodaj Korisnika"
-    addButtonIcon="person_add"
-    (rowClick)="onRowClick($event)"
-    (addClick)="addKorisnik()">
-  </app-generic-table>
+    
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="section-icon">school</mat-icon>
+          Studenti
+        </mat-card-title>
+        <mat-card-subtitle>Pregled studenata u sistemu</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="studenti.length === 0" class="no-data-container">
+          <mat-icon class="no-data-icon">school</mat-icon>
+          <p class="no-data-text">Nema studenata za prikaz</p>
+        </div>
+        <app-generic-table 
+          *ngIf="studenti.length > 0"
+          [data]="studenti" 
+          [columns]="studentiColumns"
+          [rowClickable]="false"
+          [showAddButton]="false">
+        </app-generic-table>
+      </mat-card-content>
+    </mat-card>
+
+    
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="section-icon">person</mat-icon>
+          Nastavnici
+        </mat-card-title>
+        <mat-card-subtitle>Pregled nastavnog kadra</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="nastavnici.length === 0" class="no-data-container">
+          <mat-icon class="no-data-icon">person_outline</mat-icon>
+          <p class="no-data-text">Nema nastavnika za prikaz</p>
+        </div>
+        <app-generic-table 
+          *ngIf="nastavnici.length > 0"
+          [data]="nastavnici" 
+          [columns]="nastavniciColumns"
+          [rowClickable]="false"
+          [showAddButton]="false">
+        </app-generic-table>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

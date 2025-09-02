@@ -5,8 +5,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Korisnik } from '../../models/korisnik';
 import { KorisnikService } from '../../services/korisnik/korisnik.service';
+import { StudentService } from '../../services/student/student.service';
+import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
 import { KorisnikEditDialogComponent } from '../korisnik-edit-dialog/korisnik-edit-dialog.component';
 import { GenericTableComponent, TableColumn, TableAction } from '../generic-table/generic-table.component';
 
@@ -20,6 +23,7 @@ import { GenericTableComponent, TableColumn, TableAction } from '../generic-tabl
     MatIconModule, 
     MatDialogModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     GenericTableComponent
   ],
   templateUrl: './korisnik-table.component.html',
@@ -27,17 +31,42 @@ import { GenericTableComponent, TableColumn, TableAction } from '../generic-tabl
 })
 export class KorisnikTableComponent implements OnInit {
   korisnici: Korisnik[] = [];
+  studenti: any[] = [];
+  nastavnici: any[] = [];
   loading = false;
 
-  columns: TableColumn[] = [
+  
+  korisniciColumns: TableColumn[] = [
     { key: 'id', label: 'ID' },
     { key: 'korisnickoIme', label: 'Korisničko ime' },
     { key: 'email', label: 'Email' },
     { key: 'ime', label: 'Ime' },
-    { key: 'prezime', label: 'Prezime' }
+    { key: 'prezime', label: 'Prezime' },
+    { key: 'ulogaId', label: 'Uloga ID' }
   ];
 
-  actions: TableAction[] = [
+  
+  studentiColumns: TableColumn[] = [
+    { key: 'id', label: 'ID' },
+    { key: 'ime', label: 'Ime' },
+    { key: 'prezime', label: 'Prezime' },
+    { key: 'email', label: 'Email' },
+    { key: 'korisnickoIme', label: 'Korisničko ime' },
+    { key: 'jmbg', label: 'JMBG' }
+  ];
+
+  
+  nastavniciColumns: TableColumn[] = [
+    { key: 'id', label: 'ID' },
+    { key: 'ime', label: 'Ime' },
+    { key: 'prezime', label: 'Prezime' },
+    { key: 'email', label: 'Email' },
+    { key: 'korisnickoIme', label: 'Korisničko ime' },
+    { key: 'jmbg', label: 'JMBG' }
+  ];
+
+  
+  korisniciActions: TableAction[] = [
     {
       label: 'Izmeni',
       color: 'primary',
@@ -52,34 +81,95 @@ export class KorisnikTableComponent implements OnInit {
 
   constructor(
     private korisnikService: KorisnikService,
+    private studentService: StudentService,
+    private nastavnikService: NastavnikService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.loadKorisnici();
+    this.loadAllUserData();
   }
 
-  loadKorisnici(): void {
+  loadAllUserData(): void {
     this.loading = true;
+    
+    
     this.korisnikService.getAll().subscribe({
-      next: (data) => {
-        this.korisnici = data;
-        this.loading = false;
+      next: (korisnici) => {
+        console.log('Osnovni korisnici:', korisnici);
+        
+        this.korisnici = korisnici.filter(k => k.ulogaId !== 2 && k.ulogaId !== 3);
+        this.checkLoadingComplete();
       },
       error: (error) => {
-        console.error('Error loading users:', error);
+        console.error('Error loading basic users:', error);
         this.snackBar.open('Greška pri učitavanju korisnika', 'Zatvori', { duration: 3000 });
-        this.loading = false;
+        this.korisnici = [];
+        this.checkLoadingComplete();
+      }
+    });
+
+    
+    this.studentService.getAll().subscribe({
+      next: (studenti) => {
+        console.log('Studenti iz student tabele:', studenti);
+        this.studenti = studenti.map(student => ({
+          ...student,
+          tipKorisnika: 'Student'
+        }));
+        this.checkLoadingComplete();
+      },
+      error: (error) => {
+        console.error('Error loading students:', error);
+        this.snackBar.open('Greška pri učitavanju studenata', 'Zatvori', { duration: 3000 });
+        this.studenti = [];
+        this.checkLoadingComplete();
+      }
+    });
+
+    
+    this.nastavnikService.getAll().subscribe({
+      next: (nastavnici) => {
+        console.log('Nastavnici iz nastavnik tabele:', nastavnici);
+        this.nastavnici = nastavnici.map(nastavnik => ({
+          ...nastavnik,
+          tipKorisnika: 'Nastavnik'
+        }));
+        this.checkLoadingComplete();
+      },
+      error: (error) => {
+        console.error('Error loading teachers:', error);
+        this.snackBar.open('Greška pri učitavanju nastavnika', 'Zatvori', { duration: 3000 });
+        this.nastavnici = [];
+        this.checkLoadingComplete();
       }
     });
   }
 
-  onRowClick(korisnik: Korisnik): void {
+  private loadingStates = {
+    korisnici: false,
+    studenti: false,
+    nastavnici: false
+  };
+
+  checkLoadingComplete(): void {
     
-    console.log('Row clicked:', korisnik);
+    if (this.korisnici !== undefined) this.loadingStates.korisnici = true;
+    if (this.studenti !== undefined) this.loadingStates.studenti = true;
+    if (this.nastavnici !== undefined) this.loadingStates.nastavnici = true;
+
+    
+    if (this.loadingStates.korisnici && this.loadingStates.studenti && this.loadingStates.nastavnici) {
+      this.loading = false;
+    }
   }
 
+  onRowClick(item: any): void {
+    console.log('Row clicked:', item);
+  }
+
+ 
   editKorisnik(korisnik: Korisnik): void {
     const dialogRef = this.dialog.open(KorisnikEditDialogComponent, {
       width: '600px',
@@ -94,17 +184,14 @@ export class KorisnikTableComponent implements OnInit {
   }
 
   updateKorisnik(korisnik: Korisnik): void {
-    console.log('Sending korisnik for update:', korisnik);
     this.korisnikService.patch(korisnik.id!, korisnik).subscribe({
-      next: (response) => {
-        console.log('Update response:', response);
+      next: () => {
         this.snackBar.open('Korisnik je uspešno ažuriran', 'Zatvori', { duration: 3000 });
-        this.loadKorisnici();
+        this.loadAllUserData();
       },
       error: (error) => {
         console.error('Error updating user:', error);
-        console.error('Error details:', error.error);
-        this.snackBar.open('Greška pri ažuriranju korisnika: ' + (error.error?.message || error.message), 'Zatvori', { duration: 5000 });
+        this.snackBar.open('Greška pri ažuriranju korisnika', 'Zatvori', { duration: 3000 });
       }
     });
   }
@@ -114,7 +201,7 @@ export class KorisnikTableComponent implements OnInit {
       this.korisnikService.delete(korisnik.id!).subscribe({
         next: () => {
           this.snackBar.open('Korisnik je uspešno obrisan', 'Zatvori', { duration: 3000 });
-          this.loadKorisnici();
+          this.loadAllUserData();
         },
         error: (error) => {
           console.error('Error deleting user:', error);
@@ -141,7 +228,7 @@ export class KorisnikTableComponent implements OnInit {
     this.korisnikService.create(korisnik).subscribe({
       next: () => {
         this.snackBar.open('Korisnik je uspešno kreiran', 'Zatvori', { duration: 3000 });
-        this.loadKorisnici();
+        this.loadAllUserData();
       },
       error: (error) => {
         console.error('Error creating user:', error);
