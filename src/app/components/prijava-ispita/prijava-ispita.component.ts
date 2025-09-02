@@ -19,7 +19,8 @@ import { EvaluacijaZnanja } from '../../models/evaluacijaZnanja';
         [data]="data"
         [columns]="columns"
         [actions]="actions"
-        [rowClickable]="false">
+        [rowClickable]="false"
+        [showDownloadButton]="false">
       </app-generic-table>
       
       <div *ngIf="data.length === 0" class="no-exams">
@@ -32,7 +33,8 @@ import { EvaluacijaZnanja } from '../../models/evaluacijaZnanja';
         [data]="prijavljenaPolaganja"
         [columns]="prijavljenaColumns"
         [actions]="prijavljenaActions"
-        [rowClickable]="false">
+        [rowClickable]="false"
+        [showDownloadButton]="false">
       </app-generic-table>
       
       <div *ngIf="prijavljenaPolaganja.length === 0" class="no-exams">

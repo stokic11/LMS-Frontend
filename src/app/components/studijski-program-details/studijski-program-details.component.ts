@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { StudijskiProgramService } from '../../services/studijskiProgram/studijski-program.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { GenericDetailsComponent, InfoSection, TableSection } from '../generic-details/generic-details.component';
 
 @Component({
@@ -13,11 +14,12 @@ import { GenericDetailsComponent, InfoSection, TableSection } from '../generic-d
   templateUrl: './studijski-program-details.component.html',
   styleUrl: './studijski-program-details.component.css'
 })
-export class StudijskiProgramDetailsComponent implements OnInit {
+export class StudijskiProgramDetailsComponent implements OnInit, OnDestroy {
   programInfo: any = null;
   loading = true;
   error = false;
   programId: number = 0;
+  returnUrl: string = '/studijski-programi';
 
   title: string = '';
   infoSections: InfoSection[] = [];
@@ -26,7 +28,8 @@ export class StudijskiProgramDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private studijskiProgramService: StudijskiProgramService
+    private studijskiProgramService: StudijskiProgramService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +37,22 @@ export class StudijskiProgramDetailsComponent implements OnInit {
       this.programId = +params['id'];
       this.loadProgramDetails();
     });
+
+    this.route.queryParams.subscribe(queryParams => {
+      this.determineReturnUrl(queryParams);
+    });
+  }
+
+  private determineReturnUrl(queryParams: any): void {
+    const userRoles = this.authService.getCurrentUserRoles();
+    
+    const fromAdmin = queryParams['from'] === 'admin';
+    
+    if (userRoles.includes('admin') && fromAdmin) {
+      this.returnUrl = '/admin/studijski-programi';
+    } else {
+      this.returnUrl = '/studijski-programi';
+    }
   }
 
   loadProgramDetails(): void {
@@ -146,6 +165,10 @@ export class StudijskiProgramDetailsComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/studijski-programi']);
+    this.router.navigate([this.returnUrl]);
+  }
+
+  ngOnDestroy(): void {
+    // Clean up any resources if needed
   }
 }

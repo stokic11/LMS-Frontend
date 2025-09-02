@@ -100,7 +100,9 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
 
   onPrikazi(studijskiProgram: any): void {
     if (studijskiProgram && studijskiProgram.id) {
-      this.router.navigate(['/studijski-programi', studijskiProgram.id]);
+      this.router.navigate(['/studijski-programi', studijskiProgram.id], {
+        queryParams: { from: 'admin' }
+      });
     }
   }
 

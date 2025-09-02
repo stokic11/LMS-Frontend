@@ -58,7 +58,8 @@ interface IstorijaItem {
         <app-generic-table 
           [data]="data"
           [columns]="columns"
-          [rowClickable]="false">
+          [rowClickable]="false"
+          [showDownloadButton]="false">
         </app-generic-table>
       </div>
     </div>

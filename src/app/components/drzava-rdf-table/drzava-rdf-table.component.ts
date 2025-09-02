@@ -61,7 +61,8 @@ import { GenericDialogComponent } from '../generic-dialog/generic-dialog.compone
             [data]="drzave" 
             [columns]="columns"
             [actions]="actions"
-            [rowClickable]="false">
+            [rowClickable]="false"
+            [showDownloadButton]="false">
           </app-generic-table>
         </mat-card-content>
       </mat-card>

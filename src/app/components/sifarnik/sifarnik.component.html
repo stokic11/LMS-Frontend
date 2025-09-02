@@ -1,0 +1,19 @@
+<div class="sifarnik-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-icon>hourglass_empty</mat-icon>
+    <p>Učitavanje šifarnika...</p>
+  </div>
+
+  <div *ngIf="!loading">
+    <app-generic-table
+      [data]="sifarnici"
+      [columns]="columns"
+      [actions]="actions"
+      [showAddButton]="true"
+      [showDownloadButton]="false"
+      addButtonLabel="Dodaj šifarnik"
+      addButtonIcon="add"
+      (addClick)="addSifarnik()">
+    </app-generic-table>
+  </div>
+</div>

@@ -23,6 +23,7 @@ import { AuthenticationService } from '../../services/authentication/authenticat
         [data]="data"
         [columns]="columns"
         [rowClickable]="true"
+        [showDownloadButton]="false"
         (rowClick)="onPredmetClick($event)">
       </app-generic-table>
     </div>

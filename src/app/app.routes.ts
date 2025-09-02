@@ -29,6 +29,7 @@ import { ObavestenjaUpravljanjeComponent } from './components/obavestenja-upravl
 import { InstrumentiEvaluacijeComponent } from './components/instrumenti-evaluacije/instrumenti-evaluacije.component';
 import { StudentPotvrdaComponent } from './components/student-potvrde/student-potvrde.component';
 import { DokumentacijaPotvrdaComponent } from './components/dokumentacija-potvrde/dokumentacija-potvrde.component';
+import { SifarnikComponent } from './components/sifarnik/sifarnik.component';
 
 
 export const routes: Routes = [
@@ -167,6 +168,12 @@ export const routes: Routes = [
     component: DokumentacijaPotvrdaComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['studentska_sluzba'] }
+  },
+  {
+    path: 'sifarnik',
+    component: SifarnikComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['admin'] }
   },
   { path: '**', redirectTo: '' }
 ];

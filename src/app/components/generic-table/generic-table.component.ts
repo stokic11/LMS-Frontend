@@ -130,9 +130,9 @@ export class GenericTableComponent {
   @Input() rowClickable: boolean = false;
   @Input() actions: TableAction[] = []; 
   @Input() showAddButton: boolean = false;
+  @Input() showDownloadButton: boolean = true;
   @Input() addButtonLabel: string = 'Dodaj';
   @Input() addButtonIcon: string = 'add';
-  @Input() showDownloadButton: boolean = true;
   @Output() rowClick = new EventEmitter<any>();
   @Output() addClick = new EventEmitter<void>();
 

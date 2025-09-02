@@ -30,6 +30,7 @@ import { Obavestenje } from '../../models/obavestenje';
         [columns]="columns"
         [actions]="actions"
         [rowClickable]="true"
+        [showDownloadButton]="false"
         (rowClick)="onObavestenjeClick($event)">
       </app-generic-table>
     </div>
