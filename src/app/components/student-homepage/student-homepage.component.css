@@ -5,7 +5,6 @@
 /* Glavni sadržaj */
 .main-content {
   flex: 1;
-  min-height: 100vh;
 }
 
 /* Hero sekcija - koristim tvoj stil */

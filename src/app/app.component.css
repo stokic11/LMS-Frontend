@@ -43,7 +43,7 @@
 .sidenav-container {
   flex: 1;
   margin-top: 64px;
-  height: calc(100vh - 64px);
+  min-height: calc(100vh - 64px);
   background-color: #FFFFFF;
   overflow-x: hidden;
 }
@@ -56,7 +56,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow-y: auto;
   overflow-x: hidden !important;
   max-width: 280px;
   min-width: 280px;
@@ -64,7 +63,6 @@
 }
 
 .main-content {
-  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -72,7 +70,6 @@
   height: auto;
   padding: 24px;
   background-color: #FFFFFF;
-  min-height: calc(100vh - 64px);
 }
 
 .nav-section {

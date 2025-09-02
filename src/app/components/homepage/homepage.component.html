@@ -5,7 +5,6 @@
       <p class="hero-subtitle">Oblikujemo lidere budućnosti kroz izvrsnost u obrazovanju</p>
       <div class="hero-buttons">
         <button mat-raised-button color="accent" class="hero-btn" (click)="goToStudijskiProgrami()">Istražite programe</button>
-        <button mat-stroked-button class="hero-btn-outline">Virtuelna tura</button>
         <button mat-flat-button color="primary" class="hero-btn" (click)="goToFakulteti()">Prikaži fakultete</button>
       </div>
     </div>
@@ -75,12 +74,6 @@
         <p class="section-description" *ngIf="loading">
           Učitavam podatke o rektoru...
         </p>
-        <mat-chip-listbox class="features-chips">
-          <mat-chip-option selected>Izvrsnost u istraživanju</mat-chip-option>
-          <mat-chip-option selected>Globalna partnerstva</mat-chip-option>
-          <mat-chip-option selected>Centar inovacija</mat-chip-option>
-          <mat-chip-option selected>Uspeh studenata</mat-chip-option>
-        </mat-chip-listbox>
       </div>
       <div class="about-image">
         <mat-card class="image-card">
@@ -139,7 +132,7 @@
           <mat-icon>location_on</mat-icon>
           <div>
             <h3>Adresa</h3>
-            <p>{{ univerzitet?.adresa?.ulica }}<br>{{ univerzitet?.adresa?.mesto?.naziv }}<br>{{ univerzitet?.adresa?.mesto?.drzava?.naziv }}</p>
+            <p>{{ univerzitet?.adresa?.ulica }} {{univerzitet?.adresa?.broj}}, {{ univerzitet?.adresa?.mesto?.naziv }}, {{ univerzitet?.adresa?.mesto?.drzava?.naziv }}</p>
           </div>
         </div>
         <div class="contact-item">

@@ -37,3 +37,21 @@ button, a {
 .mat-drawer-content {
   overflow-x: hidden !important;
 }
+
+/* Sprečavanje nepotrebnog skrola na stranicama */
+body {
+  overflow-y: auto !important;
+}
+
+/* Komponente se prilagođavaju sadržaju, a ne forsiraju visinu */
+.homepage-container,
+.table-wrapper,
+.component-container {
+  min-height: auto !important;
+  height: auto !important;
+}
+
+/* Osigurava da container stranice koristi potrebnu visinu, a ne forsira 100vh */
+.container {
+  min-height: auto !important;
+}
