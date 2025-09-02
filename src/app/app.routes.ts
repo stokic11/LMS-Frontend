@@ -27,6 +27,8 @@ import { OrganizacijaNastaveComponent } from './components/organizacija-nastave/
 import { RasporeidiEvaluacijeComponent } from './components/rasporedi-evaluacije/rasporedi-evaluacije.component';
 import { ObavestenjaUpravljanjeComponent } from './components/obavestenja-upravljanje/obavestenja-upravljanje.component';
 import { InstrumentiEvaluacijeComponent } from './components/instrumenti-evaluacije/instrumenti-evaluacije.component';
+import { StudentPotvrdaComponent } from './components/student-potvrde/student-potvrde.component';
+import { DokumentacijaPotvrdaComponent } from './components/dokumentacija-potvrde/dokumentacija-potvrde.component';
 
 
 export const routes: Routes = [
@@ -153,6 +155,18 @@ export const routes: Routes = [
     component: InstrumentiEvaluacijeComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['nastavnik'] }
+  },
+  { 
+    path: 'potvrde',
+    component: StudentPotvrdaComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['student'] }
+  },
+  { 
+    path: 'dokumenta',
+    component: DokumentacijaPotvrdaComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['studentska_sluzba'] }
   },
   { path: '**', redirectTo: '' }
 ];

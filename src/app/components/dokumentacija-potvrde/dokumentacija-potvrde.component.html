@@ -1,0 +1,57 @@
+<div class="dokumentacija-container">
+  <div class="header-section">
+    <h1 class="page-title">Upravljanje potvrdama</h1>
+    <p class="page-subtitle">Odobravanje i praćenje studentskih potvrda</p>
+  </div>
+
+  <div class="content-section" *ngIf="!loading">
+    
+    
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Potvrde na čekanju</mat-card-title>
+        <mat-card-subtitle>Ukupno: {{pendingPotvrde.length}} potvrda čeka odobravanje</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="pendingPotvrde"
+          [columns]="pendingColumns"
+          [actions]="pendingActions"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+        <div *ngIf="pendingPotvrde.length === 0" class="no-data">
+          <mat-icon>check_circle</mat-icon>
+          <p>Nema potvrda na čekanju</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Odobrene potvrde</mat-card-title>
+        <mat-card-subtitle>Ukupno: {{approvedPotvrde.length}} odobrenih potvrda</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="approvedPotvrde"
+          [columns]="approvedColumns"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+        <div *ngIf="approvedPotvrde.length === 0" class="no-data">
+          <mat-icon>description</mat-icon>
+          <p>Nema odobrenih potvrda</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <p>Učitavanje potvrda...</p>
+  </div>
+</div>

@@ -6,51 +6,77 @@
 
   <div class="content-section" *ngIf="!loading">
     
-    <!-- Tabela za Evaluacije znanja -->
+    
     <mat-card class="table-card">
       <mat-card-header>
         <mat-card-title>Evaluacije znanja</mat-card-title>
         <mat-card-subtitle>Ukupno: {{evaluacijeZnanja.length}} evaluacija</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
+        <div *ngIf="evaluacijeZnanja.length === 0" class="no-data-message">
+          <mat-icon color="primary">info</mat-icon>
+          <p>Evaluacije znanja nisu dostupne vašoj ulozi (studentska služba).</p>
+          <p class="help-text">Za pristup evaluacijama, kontaktirajte administratora sistema.</p>
+        </div>
         <app-generic-table
+          *ngIf="evaluacijeZnanja.length > 0"
           [data]="evaluacijeZnanja"
           [columns]="evaluacijeColumns"
+          [showDownloadButton]="false"
           downloadFileName="evaluacije-znanja">
         </app-generic-table>
-        <div class="action-section">
+        <div class="action-section" *ngIf="canCreateNew">
           <button mat-raised-button color="primary" (click)="kreirajNovuEvaluaciju()" class="create-button">
             <mat-icon>add</mat-icon>
             Kreiraj novu evaluaciju
           </button>
         </div>
+        <div class="action-section" *ngIf="!canCreateNew">
+          <p class="no-permissions-message">
+            <mat-icon>info</mat-icon>
+            Kreiranje novih evaluacija trenutno nije dostupno
+          </p>
+        </div>
       </mat-card-content>
     </mat-card>
 
-    <!-- Tabela za Termine nastave -->
+    
     <mat-card class="table-card">
       <mat-card-header>
         <mat-card-title>Termini nastave</mat-card-title>
         <mat-card-subtitle>Ukupno: {{terminiNastave.length}} termina</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
+        <div *ngIf="terminiNastave.length === 0" class="no-data-message">
+          <mat-icon color="primary">info</mat-icon>
+          <p>Trenutno nema dostupnih termina nastave u sistemu.</p>
+          <p class="help-text">Termini nastave će biti prikazani kada budu kreirati u sistemu.</p>
+        </div>
         <app-generic-table
+          *ngIf="terminiNastave.length > 0"
           [data]="terminiNastave"
           [columns]="terminiColumns"
+          [showDownloadButton]="false"
           downloadFileName="termini-nastave">
         </app-generic-table>
-        <div class="action-section">
+        <div class="action-section" *ngIf="canCreateNew">
           <button mat-raised-button color="primary" (click)="kreirajNoviTermin()" class="create-button">
             <mat-icon>add</mat-icon>
             Kreiraj novi termin
           </button>
+        </div>
+        <div class="action-section" *ngIf="!canCreateNew">
+          <p class="no-permissions-message">
+            <mat-icon>info</mat-icon>
+            Kreiranje novih termina trenutno nije dostupno
+          </p>
         </div>
       </mat-card-content>
     </mat-card>
 
   </div>
 
-  <!-- Loading spinner -->
+  
   <div class="loading-container" *ngIf="loading">
     <mat-spinner></mat-spinner>
     <p>Učitavam podatke...</p>

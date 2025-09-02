@@ -1,4 +1,4 @@
-.rasporedi-evaluacije-container {
+.dokumentacija-container {
   padding: 20px;
   max-width: 1400px;
   margin: 0 auto;
@@ -49,24 +49,23 @@
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
-.action-section {
-  margin-top: 20px;
+.no-data {
   text-align: center;
-  padding: 20px 0;
-  border-top: 1px solid #e0e0e0;
+  padding: 40px;
+  color: #666;
 }
 
-.create-button {
-  padding: 12px 24px;
-  font-size: 1rem;
-  border-radius: 24px;
-  box-shadow: 0 4px 8px rgba(36, 72, 85, 0.3);
-  transition: all 0.3s ease;
+.no-data mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  margin-bottom: 16px;
+  color: #ccc;
 }
 
-.create-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(36, 72, 85, 0.4);
+.no-data p {
+  font-size: 1.1rem;
+  margin: 0;
 }
 
 .loading-container {
@@ -87,54 +86,9 @@
   color: #666;
 }
 
-.no-data-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-  color: #666;
-}
-
-.no-data-message mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 16px;
-}
-
-.no-data-message p {
-  font-size: 1.1rem;
-  margin: 0;
-}
-
-.no-data-message .help-text {
-  font-size: 0.9rem;
-  color: #888;
-  margin-top: 8px;
-  font-style: italic;
-}
-
-.no-permissions-message {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #666;
-  font-style: italic;
-  margin: 0;
-}
-
-.no-permissions-message mat-icon {
-  margin-right: 8px;
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
-
 
 @media (max-width: 768px) {
-  .rasporedi-evaluacije-container {
+  .dokumentacija-container {
     padding: 10px;
   }
 
@@ -152,10 +106,5 @@
 
   .table-card mat-card-header {
     padding: 15px;
-  }
-
-  .create-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
   }
 }

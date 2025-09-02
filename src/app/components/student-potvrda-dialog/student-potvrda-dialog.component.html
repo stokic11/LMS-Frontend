@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Zatraži potvrdu</h2>
+
+<mat-dialog-content>
+  <div class="dialog-content">
+    <p>Izaberite tip potvrde koju želite da zatražite:</p>
+    
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Tip potvrde</mat-label>
+      <mat-select [(value)]="selectedTipPotvrdaId" required>
+        <mat-option *ngFor="let tip of tipoviPotvrda" [value]="tip.id">
+          {{tip.naziv}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="info-text">
+      <p><strong>Napomena:</strong> Zahtev će biti prosleđen studentskoj službi na odobravanje. 
+      Bićete obavešteni kada potvrda bude odobrena i dostupna za preuzimanje.</p>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+      <p>Učitavanje tipova potvrda...</p>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Otkaži</button>
+  <button mat-raised-button 
+          color="primary" 
+          (click)="onSubmit()"
+          [disabled]="!selectedTipPotvrdaId || loading">
+    Pošalji zahtev
+  </button>
+</mat-dialog-actions>

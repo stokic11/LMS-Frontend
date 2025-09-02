@@ -20,4 +20,19 @@ export class EvaluacijaZnanjaService extends CrudService<EvaluacijaZnanja, numbe
   getByNastavnikId(nastavnikId: number): Observable<EvaluacijaZnanja[]> {
     return this.http.get<EvaluacijaZnanja[]>(`http://localhost:8080/api/evaluacije-znanja/nastavnik/${nastavnikId}`);
   }
+
+
+  getAllForStudentskaSluzba(): Observable<EvaluacijaZnanja[]> {
+    return this.http.get<EvaluacijaZnanja[]>(`http://localhost:8080/api/evaluacije-znanja/studentska-sluzba`);
+  }
+
+ 
+  getAllEvaluacije(): Observable<EvaluacijaZnanja[]> {
+    return this.http.get<EvaluacijaZnanja[]>(`http://localhost:8080/api/evaluacije-znanja/all`);
+  }
+
+
+  createForStudentskaSluzba(evaluacija: any): Observable<EvaluacijaZnanja> {
+    return this.http.post<EvaluacijaZnanja>(`http://localhost:8080/api/evaluacije-znanja/studentska-sluzba`, evaluacija);
+  }
 }
