@@ -1,0 +1,33 @@
+<div class="instrumenti-evaluacije-wrapper">
+  <div class="table-header">
+    <h2>Instrumenti evaluacije</h2>
+  </div>
+
+  <app-generic-table 
+    [data]="instrumentiDisplay" 
+    [columns]="columns"
+    [actions]="actions"
+    [rowClickable]="true"
+    [showAddButton]="true"
+    addButtonLabel="Dodaj novi instrument"
+    addButtonIcon="add"
+    (rowClick)="onRowClick($event)"
+    (addClick)="onAddClick()">
+  </app-generic-table>
+
+  <div class="table-header" style="margin-top: 40px;">
+    <h2>Evaluacije znanja</h2>
+  </div>
+
+  <app-generic-table 
+    [data]="evaluacijeZnanjaDisplay" 
+    [columns]="evaluacijeColumns"
+    [actions]="evaluacijeActions"
+    [rowClickable]="true"
+    [showAddButton]="true"
+    addButtonLabel="Dodaj novu evaluaciju znanja"
+    addButtonIcon="add"
+    (rowClick)="onEvaluacijaRowClick($event)"
+    (addClick)="onAddEvaluacijaClick()">
+  </app-generic-table>
+</div>

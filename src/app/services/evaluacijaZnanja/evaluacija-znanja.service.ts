@@ -10,10 +10,14 @@ import { EvaluacijaZnanja } from '../../models/evaluacijaZnanja';
 export class EvaluacijaZnanjaService extends CrudService<EvaluacijaZnanja, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/evaluacije-znanja');
+    super(http, 'http://localhost:8080/api/evaluacije-znanja');
   }
 
   getDostupneIspiteZaStudenta(studentId: number): Observable<EvaluacijaZnanja[]> {
     return this.http.get<EvaluacijaZnanja[]>(`http://localhost:8080/api/evaluacije-znanja/student/${studentId}/dostupni-ispiti`);
+  }
+
+  getByNastavnikId(nastavnikId: number): Observable<EvaluacijaZnanja[]> {
+    return this.http.get<EvaluacijaZnanja[]>(`http://localhost:8080/api/evaluacije-znanja/nastavnik/${nastavnikId}`);
   }
 }

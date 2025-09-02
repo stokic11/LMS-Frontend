@@ -10,6 +10,8 @@ export interface TableColumn {
   key: string;
   label: string;
   isAction?: boolean; 
+  pipe?: string;
+  pipeArgs?: string;
 }
 
 export interface TableAction {
@@ -220,5 +222,47 @@ export class GenericTableComponent {
       this.createEditAction(editCallback),
       this.createDeleteAction(deleteCallback)
     ];
+  }
+
+  parseDate(dateValue: any): Date | null {
+    if (!dateValue) return null;
+    
+    if (dateValue instanceof Date) {
+      return dateValue;
+    }
+    
+    if (typeof dateValue === 'string') {
+      // Handle Serbian date format: "13. 7. 2025. 22:00:00"
+      if (dateValue.includes('.') && dateValue.includes(':')) {
+        // Replace Serbian format with ISO format
+        const parts = dateValue.split(' ');
+        if (parts.length >= 2) {
+          const datePart = parts[0] + ' ' + parts[1] + ' ' + parts[2]; // "13. 7. 2025."
+          const timePart = parts[3]; // "22:00:00"
+          
+          // Parse date part: "13. 7. 2025."
+          const dateNumbers = datePart.replace(/\./g, '').split(' ').filter(p => p.trim());
+          if (dateNumbers.length === 3) {
+            const day = parseInt(dateNumbers[0]);
+            const month = parseInt(dateNumbers[1]);
+            const year = parseInt(dateNumbers[2]);
+            
+            // Create ISO format string: YYYY-MM-DD
+            const isoDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+            const fullIsoString = `${isoDate}T${timePart}`;
+            
+            return new Date(fullIsoString);
+          }
+        }
+      }
+      
+      // Try parsing as ISO string
+      const parsed = new Date(dateValue);
+      if (!isNaN(parsed.getTime())) {
+        return parsed;
+      }
+    }
+    
+    return null;
   }
 }

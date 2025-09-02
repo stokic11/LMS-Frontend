@@ -57,7 +57,9 @@
                 matInput 
                 type="number"
                 [formControlName]="field.name" 
-                [placeholder]="field.placeholder || ''">
+                [placeholder]="field.placeholder || ''"
+                [min]="field.min || null"
+                [max]="field.max || null">
               <mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
               <mat-error *ngFor="let error of getFieldErrors(field.name)">
                 {{error}}
@@ -101,6 +103,46 @@
             </mat-form-field>
           </div>
 
+          <!-- DateTime Local Input -->
+          <div class="form-row" *ngIf="field.type === 'datetime-local'">
+            <mat-form-field 
+              appearance="outline" 
+              class="form-field"
+              [class.full-width]="field.fullWidth !== false">
+              <mat-label>{{field.label}}</mat-label>
+              <input 
+                matInput 
+                type="datetime-local"
+                [formControlName]="field.name"
+                [placeholder]="field.placeholder || ''">
+              <mat-hint *ngIf="field.hint">{{field.hint}}</mat-hint>
+              <mat-error *ngFor="let error of getFieldErrors(field.name)">
+                {{error}}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- DateTime Separate Input (Date + Time) -->
+          <div class="form-row datetime-inputs" *ngIf="field.type === 'datetime'">
+            <mat-form-field appearance="outline" class="date-field">
+              <mat-label>{{field.label}} - Datum</mat-label>
+              <input matInput [matDatepicker]="datePicker" 
+                     [value]="getDateFromDateTimeString(field.name)"
+                     (dateChange)="updateDate(field.name, $event.value)">
+              <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+              <mat-datepicker #datePicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="time-field">
+              <mat-label>Vreme</mat-label>
+              <input matInput type="time" 
+                     [value]="getTimeFromDateTimeString(field.name)"
+                     (change)="updateTime(field.name, $any($event.target).value)">
+            </mat-form-field>
+            <div *ngFor="let error of getFieldErrors(field.name)" class="datetime-error">
+              <mat-error>{{error}}</mat-error>
+            </div>
+          </div>
+
          
           <div class="form-row" *ngIf="field.type === 'textarea'">
             <mat-form-field 
@@ -123,6 +165,11 @@
 
         </ng-container>
       </form>
+      
+      <!-- Date range validation error -->
+      <div *ngIf="form.errors?.['dateRangeInvalid']" class="date-range-error">
+        <mat-error>Vreme početka mora biti pre vremena završetka</mat-error>
+      </div>
     </div>
   </mat-dialog-content>
 

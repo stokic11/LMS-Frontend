@@ -71,12 +71,100 @@ export class GenericDialogComponent implements OnInit {
       }
 
       const validators = this.buildValidators(field);
-      const value = this.config.data ? (this.config.data[field.name] || null) : null;
+      let value = this.config.data ? (this.config.data[field.name] || null) : null;
+      
+      // Format date values for HTML date input
+      if (field.type === 'date' && value) {
+        if (typeof value === 'string') {
+          // Convert ISO string to YYYY-MM-DD format
+          const date = new Date(value);
+          if (!isNaN(date.getTime())) {
+            value = date.toISOString().split('T')[0];
+          }
+        } else if (value instanceof Date) {
+          value = value.toISOString().split('T')[0];
+        }
+      }
+
+      // Format datetime values for HTML datetime-local input
+      if (field.type === 'datetime-local' && value) {
+        if (typeof value === 'string') {
+          // Convert ISO string to YYYY-MM-DDTHH:mm format
+          const date = new Date(value);
+          if (!isNaN(date.getTime())) {
+            // Format to YYYY-MM-DDTHH:mm (local timezone)
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            value = `${year}-${month}-${day}T${hours}:${minutes}`;
+          }
+        } else if (value instanceof Date) {
+          const year = value.getFullYear();
+          const month = String(value.getMonth() + 1).padStart(2, '0');
+          const day = String(value.getDate()).padStart(2, '0');
+          const hours = String(value.getHours()).padStart(2, '0');
+          const minutes = String(value.getMinutes()).padStart(2, '0');
+          value = `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+      }
+
+      // Format datetime values for separate date and time inputs
+      if (field.type === 'datetime' && value) {
+        if (typeof value === 'string') {
+          // Handle Serbian date format: "13. 7. 2025. 22:00:00"
+          if (value.includes('.') && value.includes(':')) {
+            const parts = value.split(' ');
+            if (parts.length >= 4) {
+              const datePart = parts[0] + ' ' + parts[1] + ' ' + parts[2]; // "13. 7. 2025."
+              const timePart = parts[3]; // "22:00:00"
+              
+              // Parse date part: "13. 7. 2025."
+              const dateNumbers = datePart.replace(/\./g, '').split(' ').filter(p => p.trim());
+              if (dateNumbers.length === 3) {
+                const day = parseInt(dateNumbers[0]);
+                const month = parseInt(dateNumbers[1]);
+                const year = parseInt(dateNumbers[2]);
+                
+                // Create ISO format string: YYYY-MM-DDTHH:mm:ss
+                const isoDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                value = `${isoDate}T${timePart}`;
+              }
+            }
+          } else {
+            // Try to parse as ISO string and format
+            const date = new Date(value);
+            if (!isNaN(date.getTime())) {
+              value = date.toISOString().substring(0, 19); // YYYY-MM-DDTHH:mm:ss
+            }
+          }
+        } else if (value instanceof Date) {
+          value = value.toISOString().substring(0, 19); // YYYY-MM-DDTHH:mm:ss
+        }
+      }
       
       formControls[field.name] = this.fb.control(value, validators);
     });
 
-    this.form = this.fb.group(formControls);
+    this.form = this.fb.group(formControls, { validators: this.dateRangeValidator });
+  }
+
+  // Custom validator to ensure start date is before end date
+  dateRangeValidator = (group: AbstractControl): {[key: string]: any} | null => {
+    const startDate = group.get('vremePocetka')?.value;
+    const endDate = group.get('vremeZavrsetka')?.value;
+    
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      
+      if (start >= end) {
+        return { dateRangeInvalid: true };
+      }
+    }
+    
+    return null;
   }
 
   private buildValidators(field: FieldConfig): any[] {
@@ -96,6 +184,14 @@ export class GenericDialogComponent implements OnInit {
 
     if (field.maxLength) {
       validators.push(Validators.maxLength(field.maxLength));
+    }
+
+    if (field.min !== undefined) {
+      validators.push(Validators.min(field.min));
+    }
+
+    if (field.max !== undefined) {
+      validators.push(Validators.max(field.max));
     }
 
     return validators;
@@ -137,6 +233,14 @@ export class GenericDialogComponent implements OnInit {
       if (control.errors['maxlength']) {
         const maxLength = control.errors['maxlength'].requiredLength;
         errors.push(`Može imati najviše ${maxLength} karaktera`);
+      }
+      if (control.errors['min']) {
+        const min = control.errors['min'].min;
+        errors.push(`Vrednost mora biti najmanje ${min}`);
+      }
+      if (control.errors['max']) {
+        const max = control.errors['max'].max;
+        errors.push(`Vrednost može biti najviše ${max}`);
       }
     }
 
@@ -187,5 +291,66 @@ export class GenericDialogComponent implements OnInit {
 
   get title(): string {
     return this.config.title;
+  }
+
+  // DateTime handling methods for separate date and time inputs
+  getDateFromDateTimeString(fieldName: string): Date | null {
+    const value = this.form.get(fieldName)?.value;
+    if (!value) return null;
+    
+    if (typeof value === 'string') {
+      // Format: "YYYY-MM-DDTHH:mm:ss" or "YYYY-MM-DD HH:mm:ss"
+      const cleanValue = value.replace(' ', 'T').split('T')[0];
+      return new Date(cleanValue + 'T00:00:00');
+    }
+    
+    return value instanceof Date ? value : null;
+  }
+
+  getTimeFromDateTimeString(fieldName: string): string {
+    const value = this.form.get(fieldName)?.value;
+    if (!value) return '';
+    
+    if (typeof value === 'string') {
+      // Extract time part from datetime string
+      const timePart = value.replace(' ', 'T').split('T')[1];
+      if (timePart) {
+        return timePart.substring(0, 5); // Return HH:mm format
+      }
+    } else if (value instanceof Date) {
+      return value.toTimeString().substring(0, 5);
+    }
+    
+    return '';
+  }
+
+  updateDate(fieldName: string, newDate: Date | null): void {
+    if (!newDate) {
+      this.form.get(fieldName)?.setValue('');
+      return;
+    }
+
+    const currentTime = this.getTimeFromDateTimeString(fieldName) || '00:00';
+    const dateStr = newDate.toISOString().split('T')[0];
+    const newDateTime = `${dateStr}T${currentTime}:00`;
+    
+    this.form.get(fieldName)?.setValue(newDateTime);
+  }
+
+  updateTime(fieldName: string, newTime: string): void {
+    if (!newTime) return;
+
+    const currentDate = this.getDateFromDateTimeString(fieldName);
+    if (!currentDate) {
+      // If no date is set, use today's date
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      const newDateTime = `${dateStr}T${newTime}:00`;
+      this.form.get(fieldName)?.setValue(newDateTime);
+    } else {
+      const dateStr = currentDate.toISOString().split('T')[0];
+      const newDateTime = `${dateStr}T${newTime}:00`;
+      this.form.get(fieldName)?.setValue(newDateTime);
+    }
   }
 }

@@ -1,7 +1,7 @@
 export interface FieldConfig {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'date' | 'select' | 'textarea';
+  type: 'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'datetime' | 'select' | 'textarea';
   required?: boolean;
   placeholder?: string;
   hint?: string;
@@ -10,6 +10,8 @@ export interface FieldConfig {
   rows?: number; 
   minLength?: number;
   maxLength?: number;
+  min?: number;
+  max?: number;
   showOnNew?: boolean;
   showOnEdit?: boolean;
 }

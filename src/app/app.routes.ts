@@ -26,6 +26,7 @@ import { TerminiRasporedComponent } from './components/termini-raspored/termini-
 import { OrganizacijaNastaveComponent } from './components/organizacija-nastave/organizacija-nastave.component';
 import { RasporeidiEvaluacijeComponent } from './components/rasporedi-evaluacije/rasporedi-evaluacije.component';
 import { ObavestenjaUpravljanjeComponent } from './components/obavestenja-upravljanje/obavestenja-upravljanje.component';
+import { InstrumentiEvaluacijeComponent } from './components/instrumenti-evaluacije/instrumenti-evaluacije.component';
 
 
 export const routes: Routes = [
@@ -146,6 +147,12 @@ export const routes: Routes = [
     component: ObavestenjaUpravljanjeComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['admin', 'nastavnik', 'studentska_sluzba'] }
+  },
+  { 
+    path: 'instrumenti-evaluacije',
+    component: InstrumentiEvaluacijeComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['nastavnik'] }
   },
   { path: '**', redirectTo: '' }
 ];

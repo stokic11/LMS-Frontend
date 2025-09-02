@@ -16,9 +16,9 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   imports: [CommonModule, GenericTableComponent, RouterModule],
   template: `
     <div class="predmet-table-wrapper">
-      <h2 style="text-align:center; margin-bottom: 24px; color: #244855; font-weight: 600;">
-        {{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti' : 'Predmeti') }}
-      </h2>
+      <div class="table-header">
+        <h2>{{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti' : 'Predmeti') }}</h2>
+      </div>
       <app-generic-table 
         [data]="data"
         [columns]="columns"
@@ -58,11 +58,8 @@ export class PredmetTableComponent implements OnInit {
 
   checkUserRole(): void {
     const roles = this.authService.getCurrentUserRoles();
-    console.log('Current user roles:', roles);
     this.isStudent = roles.includes('student');
     this.isNastavnik = roles.includes('nastavnik');
-    console.log('Is student:', this.isStudent);
-    console.log('Is nastavnik:', this.isNastavnik);
     
     if (this.isStudent) {
       this.columns = [
@@ -72,8 +69,6 @@ export class PredmetTableComponent implements OnInit {
         { key: 'brojSemestra', label: 'Semestar' },
         { key: 'konacnaOcena', label: 'Ocena' }
       ];
-    } else {
-      console.log('Setting default columns');
     }
   }
 
@@ -91,7 +86,7 @@ export class PredmetTableComponent implements OnInit {
             }));
           },
           error: (error) => {
-            console.error('Error loading student predmeti:', error);
+            
           }
         });
       }
@@ -111,7 +106,7 @@ export class PredmetTableComponent implements OnInit {
             }));
           },
           error: (error) => {
-            console.error('Error loading nastavnik predmeti:', error);
+            
           }
         });
       }
@@ -124,7 +119,7 @@ export class PredmetTableComponent implements OnInit {
           }));
         },
         error: (error) => {
-          console.error('Error loading predmeti:', error);
+          
         }
       });
     }
@@ -141,7 +136,7 @@ export class PredmetTableComponent implements OnInit {
             }
           },
           error: (error) => {
-            console.error('Error loading predmeti:', error);
+            
           }
         });
       }

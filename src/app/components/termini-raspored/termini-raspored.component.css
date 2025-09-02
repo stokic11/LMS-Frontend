@@ -1,291 +1,53 @@
-.termini-container {
-  max-width: 1400px;
+.termini-raspored-wrapper {
+  padding: 20px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  background-color: #f8f9fa;
-  min-height: 100vh;
 }
 
-.header-section {
-  margin-bottom: 2rem;
-  text-align: center;
+.table-header {
+  margin-bottom: 24px;
 }
 
-.page-title {
-  font-size: 2.5rem;
+.table-header h2 {
+  color: #244855;
   font-weight: 600;
-  color: #244855;
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  margin: 0;
 }
 
-.title-icon {
-  font-size: 2.5rem !important;
-  width: 2.5rem !important;
-  height: 2.5rem !important;
-  color: #E64833 !important;
+.table-header p {
+  color: #666;
+  margin: 8px 0 0 0;
+  font-size: 1rem;
 }
 
-.page-subtitle {
-  font-size: 1.1rem;
-  color: #6c757d;
-  margin-bottom: 2rem;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+::ng-deep .mat-mdc-button:hover,
+::ng-deep .mat-mdc-icon-button:hover,
+::ng-deep .mat-mdc-row:hover {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-.add-button {
-  background-color: #E64833 !important;
-  color: white !important;
-  font-weight: 500 !important;
-  padding: 0.75rem 2rem !important;
-  font-size: 1rem !important;
+::ng-deep .mat-mdc-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.add-button:hover {
-  background-color: #d73527 !important;
+::ng-deep .mat-mdc-icon-button:hover {
+  background-color: rgba(0, 0, 0, 0.04);
 }
 
-.add-button:disabled {
-  background-color: #ccc !important;
-  color: #666 !important;
-}
-
-.content-section {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  overflow: hidden;
-}
-
-.table-card {
-  box-shadow: none !important;
-}
-
-.table-card mat-card-header {
-  background-color: #f8f9fa;
-  margin: -24px -24px 24px -24px !important;
-  padding: 24px !important;
-}
-
-.table-card mat-card-title {
-  color: #244855 !important;
-  font-weight: 600 !important;
-  font-size: 1.5rem !important;
-}
-
-.table-card mat-card-subtitle {
-  color: #6c757d !important;
-  margin-top: 8px !important;
-}
-
-.table-wrapper {
-  overflow: visible;
-}
-
-.termini-table {
-  width: 100%;
-  background-color: white;
-  table-layout: fixed;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.termini-table th:nth-child(1) { width: 18%; }
-.termini-table th:nth-child(2) { width: 18%; }
-.termini-table th:nth-child(3) { width: 35%; }
-.termini-table th:nth-child(4) { width: 15%; }
-.termini-table th:nth-child(5) { width: 14%; }
-
-.termini-table td:nth-child(1) { width: 18%; }
-.termini-table td:nth-child(2) { width: 18%; }
-.termini-table td:nth-child(3) { width: 35%; }
-.termini-table td:nth-child(4) { width: 15%; }
-.termini-table td:nth-child(5) { width: 14%; }
-
-.termini-table th {
-  background-color: #244855;
-  color: white !important;
-  font-weight: 600 !important;
-  padding: 1rem !important;
-  font-size: 0.9rem !important;
-}
-
-.termini-table td {
-  padding: 1rem !important;
-  border-bottom: 1px solid #e9ecef !important;
-}
-
-.termini-table tr:hover {
-  background-color: #f8f9fa !important;
-}
-
-.editing-row {
-  background-color: #fff3cd !important;
-}
-
-.editing-row:hover {
-  background-color: #fff3cd !important;
-}
-
-.new-row {
-  background-color: #d1ecf1 !important;
-}
-
-.new-row:hover {
-  background-color: #d1ecf1 !important;
-}
-
-.edit-field {
-  width: 100%;
-  min-width: 150px;
-}
-
-.edit-field .mat-mdc-form-field-wrapper {
-  padding-bottom: 0 !important;
-}
-
-.ishod-display {
-  max-width: 300px;
-}
-
-.ishod-text {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: #495057;
-  font-weight: 500;
-}
-
-.tip-nastave-badge {
-  background-color: #E64833;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 0.25rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.action-buttons button {
-  min-width: 32px !important;
-  width: 32px !important;
-  height: 32px !important;
-  font-size: 14px !important;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #6c757d;
-}
-
-.empty-icon {
-  font-size: 4rem !important;
-  width: 4rem !important;
-  height: 4rem !important;
-  margin-bottom: 1rem;
-  color: #dee2e6;
-}
-
-.empty-state h3 {
-  margin-bottom: 0.5rem;
-  color: #495057;
-}
-
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.loading-spinner {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.1rem;
-  color: #244855;
-  font-weight: 500;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-}
-
-.loading-spinner .mat-icon {
-  font-size: 1.5rem !important;
-  width: 1.5rem !important;
-  height: 1.5rem !important;
-}
-
-.spinning {
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+::ng-deep .mat-mdc-row:hover {
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 @media (max-width: 768px) {
-  .termini-container {
-    padding: 1rem;
+  .termini-raspored-wrapper {
+    padding: 10px;
   }
   
-  .page-title {
-    font-size: 2rem;
+  .table-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
   }
-  
-  .table-wrapper {
-    overflow-x: auto;
-  }
-  
-  .termini-table {
-    min-width: 800px;
-  }
-  
-  .edit-field {
-    min-width: 120px;
-  }
-}
-
-.datetime-inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.date-field {
-  width: 100%;
-}
-
-.time-field {
-  width: 100%;
-}
-
-.datetime-inputs .mat-mdc-form-field {
-  font-size: 14px;
-}
-
-.datetime-inputs .mat-mdc-form-field .mat-mdc-form-field-wrapper {
-  padding-bottom: 0;
 }

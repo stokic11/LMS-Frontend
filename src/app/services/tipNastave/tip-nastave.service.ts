@@ -9,6 +9,6 @@ import { TipNastave } from '../../models/tipNastave';
 export class TipNastaveService extends ReadOnlyCrudService<TipNastave, number> {
 
   constructor(http: HttpClient) {
-    super(http, '/api/tipovi-nastave');
+    super(http, 'http://localhost:8080/api/tipovi-nastave');
   }
 }
