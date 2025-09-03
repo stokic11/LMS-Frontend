@@ -261,12 +261,6 @@
   color: rgba(255,255,255,0.8);
 }
 
-.view-all-card {
-  background: linear-gradient(135deg, #874c62 0%, #c98686 100%);
-  color: white;
-  border: none;
-}
-
 .view-all-card mat-card-content {
   text-align: center;
   padding: 2rem;
@@ -369,7 +363,7 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background-color: #90AEAD;
+  background-color: #244855;
   color: white;
 }
 
