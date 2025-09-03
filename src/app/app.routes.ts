@@ -13,7 +13,6 @@ import { AdminStudijskiProgramTableComponent } from './components/admin-studijsk
 import { AdminZaposleniComponent } from './components/admin-zaposleni/admin-zaposleni.component';
 import { AuthGuard } from './auth_guard';
 import { NastavnikHomepageComponent } from './components/nastavnik-homepage/nastavnik-homepage.component';
-import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
 import { StudentskaSluzbaHomepageComponent } from './components/studentska-sluzba-homepage/studentska-sluzba-homepage.component';
 import { KorisnikTableComponent } from './components/korisnik-table/korisnik-table.component';
 import { ObavestenjeTableComponent } from './components/obavestenje-table/obavestenje-table.component';
@@ -32,6 +31,7 @@ import { DokumentacijaPotvrdaComponent } from './components/dokumentacija-potvrd
 import { SifarnikComponent } from './components/sifarnik/sifarnik.component';
 import { NastavnikStudentiComponent } from './components/nastavnik-studenti/nastavnik-studenti.component';
 import { StudentDetailsComponent } from './components/student-details/student-details.component';
+import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
 
 
 export const routes: Routes = [

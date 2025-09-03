@@ -7,9 +7,13 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Korisnik } from '../../models/korisnik';
+import { Student } from '../../models/student';
+import { Nastavnik } from '../../models/nastavnik';
+import { Uloga } from '../../models/uloga';
 import { KorisnikService } from '../../services/korisnik/korisnik.service';
 import { StudentService } from '../../services/student/student.service';
 import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
+import { UlogaService } from '../../services/uloga/uloga.service';
 import { KorisnikEditDialogComponent } from '../korisnik-edit-dialog/korisnik-edit-dialog.component';
 import { GenericTableComponent, TableColumn, TableAction } from '../generic-table/generic-table.component';
 
@@ -31,8 +35,10 @@ import { GenericTableComponent, TableColumn, TableAction } from '../generic-tabl
 })
 export class KorisnikTableComponent implements OnInit {
   korisnici: Korisnik[] = [];
-  studenti: any[] = [];
-  nastavnici: any[] = [];
+  studenti: Student[] = [];
+  nastavnici: Nastavnik[] = [];
+  uloge: Uloga[] = [];
+  ulogaMap: Map<number, string> = new Map();
   loading = false;
 
   
@@ -42,7 +48,7 @@ export class KorisnikTableComponent implements OnInit {
     { key: 'email', label: 'Email' },
     { key: 'ime', label: 'Ime' },
     { key: 'prezime', label: 'Prezime' },
-    { key: 'ulogaId', label: 'Uloga ID' }
+    { key: 'uloga', label: 'Uloga' }
   ];
 
   
@@ -68,11 +74,6 @@ export class KorisnikTableComponent implements OnInit {
   
   korisniciActions: TableAction[] = [
     {
-      label: 'Izmeni',
-      color: 'primary',
-      action: (korisnik: Korisnik) => this.editKorisnik(korisnik)
-    },
-    {
       label: 'Obriši',
       color: 'warn',
       action: (korisnik: Korisnik) => this.deleteKorisnik(korisnik)
@@ -83,12 +84,33 @@ export class KorisnikTableComponent implements OnInit {
     private korisnikService: KorisnikService,
     private studentService: StudentService,
     private nastavnikService: NastavnikService,
+    private ulogaService: UlogaService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.loadAllUserData();
+    this.loadUloge();
+  }
+
+  loadUloge(): void {
+    this.ulogaService.getAll().subscribe({
+      next: (uloge) => {
+        this.uloge = uloge;
+        this.ulogaMap.clear();
+        uloge.forEach(uloga => {
+          if (uloga.id) {
+            this.ulogaMap.set(uloga.id, uloga.naziv);
+          }
+        });
+        this.loadAllUserData();
+      },
+      error: (error) => {
+        console.error('Error loading roles:', error);
+        this.snackBar.open('Greška pri učitavanju uloga', 'Zatvori', { duration: 3000 });
+        this.loadAllUserData(); 
+      }
+    });
   }
 
   loadAllUserData(): void {
@@ -99,7 +121,12 @@ export class KorisnikTableComponent implements OnInit {
       next: (korisnici) => {
         console.log('Osnovni korisnici:', korisnici);
         
-        this.korisnici = korisnici.filter(k => k.ulogaId !== 2 && k.ulogaId !== 3);
+        this.korisnici = korisnici
+          .map(korisnik => ({
+            ...korisnik,
+            uloga: this.ulogaMap.get(korisnik.ulogaId || 0) || 'Nepoznata uloga'
+          }));
+          // Prikazujemo sve korisnike u tabeli Korisnici Sistema
         this.checkLoadingComplete();
       },
       error: (error) => {
@@ -114,10 +141,7 @@ export class KorisnikTableComponent implements OnInit {
     this.studentService.getAll().subscribe({
       next: (studenti) => {
         console.log('Studenti iz student tabele:', studenti);
-        this.studenti = studenti.map(student => ({
-          ...student,
-          tipKorisnika: 'Student'
-        }));
+        this.studenti = studenti;
         this.checkLoadingComplete();
       },
       error: (error) => {
@@ -132,10 +156,7 @@ export class KorisnikTableComponent implements OnInit {
     this.nastavnikService.getAll().subscribe({
       next: (nastavnici) => {
         console.log('Nastavnici iz nastavnik tabele:', nastavnici);
-        this.nastavnici = nastavnici.map(nastavnik => ({
-          ...nastavnik,
-          tipKorisnika: 'Nastavnik'
-        }));
+        this.nastavnici = nastavnici;
         this.checkLoadingComplete();
       },
       error: (error) => {
@@ -187,7 +208,7 @@ export class KorisnikTableComponent implements OnInit {
     this.korisnikService.patch(korisnik.id!, korisnik).subscribe({
       next: () => {
         this.snackBar.open('Korisnik je uspešno ažuriran', 'Zatvori', { duration: 3000 });
-        this.loadAllUserData();
+        this.loadUloge();
       },
       error: (error) => {
         console.error('Error updating user:', error);
@@ -201,7 +222,7 @@ export class KorisnikTableComponent implements OnInit {
       this.korisnikService.delete(korisnik.id!).subscribe({
         next: () => {
           this.snackBar.open('Korisnik je uspešno obrisan', 'Zatvori', { duration: 3000 });
-          this.loadAllUserData();
+          this.loadUloge();
         },
         error: (error) => {
           console.error('Error deleting user:', error);
@@ -228,7 +249,7 @@ export class KorisnikTableComponent implements OnInit {
     this.korisnikService.create(korisnik).subscribe({
       next: () => {
         this.snackBar.open('Korisnik je uspešno kreiran', 'Zatvori', { duration: 3000 });
-        this.loadAllUserData();
+        this.loadUloge();
       },
       error: (error) => {
         console.error('Error creating user:', error);

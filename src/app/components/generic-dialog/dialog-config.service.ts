@@ -42,33 +42,21 @@ export class DialogConfigService {
         },
         {
           name: 'lozinka',
-          label: 'Lozinka',
+          label: isNew ? 'Lozinka' : 'Nova lozinka (ostaviti prazno za zadržavanje postojeće)',
           type: 'password',
-          required: true,
-          placeholder: 'Unesite lozinku',
+          required: isNew,
+          placeholder: isNew ? 'Unesite lozinku' : 'Unesite novu lozinku (opciono)',
           minLength: 6,
-          showOnNew: true, 
-          fullWidth: true
-        },
-        {
-          name: 'datumRodjenja',
-          label: 'Datum rođenja',
-          type: 'date',
           fullWidth: true
         }
       ],
       customProcessing: (formValue: any, isNewUser: boolean) => {
-       
-        if (formValue.datumRodjenja !== undefined) {
-          delete formValue.datumRodjenja;
-        }
-        
-       
+        // Ako lozinka nije uneta za postojeće korisnike, obriši je
         if (!isNewUser && (formValue.lozinka === undefined || formValue.lozinka === null || formValue.lozinka === '')) {
           delete formValue.lozinka;
         }
         
-        
+        // Osiguraj da su ime i prezime definisani
         if (!formValue.ime) formValue.ime = '';
         if (!formValue.prezime) formValue.prezime = '';
         
@@ -177,12 +165,14 @@ export class DialogConfigService {
     };
   }
 
-  getZaposleniConfig(data?: any, isNew: boolean = false, tip: 'nastavnik' | 'studentska_sluzba' | 'student' = 'nastavnik'): DialogConfig {
+  getZaposleniConfig(data?: any, isNew: boolean = false, tip: 'nastavnik' | 'studentska_sluzba' | 'student' | 'admin' = 'nastavnik'): DialogConfig {
     const title = isNew ? 
       (tip === 'nastavnik' ? 'Dodaj Nastavnika' : 
-       tip === 'student' ? 'Dodaj Studenta' : 'Dodaj Člana Studentske Službe') :
+       tip === 'student' ? 'Dodaj Studenta' : 
+       tip === 'admin' ? 'Dodaj Administratora' : 'Dodaj Člana Studentske Službe') :
       (tip === 'nastavnik' ? 'Izmeni Nastavnika' : 
-       tip === 'student' ? 'Izmeni Studenta' : 'Izmeni Člana Studentske Službe');
+       tip === 'student' ? 'Izmeni Studenta' : 
+       tip === 'admin' ? 'Izmeni Administratora' : 'Izmeni Člana Studentske Službe');
 
     const baseFields: FieldConfig[] = [
       {

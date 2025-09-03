@@ -6,5 +6,6 @@ export interface Zvanje {
     datumIzbora: Date;
     datumPrestanka: Date;
     tipZvanja: TipZvanja;
-    naucnaOblast: NaucnaOblast
+    naucnaOblast: NaucnaOblast;
+    nastavnikId?: number;
 }

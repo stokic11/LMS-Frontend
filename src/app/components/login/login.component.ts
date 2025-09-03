@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
             this.router.navigate(['/studentska-sluzba-homepage']);
           }
           else if (this.authenticationService.hasRole('admin')) {
-            this.router.navigate(['/admin-homepage']);
+            this.router.navigate(['/zaposleni']);
           } else {
             this.router.navigate([this.returnUrl]);
           }

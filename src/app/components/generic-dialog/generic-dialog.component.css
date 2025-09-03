@@ -1,6 +1,6 @@
 
 .dialog-container {
-  min-width: 500px;
+  min-width: 300px;
   max-width: 700px;
   background: white;
   border-radius: 12px;
@@ -59,10 +59,7 @@
 
 .dialog-content {
   padding: 0 24px 24px 24px;
-  max-height: 60vh;
-  overflow-y: auto;
 }
-
 
 .loading-section {
   display: flex;
@@ -123,6 +120,7 @@
   font-size: 1rem;
   font-weight: 500;
   min-width: 120px;
+  color: #244855 !important;
 }
 
 .cancel-button mat-icon, .save-button mat-icon {
@@ -163,11 +161,13 @@ button:disabled {
 
 .cancel-button:hover:not(:disabled) {
   background-color: rgba(244, 67, 54, 0.1);
+  color: #244855;
 }
 
 .save-button:hover:not(:disabled) {
-  background-color: #1a3440;
-  box-shadow: 0 4px 12px rgba(36, 72, 85, 0.3);
+  background-color: #90AEAD;
+  color: #244855;
+  box-shadow: 0 4px 12px rgba(144, 174, 173, 0.3);
 }
 
 
@@ -329,4 +329,13 @@ button:disabled {
 .datetime-error mat-error {
   font-size: 12px;
   color: #f44336;
+}
+
+::ng-deep .mat-mdc-raised-button {
+  color: #244855 !important;
+}
+
+::ng-deep .mat-mdc-stroked-button {
+  color: #244855 !important;
+  border-color: #244855 !important;
 }

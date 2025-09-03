@@ -6,6 +6,7 @@ export interface Korisnik {
     ime?: string;
     prezime?: string;
     ulogaId?: number; 
+    uloga?: string;
     forumiIds?: number[]; 
     datumRodjenja?: Date;
 }

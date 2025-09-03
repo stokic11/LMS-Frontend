@@ -73,6 +73,11 @@ export class GenericDialogComponent implements OnInit {
       const validators = this.buildValidators(field);
       let value = this.config.data ? (this.config.data[field.name] || null) : null;
       
+      // Lozinka polje uvek treba da bude prazno
+      if (field.type === 'password') {
+        value = '';
+      }
+      
       // Format date values for HTML date input
       if (field.type === 'date' && value) {
         if (typeof value === 'string') {

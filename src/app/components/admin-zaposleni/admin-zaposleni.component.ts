@@ -84,8 +84,8 @@ export class AdminZaposleniComponent {
     });
   }
 
-  openStudentDialog(): void {
-    const config = this.dialogConfigService.getZaposleniConfig(null, true, 'student');
+  openAdminDialog(): void {
+    const config = this.dialogConfigService.getZaposleniConfig(null, true, 'admin');
     
     const dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
@@ -95,18 +95,18 @@ export class AdminZaposleniComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         
-        result.nazivUloge = 'student';
+        result.nazivUloge = 'admin';
         
-        console.log('Podaci koji se šalju za studenta:', result);
+        console.log('Podaci koji se šalju za administratora:', result);
         
         this.korisnikService.create(result).subscribe({
           next: (createdUser: any) => {
-            console.log('Student uspešno kreiran:', createdUser);
-            alert('Student je uspešno kreiran!');
+            console.log('Administrator uspešno kreiran:', createdUser);
+            alert('Administrator je uspešno kreiran!');
           },
           error: (error: any) => {
-            console.error('Greška pri kreiranju studenta:', error);
-            alert('Greška pri kreiranju studenta.');
+            console.error('Greška pri kreiranju administratora:', error);
+            alert('Greška pri kreiranju administratora.');
           }
         });
       }

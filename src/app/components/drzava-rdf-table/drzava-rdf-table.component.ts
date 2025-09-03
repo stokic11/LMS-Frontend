@@ -139,7 +139,8 @@ export class DrzavaRdfTableComponent implements OnInit {
 
   addDrzava(): void {
     const dialogRef = this.dialog.open(GenericDialogComponent, {
-      width: '400px',
+      width: '450px',
+      maxHeight: '400px',
       data: {
         title: 'Dodaj novu državu (RDF)',
         fields: [
@@ -166,7 +167,8 @@ export class DrzavaRdfTableComponent implements OnInit {
 
   editDrzava(drzava: Drzava): void {
     const dialogRef = this.dialog.open(GenericDialogComponent, {
-      width: '400px',
+      width: '450px',
+      maxHeight: '400px',
       data: {
         title: 'Uredi državu (RDF)',
         fields: [

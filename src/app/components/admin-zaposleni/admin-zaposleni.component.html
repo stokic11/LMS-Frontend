@@ -6,10 +6,10 @@
 
   <div class="cards-container">
     
-    <mat-card class="employee-card" (click)="openNastavnikDialog()">
+    <mat-card class="employee-card">
       <mat-card-header>
         <div mat-card-avatar>
-          <mat-icon class="card-icon">school</mat-icon>
+          <mat-icon class="card-icon">people</mat-icon>
         </div>
         <mat-card-title>Nastavnik</mat-card-title>
         <mat-card-subtitle>Dodaj novog nastavnika</mat-card-subtitle>
@@ -18,18 +18,18 @@
         <p>Kreiraj novi nalog za nastavnika sa osnovnim podacima i dodeli odgovarajuće uloge.</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary">
-          <mat-icon>person_add</mat-icon>
+        <button mat-raised-button color="primary" (click)="openNastavnikDialog()">
+          <mat-icon>assignment_add</mat-icon>
           Kreiraj nastavnika
         </button>
       </mat-card-actions>
     </mat-card>
 
     
-    <mat-card class="employee-card" (click)="openStudentskaSluzbaDialog()">
+    <mat-card class="employee-card">
       <mat-card-header>
         <div mat-card-avatar>
-          <mat-icon class="card-icon">admin_panel_settings</mat-icon>
+          <mat-icon class="card-icon">assignment</mat-icon>
         </div>
         <mat-card-title>Studentska služba</mat-card-title>
         <mat-card-subtitle>Dodaj novog člana studentske službe</mat-card-subtitle>
@@ -38,29 +38,29 @@
         <p>Kreiraj novi nalog za člana studentske službe sa potrebnim dozvolama i ulogama.</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="accent">
-          <mat-icon>person_add</mat-icon>
+        <button mat-raised-button color="accent" (click)="openStudentskaSluzbaDialog()">
+          <mat-icon>assignment_add</mat-icon>
           Kreiraj člana službe
         </button>
       </mat-card-actions>
     </mat-card>
 
     
-    <mat-card class="employee-card" (click)="openStudentDialog()">
+    <mat-card class="employee-card">
       <mat-card-header>
         <div mat-card-avatar>
-          <mat-icon class="card-icon">person</mat-icon>
+          <mat-icon class="card-icon">admin_panel_settings</mat-icon>
         </div>
-        <mat-card-title>Student</mat-card-title>
-        <mat-card-subtitle>Dodaj novog studenta</mat-card-subtitle>
+        <mat-card-title>Administrator</mat-card-title>
+        <mat-card-subtitle>Dodaj novog administratora</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>Kreiraj novi nalog za studenta sa JMBG-om i adresom stanovanja.</p>
+        <p>Kreiraj novi nalog za administratora sa punim privilegijama u sistemu.</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="warn">
-          <mat-icon>person_add</mat-icon>
-          Kreiraj studenta
+        <button mat-raised-button color="warn" (click)="openAdminDialog()">
+          <mat-icon>assignment_add</mat-icon>
+          Kreiraj administratora
         </button>
       </mat-card-actions>
     </mat-card>
