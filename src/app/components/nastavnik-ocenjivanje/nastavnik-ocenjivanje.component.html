@@ -1,0 +1,92 @@
+<div class="nastavnik-ocenjivanje-container">
+  
+  <div class="header-section">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>assignment_turned_in</mat-icon>
+        Ocenjivanje studenata
+      </h1>
+      <p class="page-subtitle">Pregledajte neocenjene ispite i ocenite studente</p>
+    </div>
+  </div>
+
+  
+  <div class="main-content">
+    
+    <div class="loading-section" *ngIf="loading">
+      <mat-card class="loading-card">
+        <div class="loading-content">
+          <mat-spinner></mat-spinner>
+          <p>Učitavamo podatke...</p>
+        </div>
+      </mat-card>
+    </div>
+
+    
+    <div class="content-section" *ngIf="!loading">
+      
+      <div class="students-section">
+        <mat-card class="section-card">
+          <mat-card-header>
+            <div mat-card-avatar class="section-icon">
+              <mat-icon>people</mat-icon>
+            </div>
+            <mat-card-title>Neocenjeni ispiti ({{prijavljeniIspiti.length}})</mat-card-title>
+            <mat-card-subtitle>Lista studenata koji čekaju ocenjivanje</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="table-container" *ngIf="prijavljeniIspiti.length > 0">
+              <app-generic-table 
+                [data]="prijavljeniIspiti"
+                [columns]="tableColumns" 
+                [actions]="tableActions"
+                [pageSize]="10"
+                [rowClickable]="false"
+                [showDownloadButton]="false">
+              </app-generic-table>
+            </div>
+
+            <div class="no-students-message" *ngIf="prijavljeniIspiti.length === 0">
+              <mat-icon>info</mat-icon>
+              <h3>Nema neocenjenih ispita</h3>
+              <p>Trenutno nema studenata koji čekaju ocenjivanje.</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="students-section" style="margin-top: 20px;">
+        <mat-card class="section-card">
+          <mat-card-header>
+            <div mat-card-avatar class="section-icon">
+              <mat-icon>assignment_turned_in</mat-icon>
+            </div>
+            <mat-card-title>Istorija ocenjenih ispita ({{ocenjeniIspiti.length}})</mat-card-title>
+            <mat-card-subtitle>Pregled svih ocenjenih ispita</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="table-container" *ngIf="ocenjeniIspiti.length > 0">
+              <app-generic-table 
+                [data]="ocenjeniIspiti"
+                [columns]="ocenjeniTableColumns" 
+                [actions]="[]"
+                [pageSize]="10"
+                [rowClickable]="false"
+                [showDownloadButton]="true">
+              </app-generic-table>
+            </div>
+
+            <div class="no-students-message" *ngIf="ocenjeniIspiti.length === 0">
+              <mat-icon>info</mat-icon>
+              <h3>Nema ocenjenih ispita</h3>
+              <p>Trenutno nema ocenjenih ispita.</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+</div>

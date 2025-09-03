@@ -1,0 +1,166 @@
+.nastavnik-ocenjivanje-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-section {
+  margin-bottom: 30px;
+}
+
+.header-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #244855;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.page-title mat-icon {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.loading-card {
+  padding: 40px;
+  text-align: center;
+  min-width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loading-content p {
+  margin: 0;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.content-section {
+  width: 100%;
+}
+
+.students-section {
+  width: 100%;
+}
+
+.section-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.section-icon {
+  background-color: #244855;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-icon mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.table-container {
+  margin-top: 20px;
+}
+
+.no-students-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.no-students-message mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #4caf50;
+  margin-bottom: 16px;
+}
+
+.no-students-message h3 {
+  margin: 16px 0 8px 0;
+  color: #333;
+}
+
+.no-students-message p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .nastavnik-ocenjivanje-container {
+    padding: 15px;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .page-title mat-icon {
+    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.8rem;
+  }
+  
+  .page-subtitle {
+    font-size: 1rem;
+  }
+}
+
+.mat-mdc-card-header {
+  padding-bottom: 16px;
+}
+
+.mat-mdc-card-content {
+  padding-top: 0;
+}
+
+.nastavnik-ocenjivanje-container * {
+  transition: all 0.3s ease;
+}

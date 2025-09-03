@@ -32,6 +32,7 @@ import { SifarnikComponent } from './components/sifarnik/sifarnik.component';
 import { NastavnikStudentiComponent } from './components/nastavnik-studenti/nastavnik-studenti.component';
 import { StudentDetailsComponent } from './components/student-details/student-details.component';
 import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
+import { NastavnikOcenjivanjeComponent } from './components/nastavnik-ocenjivanje/nastavnik-ocenjivanje.component';
 
 
 export const routes: Routes = [
@@ -60,6 +61,12 @@ export const routes: Routes = [
   { 
     path: 'studenti', 
     component: NastavnikStudentiComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['nastavnik'] }
+  },
+  { 
+    path: 'ocenjivanje', 
+    component: NastavnikOcenjivanjeComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['nastavnik'] }
   },

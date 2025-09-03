@@ -32,7 +32,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let row of pagedData" 
+				<tr *ngFor="let row of pagedData; trackBy: trackByFn" 
 				    [class.clickable]="rowClickable" 
 				    (click)="onRowClick(row)">
 					<td *ngFor="let col of columns">

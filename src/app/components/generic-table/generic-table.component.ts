@@ -199,6 +199,10 @@ export class GenericTableComponent {
     this.addClick.emit();
   }
 
+  trackByFn(index: number, item: any): any {
+    return item.id !== undefined ? item.id : index;
+  }
+
   static createEditAction(callback: (item: any) => void): TableAction {
     return {
       label: 'Izmeni',
