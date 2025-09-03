@@ -30,6 +30,8 @@ import { InstrumentiEvaluacijeComponent } from './components/instrumenti-evaluac
 import { StudentPotvrdaComponent } from './components/student-potvrde/student-potvrde.component';
 import { DokumentacijaPotvrdaComponent } from './components/dokumentacija-potvrde/dokumentacija-potvrde.component';
 import { SifarnikComponent } from './components/sifarnik/sifarnik.component';
+import { NastavnikStudentiComponent } from './components/nastavnik-studenti/nastavnik-studenti.component';
+import { StudentDetailsComponent } from './components/student-details/student-details.component';
 
 
 export const routes: Routes = [
@@ -54,6 +56,18 @@ export const routes: Routes = [
     component: NastavnikHomepageComponent,
   canActivate: [AuthGuard],
   data: { uloge: ['nastavnik'] }
+  },
+  { 
+    path: 'studenti', 
+    component: NastavnikStudentiComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['nastavnik'] }
+  },
+  { 
+    path: 'studenti/:id', 
+    component: StudentDetailsComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['nastavnik', 'studentska_sluzba', 'admin'] }
   },
   { 
     path: 'admin-homepage', 

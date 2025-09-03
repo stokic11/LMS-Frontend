@@ -16,4 +16,8 @@ export class PohadjanjePredmetaService extends CrudService<PohadjanjePredmeta, n
   getByStudentId(studentId: number): Observable<PohadjanjePredmeta[]> {
     return this.http.get<PohadjanjePredmeta[]>(`http://localhost:8080/api/pohadjanje-predmeta/student/${studentId}`);
   }
+
+  getStudentsByPredmetId(predmetId: number): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8080/api/pohadjanje-predmeta/predmet/${predmetId}/studenti`);
+  }
 }

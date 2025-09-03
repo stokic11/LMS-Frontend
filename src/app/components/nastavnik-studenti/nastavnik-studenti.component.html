@@ -1,0 +1,80 @@
+<div class="nastavnik-studenti-container">
+  <div *ngIf="!showStudenti" class="predmeti-view">
+    <div class="table-header">
+      <h2>Moji Predmeti</h2>
+      <p>Kliknite na predmet da vidite studente</p>
+    </div>
+    <app-generic-table 
+      [data]="predmeti"
+      [columns]="predmetiColumns"
+      [rowClickable]="true"
+      [showDownloadButton]="false"
+      [showAddButton]="false"
+      (rowClick)="onPredmetClick($event)">
+    </app-generic-table>
+  </div>
+
+  <div *ngIf="showStudenti" class="studenti-view">
+    <div class="table-header">
+      <button mat-raised-button color="primary" (click)="goBack()" class="back-button">
+        <mat-icon>arrow_back</mat-icon>
+        Nazad na predmete
+      </button>
+      <h2>Studenti - {{ selectedPredmet?.naziv }}</h2>
+    </div>
+
+    <div class="search-container">
+      <h3>Pretraga studenata</h3>
+      <div class="search-fields">
+        <mat-form-field appearance="outline" class="search-field-small">
+          <mat-label>Ime</mat-label>
+          <input matInput [(ngModel)]="searchFilters.ime" (input)="applyFilters()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field-small">
+          <mat-label>Prezime</mat-label>
+          <input matInput [(ngModel)]="searchFilters.prezime" (input)="applyFilters()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field-small">
+          <mat-label>Br. indeksa</mat-label>
+          <input matInput [(ngModel)]="searchFilters.brojIndeksa" (input)="applyFilters()">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field-small">
+          <mat-label>Godina</mat-label>
+          <input matInput [(ngModel)]="searchFilters.godinaUpisa" (input)="applyFilters()" 
+                 (keypress)="allowOnlyNumbers($event)">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field-small">
+          <mat-label>Pros. ocena</mat-label>
+          <input matInput [(ngModel)]="searchFilters.prosecnaOcena" (input)="applyFilters()" 
+                 (keypress)="allowNumbersAndDecimal($event)">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field-small">
+          <mat-label>Ocena</mat-label>
+          <input matInput [(ngModel)]="searchFilters.konacnaOcena" (input)="applyFilters()" 
+                 (keypress)="allowOnlyNumbers($event)">
+        </mat-form-field>
+      </div>
+      
+      <div class="clear-button-row">
+        <button mat-raised-button color="warn" (click)="clearFilters()" class="clear-button-separate">
+          <mat-icon>clear</mat-icon>
+          Obriši
+        </button>
+      </div>
+    </div>
+
+    <app-generic-table 
+      [data]="filteredStudenti"
+      [columns]="studentiColumns"
+      [rowClickable]="true"
+      [showDownloadButton]="false"
+      [showAddButton]="false"
+      (rowClick)="onStudentClick($event)">
+    </app-generic-table>
+  </div>
+</div>

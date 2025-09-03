@@ -45,4 +45,28 @@ export class StudentService extends WritableCrudService<Student, number> {
       {}
     );
   }
+
+  getStudentDetails(studentId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${studentId}/details`);
+  }
+
+  getOsnovniPodaci(studentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${studentId}/osnovni-podaci`);
+  }
+
+  getAkademskiPodaci(studentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${studentId}/akademski-podaci`);
+  }
+
+  getPolozeniIspiti(studentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${studentId}/polozeni-ispiti`);
+  }
+
+  getNeuspesnaPolaganja(studentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${studentId}/neuspesna-polaganja`);
+  }
+
+  getUpisi(studentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${studentId}/upisi`);
+  }
 }
