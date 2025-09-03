@@ -19,51 +19,7 @@ interface IstorijaItem {
   selector: 'app-student-istorija',
   standalone: true,
   imports: [CommonModule, MatCardModule, GenericTableComponent],
-  template: `
-    <div class="istorija-container">
-      <h2 class="page-title">Istorija Studiranja</h2>
-      
-      <!-- Sumarni podaci -->
-      <div class="summary-cards">
-        <mat-card class="summary-card">
-          <mat-card-header>
-            <mat-card-title>Prosečna ocena</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="summary-value">{{ prosecnaOcena | number:'1.2-2' }}</div>
-          </mat-card-content>
-        </mat-card>
-        
-        <mat-card class="summary-card">
-          <mat-card-header>
-            <mat-card-title>Ukupno ECTS</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="summary-value">{{ ukupnoECTS }}</div>
-          </mat-card-content>
-        </mat-card>
-        
-        <mat-card class="summary-card">
-          <mat-card-header>
-            <mat-card-title>Položeno predmeta</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="summary-value">{{ polozeniPredmeti }}</div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-      <!-- Tabela sa istorijom -->
-      <div class="history-table-wrapper">
-        <app-generic-table 
-          [data]="data"
-          [columns]="columns"
-          [rowClickable]="false"
-          [showDownloadButton]="false">
-        </app-generic-table>
-      </div>
-    </div>
-  `,
+  templateUrl: './student-istorija.component.html',
   styleUrls: ['./student-istorija.component.css']
 })
 export class StudentIstorijaComponent implements OnInit {

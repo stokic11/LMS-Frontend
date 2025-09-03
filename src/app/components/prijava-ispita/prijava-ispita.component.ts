@@ -10,38 +10,7 @@ import { EvaluacijaZnanja } from '../../models/evaluacijaZnanja';
   selector: 'app-prijava-ispita',
   standalone: true,
   imports: [CommonModule, GenericTableComponent],
-  template: `
-    <div class="prijava-ispita-container">
-      <h2 class="page-title">Prijava Ispita</h2>
-      <p class="description">Ovde možete prijaviti ispite za predmete koje trenutno slušate.</p>
-      
-      <app-generic-table 
-        [data]="data"
-        [columns]="columns"
-        [actions]="actions"
-        [rowClickable]="false"
-        [showDownloadButton]="false">
-      </app-generic-table>
-      
-      <div *ngIf="data.length === 0" class="no-exams">
-        <p>Trenutno nema dostupnih ispita za prijavu.</p>
-      </div>
-
-      <p class="description">Ovde su prikazani ispiti koje ste prijavili i čekaju ocenjivanje.</p>
-
-      <app-generic-table 
-        [data]="prijavljenaPolaganja"
-        [columns]="prijavljenaColumns"
-        [actions]="prijavljenaActions"
-        [rowClickable]="false"
-        [showDownloadButton]="false">
-      </app-generic-table>
-      
-      <div *ngIf="prijavljenaPolaganja.length === 0" class="no-exams">
-        <p>Nemate prijavljena polaganja.</p>
-      </div>
-    </div>
-  `,
+  templateUrl: './prijava-ispita.component.html',
   styleUrls: ['./prijava-ispita.component.css']
 })
 export class PrijavaIspitaComponent implements OnInit {

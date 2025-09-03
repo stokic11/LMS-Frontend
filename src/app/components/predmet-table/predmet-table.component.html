@@ -1,0 +1,12 @@
+<div class="predmet-table-wrapper">
+  <div class="table-header">
+    <h2>{{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti' : 'Predmeti') }}</h2>
+  </div>
+  <app-generic-table 
+    [data]="data"
+    [columns]="columns"
+    [rowClickable]="true"
+    [showDownloadButton]="false"
+    (rowClick)="onPredmetClick($event)">
+  </app-generic-table>
+</div>

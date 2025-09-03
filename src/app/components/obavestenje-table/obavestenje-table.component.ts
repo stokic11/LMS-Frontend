@@ -20,21 +20,7 @@ import { Obavestenje } from '../../models/obavestenje';
     RouterModule,
     GenericTableComponent
   ],
-  template: `
-    <div class="table-container">
-      <h2 style="text-align:center; margin-bottom: 24px; color: #244855; font-weight: 600;">
-        Obaveštenja
-      </h2>
-      <app-generic-table
-        [data]="data"
-        [columns]="columns"
-        [actions]="actions"
-        [rowClickable]="true"
-        [showDownloadButton]="false"
-        (rowClick)="onObavestenjeClick($event)">
-      </app-generic-table>
-    </div>
-  `,
+  templateUrl: './obavestenje-table.component.html',
   styleUrl: './obavestenje-table.component.css'
 })
 export class ObavestenjeTableComponent implements OnInit {

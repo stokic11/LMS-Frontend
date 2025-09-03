@@ -28,46 +28,7 @@ import { GenericDialogComponent } from '../generic-dialog/generic-dialog.compone
     FormsModule,
     GenericTableComponent
   ],
-  template: `
-    <div class="drzava-rdf-container">
-      <div class="header-section">
-        <h1 class="page-title">RDF Upravljanje Državama</h1>
-        <div class="header-actions">
-          <mat-form-field appearance="outline" class="search-field">
-            <mat-label>Pretraži po nazivu</mat-label>
-            <input matInput [(ngModel)]="searchTerm" (input)="onSearchChange()" placeholder="Unesite naziv države">
-            <mat-icon matSuffix>search</mat-icon>
-          </mat-form-field>
-          <button mat-raised-button color="primary" (click)="addDrzava()" class="add-button">
-            <mat-icon>add</mat-icon>
-            Dodaj Državu (RDF)
-          </button>
-        </div>
-      </div>
-
-      <mat-card class="table-card">
-        <mat-card-content>
-          <div *ngIf="loading" class="loading-container">
-            <p>Učitavanje država iz RDF skladišta...</p>
-          </div>
-
-          <div *ngIf="!loading && drzave.length === 0" class="no-data-container">
-            <mat-icon class="no-data-icon">public</mat-icon>
-            <p class="no-data-text">Nema država u RDF skladištu</p>
-          </div>
-
-          <app-generic-table 
-            *ngIf="!loading && drzave.length > 0"
-            [data]="drzave" 
-            [columns]="columns"
-            [actions]="actions"
-            [rowClickable]="false"
-            [showDownloadButton]="false">
-          </app-generic-table>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  `,
+  templateUrl: './drzava-rdf-table.component.html',
   styleUrls: ['./drzava-rdf-table.component.css']
 })
 export class DrzavaRdfTableComponent implements OnInit {

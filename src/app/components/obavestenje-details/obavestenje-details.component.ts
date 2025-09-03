@@ -10,16 +10,7 @@ import { GenericDetailsComponent, InfoSection, TableSection } from '../generic-d
   selector: 'app-obavestenje-details',
   standalone: true,
   imports: [CommonModule, RouterModule, GenericDetailsComponent],
-  template: `
-    <app-generic-details
-      [title]="title"
-      [infoSections]="infoSections"
-      [tableSections]="tableSections"
-      [loading]="loading"
-      [error]="error"
-      [backButtonRoute]="'/obavestenja'">
-    </app-generic-details>
-  `,
+  templateUrl: './obavestenje-details.component.html',
   styleUrls: ['./obavestenje-details.component.css']
 })
 export class ObavestenjeDetailsComponent implements OnInit {

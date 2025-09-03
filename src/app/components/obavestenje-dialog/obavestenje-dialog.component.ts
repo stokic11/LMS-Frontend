@@ -29,76 +29,8 @@ import { PredmetService } from '../../services/predmet/predmet.service';
     MatSelectModule,
     MatButtonModule
   ],
-  template: `
-    <h1 mat-dialog-title>Dodaj novo obaveštenje</h1>
-    <div mat-dialog-content>
-      <form [formGroup]="obavestenjeForm" class="form-container">
-        
-        <!-- Izbor nastavnika -->
-        <mat-form-field appearance="outline">
-          <mat-label>Nastavnik</mat-label>
-          <mat-select formControlName="nastavnikId" (selectionChange)="onNastavnikChange()">
-            <mat-option *ngFor="let nastavnik of nastavnici" [value]="nastavnik.id">
-              {{nastavnik.ime}} {{nastavnik.prezime}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!-- Izbor predmeta - filtriran po nastavniku -->
-        <mat-form-field appearance="outline">
-          <mat-label>Predmet</mat-label>
-          <mat-select formControlName="nastavnikNaRealizacijiId">
-            <mat-option *ngFor="let item of filteredPredmeti" [value]="item.nastavnikNaRealizacijiId">
-              {{item.predmetNaziv}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <!-- Naslov -->
-        <mat-form-field appearance="outline">
-          <mat-label>Naslov</mat-label>
-          <input matInput formControlName="naslov" placeholder="Unesite naslov obaveštenja">
-        </mat-form-field>
-
-        <!-- Sadržaj -->
-        <mat-form-field appearance="outline">
-          <mat-label>Sadržaj</mat-label>
-          <textarea matInput 
-                    formControlName="sadrzaj" 
-                    placeholder="Unesite sadržaj obaveštenja"
-                    rows="4">
-          </textarea>
-        </mat-form-field>
-
-      </form>
-    </div>
-    <div mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">Otkaži</button>
-      <button mat-raised-button 
-              color="primary" 
-              (click)="onSave()"
-              [disabled]="!isFormValid() || loading">
-        {{loading ? 'Čuva...' : 'Sačuvaj'}}
-      </button>
-    </div>
-  `,
-  styles: [`
-    .form-container {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      min-width: 400px;
-      padding: 16px 0;
-    }
-    
-    mat-form-field {
-      width: 100%;
-    }
-    
-    textarea {
-      min-height: 80px;
-    }
-  `]
+  templateUrl: './obavestenje-dialog.component.html',
+  styleUrls: ['./obavestenje-dialog.component.css']
 })
 export class ObavestenjeDialogComponent implements OnInit {
   obavestenjeForm: FormGroup;

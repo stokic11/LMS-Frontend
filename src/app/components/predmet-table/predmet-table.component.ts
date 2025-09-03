@@ -14,20 +14,7 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   selector: 'app-predmet-table',
   standalone: true,
   imports: [CommonModule, GenericTableComponent, RouterModule],
-  template: `
-    <div class="predmet-table-wrapper">
-      <div class="table-header">
-        <h2>{{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti' : 'Predmeti') }}</h2>
-      </div>
-      <app-generic-table 
-        [data]="data"
-        [columns]="columns"
-        [rowClickable]="true"
-        [showDownloadButton]="false"
-        (rowClick)="onPredmetClick($event)">
-      </app-generic-table>
-    </div>
-  `,
+  templateUrl: './predmet-table.component.html',
   styleUrls: ['./predmet-table.component.css']
 })
 export class PredmetTableComponent implements OnInit {
