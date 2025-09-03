@@ -24,6 +24,7 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
   evaluacijeZnanja: EvaluacijaZnanja[] = [];
   evaluacijeZnanjaDisplay: any[] = [];
   realizacijePredmeta: RealizacijaPredmeta[] = [];
+  predmetInfo: any[] = [];
   
   columns: TableColumn[] = [
     { key: 'id', label: 'ID' },
@@ -89,10 +90,25 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
       this.realizacijaPredmetaService.getByNastavnikId(nastavnikId).subscribe({
         next: (data: RealizacijaPredmeta[]) => {
           this.realizacijePredmeta = data;
-          this.loadEvaluacijeZnanja();
+          this.loadPredmetInfo();
         },
         error: (error: any) => {
           console.error('Error loading realizacije predmeta:', error);
+        }
+      });
+    }
+  }
+
+  loadPredmetInfo(): void {
+    const nastavnikId = this.authService.getKorisnikId();
+    if (nastavnikId) {
+      this.realizacijaPredmetaService.getPredmetInfoByNastavnikId(nastavnikId).subscribe({
+        next: (data: any[]) => {
+          this.predmetInfo = data;
+          this.loadEvaluacijeZnanja();
+        },
+        error: (error: any) => {
+          console.error('Error loading predmet info:', error);
         }
       });
     }
@@ -135,13 +151,13 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
         }
       });
 
-      // Prepare evaluacije znanja for display
       this.evaluacijeZnanjaDisplay = this.evaluacijeZnanja.map(evaluacija => {
+        const predmet = this.predmetInfo.find(p => p.id === evaluacija.realizacijaPredmetaId);
         return {
           ...evaluacija,
           vremePocetka: evaluacija.vremePocetka ? new Date(evaluacija.vremePocetka).toLocaleString('sr-RS') : 'N/A',
           vremeZavrsetka: evaluacija.vremeZavrsetka ? new Date(evaluacija.vremeZavrsetka).toLocaleString('sr-RS') : 'N/A',
-          predmetInfo: 'Predmet info' // TODO: Add actual predmet info when available
+          predmetInfo: predmet?.predmetNaziv || 'Nepoznat predmet'
         };
       });
     }
@@ -270,10 +286,13 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
 
   // Evaluacije znanja functions
   openCreateEvaluacijaDialog(): void {
-    const realizacijeOptions = this.realizacijePredmeta.map(rp => ({
-      value: rp.id,
-      label: `Realizacija ${rp.id} - Predmet ID: ${rp.predmetId}`
-    }));
+    const realizacijeOptions = this.realizacijePredmeta.map(rp => {
+      const predmet = this.predmetInfo.find(p => p.id === rp.id);
+      return {
+        value: rp.id,
+        label: `${predmet?.predmetNaziv || 'Nepoznat predmet'} (${new Date().getFullYear()})`
+      };
+    });
 
     const dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
@@ -329,10 +348,13 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
   }
 
   openEditEvaluacijaDialog(item: EvaluacijaZnanja): void {
-    const realizacijeOptions = this.realizacijePredmeta.map(rp => ({
-      value: rp.id,
-      label: `Realizacija ${rp.id} - Predmet ID: ${rp.predmetId}`
-    }));
+    const realizacijeOptions = this.realizacijePredmeta.map(rp => {
+      const predmet = this.predmetInfo.find(p => p.id === rp.id);
+      return {
+        value: rp.id,
+        label: `${predmet?.predmetNaziv || 'Nepoznat predmet'} (${new Date().getFullYear()})`
+      };
+    });
 
     const dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',

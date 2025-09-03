@@ -16,4 +16,8 @@ export class RealizacijaPredmetaService extends CrudService<RealizacijaPredmeta,
   getByNastavnikId(nastavnikId: number): Observable<RealizacijaPredmeta[]> {
     return this.http.get<RealizacijaPredmeta[]>(`http://localhost:8080/api/realizacije-predmeta/nastavnik/${nastavnikId}`);
   }
+
+  getPredmetInfoByNastavnikId(nastavnikId: number): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8080/api/realizacije-predmeta/nastavnik/${nastavnikId}/predmet-info`);
+  }
 }

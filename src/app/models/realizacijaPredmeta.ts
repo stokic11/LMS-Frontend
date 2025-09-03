@@ -3,6 +3,10 @@ export interface RealizacijaPredmeta {
     nastavniciIds?: number[];
     pohadjanjaPredmetaIds?: number[];
     predmetId: number;
+    predmet?: {
+        id: number;
+        naziv: string;
+    };
     terminiNastaveIds?: number[];
     evaluacijeZnanjaIds?: number[];
 }
