@@ -17,4 +17,10 @@ export class TerminNastaveService extends CrudService<TerminNastave, number> {
   createForStudentskaSluzba(termin: any): Observable<TerminNastave> {
     return this.http.post<TerminNastave>(`http://localhost:8080/api/termini-nastave/studentska-sluzba`, termin);
   }
+
+  
+  updateForStudentskaSluzba(id: number, termin: any): Observable<TerminNastave> {
+    
+    return this.http.post<TerminNastave>(`http://localhost:8080/api/termini-nastave/studentska-sluzba`, { ...termin, id });
+  }
 }

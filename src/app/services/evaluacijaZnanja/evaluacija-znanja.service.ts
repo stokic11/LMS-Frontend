@@ -35,4 +35,10 @@ export class EvaluacijaZnanjaService extends CrudService<EvaluacijaZnanja, numbe
   createForStudentskaSluzba(evaluacija: any): Observable<EvaluacijaZnanja> {
     return this.http.post<EvaluacijaZnanja>(`http://localhost:8080/api/evaluacije-znanja/studentska-sluzba`, evaluacija);
   }
+
+  
+  updateForStudentskaSluzba(id: number, evaluacija: any): Observable<EvaluacijaZnanja> {
+    
+    return this.http.post<EvaluacijaZnanja>(`http://localhost:8080/api/evaluacije-znanja/studentska-sluzba`, { ...evaluacija, id });
+  }
 }

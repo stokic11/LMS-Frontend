@@ -22,7 +22,7 @@ import { Predmet } from '../../models/predmet';
 import { TipEvaluacije } from '../../models/tipEvaluacije';
 import { TipNastave } from '../../models/tipNastave';
 import { Ishod } from '../../models/ishod';
-import { GenericTableComponent, TableColumn } from '../generic-table/generic-table.component';
+import { GenericTableComponent, TableColumn, TableAction } from '../generic-table/generic-table.component';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 
 @Component({
@@ -51,7 +51,10 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
   ishodi: Ishod[] = [];
   loading = false;
   canCreateNew = false; 
+  isStudentskaSluzba = false;
   
+  evaluacijeActions: TableAction[] = [];
+  terminiActions: TableAction[] = []; 
   
   evaluacijeColumns: TableColumn[] = [
     { key: 'id', label: 'ID' },
@@ -61,7 +64,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
     { key: 'tipEvaluacijeNaziv', label: 'Tip evaluacije' },
     { key: 'predmet', label: 'Predmet' }
   ];
-  
   
   terminiColumns: TableColumn[] = [
     { key: 'id', label: 'ID' },
@@ -85,14 +87,54 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkUserRole();
+    this.initializeActions();
     this.loadData();
+  }
+
+  checkUserRole(): void {
+    const roles = this.authService.getCurrentUserRoles();
+    this.isStudentskaSluzba = roles.includes('studentska_sluzba');
+  }
+
+  initializeActions(): void {
+    if (this.isStudentskaSluzba) {
+      this.evaluacijeActions = [
+        {
+          label: 'Izmeni',
+          icon: 'edit',
+          color: 'accent',
+          action: (evaluacija: any) => this.izmeniEvaluaciju(evaluacija)
+        },
+        {
+          label: 'Obriši',
+          icon: 'delete',
+          color: 'warn',
+          action: (evaluacija: any) => this.obrisiEvaluaciju(evaluacija)
+        }
+      ];
+
+      this.terminiActions = [
+        {
+          label: 'Izmeni',
+          icon: 'edit',
+          color: 'accent',
+          action: (termin: any) => this.izmeniTermin(termin)
+        },
+        {
+          label: 'Obriši',
+          icon: 'delete',
+          color: 'warn',
+          action: (termin: any) => this.obrisiTermin(termin)
+        }
+      ];
+    }
   }
 
   async loadData(): Promise<void> {
     this.loading = true;
     try {
       console.log('Pocinje ucitavanje podataka...');
-      
       
       this.predmeti = [];
       this.tipoviEvaluacije = [];
@@ -102,7 +144,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       this.terminiNastave = [];
       this.ishodi = [];
 
-      
       try {
         const tipoviEvaluacijeResponse = await firstValueFrom(
           this.tipEvaluacijeService.getAll()
@@ -117,7 +158,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         }
       }
 
-      
       try {
         const tipoviNastaveResponse = await firstValueFrom(
           this.tipNastaveService.getAll()
@@ -132,7 +172,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         }
       }
 
-      
       try {
         const predmetiResponse = await firstValueFrom(
           this.predmetService.getAll()
@@ -143,7 +182,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         console.log('Predmeti nisu dostupni studentskoj službi:', error);
       }
 
-      
       try {
         const realizacijeResponse = await firstValueFrom(
           this.realizacijaPredmetaService.getAll()
@@ -154,7 +192,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         console.log('Realizacije predmeta nisu dostupne studentskoj službi:', error);
       }
 
-      
       try {
         const ishodiResponse = await firstValueFrom(
           this.ishodService.getAll()
@@ -165,12 +202,10 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         console.log('Ishodi nisu dostupni studentskoj službi:', error);
       }
 
-      
       try {
         let evaluacijeResponse: EvaluacijaZnanja[] = [];
         
         if (this.authService.hasRole('studentska_sluzba')) {
-          
           try {
             evaluacijeResponse = await firstValueFrom(
               this.evaluacijaZnanjaService.getAllForStudentskaSluzba()
@@ -193,17 +228,16 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
             }
           }
         } else {
-          
           evaluacijeResponse = await firstValueFrom(
             this.evaluacijaZnanjaService.getAll()
           );
           console.log('Ucitano evaluacija znanja (standardno):', evaluacijeResponse.length);
         }
         
-        this.evaluacijeZnanja = this.mapEvaluacijeWithPredmeti(evaluacijeResponse);
-        console.log('Evaluacije znanja nakon mapiranja:', this.evaluacijeZnanja.length);
+        this.evaluacijeZnanja = this.mapEvaluacijeWithPredmeti(evaluacijeResponse)
+          .filter(evaluacija => !evaluacija.obrisan);
+        console.log('Evaluacije znanja nakon mapiranja i filtriranja:', this.evaluacijeZnanja.length);
       } catch (error: any) {
-        
         if (error?.status === 403) {
           console.log('Evaluacije znanja nisu dostupne studentskoj službi (403 Forbidden)');
         } else {
@@ -212,16 +246,15 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         this.evaluacijeZnanja = [];
       }
 
-      
       try {
         const terminiResponse = await firstValueFrom(
           this.terminNastaveService.getAll()
         );
         console.log('Ucitano termina nastave (raw):', terminiResponse.length);
-        this.terminiNastave = this.mapTerminiWithPredmeti(terminiResponse);
-        console.log('Termini nastave nakon mapiranja:', this.terminiNastave.length);
+        this.terminiNastave = this.mapTerminiWithPredmeti(terminiResponse)
+          .filter(termin => !termin.obrisan);
+        console.log('Termini nastave nakon mapiranja i filtriranja:', this.terminiNastave.length);
       } catch (error: any) {
-        
         if (error?.status === 403) {
           console.log('Termini nastave nisu dostupni studentskoj službi (403 Forbidden)');
         } else {
@@ -230,11 +263,9 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         this.terminiNastave = [];
       }
 
-     
       this.canCreateNew = this.realizacijePredmeta.length > 0 && 
                          (this.tipoviEvaluacije.length > 0 || this.tipoviNastave.length > 0);
 
-      
       if (this.evaluacijeZnanja.length === 0 && this.terminiNastave.length > 0) {
         this.snackBar.open(`Učitano ${this.terminiNastave.length} termina nastave. Evaluacije znanja će biti dostupne uskoro.`, 'Zatvori', { duration: 4000 });
       } else if (this.evaluacijeZnanja.length > 0 && this.terminiNastave.length === 0) {
@@ -258,28 +289,22 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       const realizacija = this.realizacijePredmeta.find(r => r.id === evaluacija.realizacijaPredmetaId);
       const predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
       
-      
       let tipEvaluacijeNaziv = 'Nepoznat tip';
       
       if (evaluacija.tipEvaluacije) {
         if (typeof evaluacija.tipEvaluacije === 'object' && evaluacija.tipEvaluacije.naziv) {
-          
           tipEvaluacijeNaziv = evaluacija.tipEvaluacije.naziv;
         } else if (typeof evaluacija.tipEvaluacije === 'object' && evaluacija.tipEvaluacije.id) {
-          
           const tipEvaluacije = this.tipoviEvaluacije.find(t => t.id === evaluacija.tipEvaluacije.id);
           tipEvaluacijeNaziv = tipEvaluacije?.naziv || 'Nepoznat tip';
         } else if (typeof evaluacija.tipEvaluacije === 'number') {
-         
           const tipId = evaluacija.tipEvaluacije as any as number;
           const tipEvaluacije = this.tipoviEvaluacije.find(t => t.id === tipId);
           tipEvaluacijeNaziv = tipEvaluacije?.naziv || 'Nepoznat tip';
         }
       }
       
-      
       if (tipEvaluacijeNaziv === 'Nepoznat tip' && this.tipoviEvaluacije.length > 0) {
-        
         const evaluacijaId = evaluacija.id || 0;
         const tipIndex = (evaluacijaId - 1) % this.tipoviEvaluacije.length;
         tipEvaluacijeNaziv = this.tipoviEvaluacije[tipIndex].naziv;
@@ -555,5 +580,360 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         });
       }
     });
+  }
+
+  async izmeniEvaluaciju(evaluacija: any): Promise<void> {
+    const realizacijeOptions = this.realizacijePredmeta.map(rp => {
+      const predmet = this.predmeti.find(p => p.id === rp.predmetId);
+      return {
+        value: rp.id,
+        label: `${predmet?.naziv || 'Nepoznat predmet'} (Realizacija ${rp.id})`
+      };
+    });
+
+    const tipoviEvaluacijeOptions = this.tipoviEvaluacije.map(tip => ({
+      value: tip.id,
+      label: tip.naziv
+    }));
+
+    const ishodiOptions = this.ishodi.map(ishod => ({
+      value: ishod.id,
+      label: ishod.opis
+    }));
+
+    if (realizacijeOptions.length === 0) {
+      this.snackBar.open('Nema dostupnih realizacija predmeta', 'Zatvori', { duration: 3000 });
+      return;
+    }
+
+    if (tipoviEvaluacijeOptions.length === 0) {
+      this.snackBar.open('Nema dostupnih tipova evaluacije', 'Zatvori', { duration: 3000 });
+      return;
+    }
+
+    const extractedTipId = this.extractTipEvaluacijeId(evaluacija);
+
+    const dialogData = {
+      bodovi: evaluacija.bodovi,
+      vremePocetka: this.formatDateForInput(evaluacija.vremePocetka),
+      vremeZavrsetka: this.formatDateForInput(evaluacija.vremeZavrsetka),
+      realizacijaPredmetaId: evaluacija.realizacijaPredmetaId,
+      tipEvaluacije: extractedTipId,
+      ishod: evaluacija.ishod?.id
+    };
+    
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '600px',
+      data: {
+        title: 'Izmeni evaluaciju znanja',
+        fields: [
+          { 
+            name: 'bodovi', 
+            label: 'Bodovi', 
+            type: 'number', 
+            required: true,
+            min: 0,
+            max: 100
+          },
+          { 
+            name: 'vremePocetka', 
+            label: 'Vreme početka', 
+            type: 'datetime', 
+            required: true
+          },
+          { 
+            name: 'vremeZavrsetka', 
+            label: 'Vreme završetka', 
+            type: 'datetime', 
+            required: true
+          },
+          { 
+            name: 'realizacijaPredmetaId', 
+            label: 'Predmet', 
+            type: 'select', 
+            required: true,
+            options: realizacijeOptions
+          },
+          { 
+            name: 'tipEvaluacije', 
+            label: 'Tip evaluacije', 
+            type: 'select', 
+            required: true,
+            options: tipoviEvaluacijeOptions
+          },
+          { 
+            name: 'ishod', 
+            label: 'Ishod', 
+            type: 'select', 
+            required: false,
+            options: ishodiOptions
+          }
+        ],
+        data: dialogData
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const updateData: any = {
+          id: evaluacija.id,
+          bodovi: Number(result.bodovi),
+          vremePocetka: result.vremePocetka,
+          vremeZavrsetka: result.vremeZavrsetka,
+          realizacijaPredmetaId: Number(result.realizacijaPredmetaId),
+          tipEvaluacije: result.tipEvaluacije ? { id: Number(result.tipEvaluacije) } : null,
+          ishod: result.ishod ? { id: Number(result.ishod) } : null,
+          obrisan: evaluacija.obrisan || false,
+          datumBrisanja: evaluacija.datumBrisanja
+        };
+        
+        this.evaluacijaZnanjaService.updateForStudentskaSluzba(evaluacija.id, updateData).subscribe({
+          next: (response) => {
+            this.snackBar.open('Evaluacija znanja je uspešno izmenjena', 'Zatvori', { duration: 3000 });
+            this.loadData();
+          },
+          error: (error: any) => {
+            console.error('Error updating evaluacija znanja:', error);
+            this.snackBar.open('Greška pri izmeni evaluacije znanja', 'Zatvori', { duration: 3000 });
+          }
+        });
+      }
+    });
+  }
+
+  async obrisiEvaluaciju(evaluacija: any): Promise<void> {
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Potvrdi brisanje',
+        subtitle: `Da li ste sigurni da želite da obrišete evaluaciju znanja sa ${evaluacija.bodovi} bodova?`,
+        fields: [
+          {
+            name: 'confirmation',
+            label: 'Potvrdite brisanje',
+            type: 'dynamic-text',
+            dynamicText: () => 'Ova akcija se ne može poništiti.'
+          }
+        ],
+        customSave: async (formValue: any) => {
+          try {
+            await firstValueFrom(this.evaluacijaZnanjaService.delete(evaluacija.id));
+            this.snackBar.open('Evaluacija znanja je uspešno obrisana!', 'Zatvori', { duration: 3000 });
+            return true;
+          } catch (error) {
+            this.snackBar.open('Greška pri brisanju evaluacije znanja', 'Zatvori', { duration: 3000 });
+            throw error;
+          }
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadData();
+      }
+    });
+  }
+
+  async izmeniTermin(termin: any): Promise<void> {
+    const realizacijeOptions = this.realizacijePredmeta.map(rp => {
+      const predmet = this.predmeti.find(p => p.id === rp.predmetId);
+      return {
+        value: rp.id,
+        label: `${predmet?.naziv || 'Nepoznat predmet'} (Realizacija ${rp.id})`
+      };
+    });
+
+    const tipoviNastaveOptions = this.tipoviNastave.map(tip => ({
+      value: tip.id,
+      label: tip.naziv
+    }));
+
+    const ishodiOptionsTermin = this.ishodi.map(ishod => ({
+      value: ishod.id,
+      label: ishod.opis
+    }));
+
+    if (realizacijeOptions.length === 0) {
+      this.snackBar.open('Nema dostupnih realizacija predmeta', 'Zatvori', { duration: 3000 });
+      return;
+    }
+
+    if (tipoviNastaveOptions.length === 0) {
+      this.snackBar.open('Nema dostupnih tipova nastave', 'Zatvori', { duration: 3000 });
+      return;
+    }
+
+    const extractedTipId = this.extractTipNastaveId(termin);
+
+    const dialogData = {
+      vremePocetka: this.formatDateForInput(termin.vremePocetka),
+      vremeZavrsetka: this.formatDateForInput(termin.vremeZavrsetka),
+      realizacijaPredmetaId: termin.realizacijaPredmetaId,
+      tipNastave: extractedTipId,
+      ishod: termin.ishod?.id
+    };
+    
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '600px',
+      data: {
+        title: 'Izmeni termin nastave',
+        fields: [
+          { 
+            name: 'vremePocetka', 
+            label: 'Vreme početka', 
+            type: 'datetime', 
+            required: true
+          },
+          { 
+            name: 'vremeZavrsetka', 
+            label: 'Vreme završetka', 
+            type: 'datetime', 
+            required: true
+          },
+          { 
+            name: 'realizacijaPredmetaId', 
+            label: 'Predmet', 
+            type: 'select', 
+            required: true,
+            options: realizacijeOptions
+          },
+          { 
+            name: 'tipNastave', 
+            label: 'Tip nastave', 
+            type: 'select', 
+            required: true,
+            options: tipoviNastaveOptions
+          },
+          { 
+            name: 'ishod', 
+            label: 'Ishod', 
+            type: 'select', 
+            required: false,
+            options: ishodiOptionsTermin
+          }
+        ],
+        data: dialogData
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const updateData: any = {
+          id: termin.id,
+          vremePocetka: result.vremePocetka,
+          vremeZavrsetka: result.vremeZavrsetka,
+          realizacijaPredmetaId: Number(result.realizacijaPredmetaId),
+          tipNastave: result.tipNastave ? { id: Number(result.tipNastave) } : null,
+          ishod: result.ishod ? { id: Number(result.ishod) } : null,
+          obrisan: termin.obrisan || false,
+          datumBrisanja: termin.datumBrisanja
+        };
+        
+        this.terminNastaveService.updateForStudentskaSluzba(termin.id, updateData).subscribe({
+          next: (response) => {
+            this.snackBar.open('Termin nastave je uspešno izmenjen', 'Zatvori', { duration: 3000 });
+            this.loadData();
+          },
+          error: (error: any) => {
+            console.error('Error updating termin nastave:', error);
+            this.snackBar.open('Greška pri izmeni termina nastave', 'Zatvori', { duration: 3000 });
+          }
+        });
+      }
+    });
+  }
+
+  async obrisiTermin(termin: any): Promise<void> {
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Potvrdi brisanje',
+        subtitle: `Da li ste sigurni da želite da obrišete termin nastave (${termin.tipNastaveNaziv})?`,
+        fields: [
+          {
+            name: 'confirmation',
+            label: 'Potvrdite brisanje',
+            type: 'dynamic-text',
+            dynamicText: () => 'Ova akcija se ne može poništiti.'
+          }
+        ],
+        customSave: async (formValue: any) => {
+          try {
+            await firstValueFrom(this.terminNastaveService.delete(termin.id));
+            this.snackBar.open('Termin nastave je uspešno obrisan!', 'Zatvori', { duration: 3000 });
+            return true;
+          } catch (error) {
+            this.snackBar.open('Greška pri brisanju termina nastave', 'Zatvori', { duration: 3000 });
+            throw error;
+          }
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadData();
+      }
+    });
+  }
+
+  private formatDateForInput(dateValue: any): string {
+    if (!dateValue) return '';
+    
+    try {
+      const date = new Date(dateValue);
+      if (isNaN(date.getTime())) return '';
+      
+      
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      
+      return `${year}-${month}-${day}T${hours}:${minutes}`;
+    } catch (error) {
+      console.warn('Error formatting date:', error);
+      return '';
+    }
+  }
+
+  private extractTipEvaluacijeId(evaluacija: any): number | undefined {
+    if (!evaluacija.tipEvaluacije) return undefined;
+    
+    if (typeof evaluacija.tipEvaluacije === 'number') {
+      return evaluacija.tipEvaluacije;
+    }
+    
+    if (typeof evaluacija.tipEvaluacije === 'object' && evaluacija.tipEvaluacije.id) {
+      return evaluacija.tipEvaluacije.id;
+    }
+    
+    if (typeof evaluacija.tipEvaluacije === 'object' && evaluacija.tipEvaluacije.naziv) {
+      const tip = this.tipoviEvaluacije.find(t => t.naziv === evaluacija.tipEvaluacije.naziv);
+      return tip?.id;
+    }
+    
+    return undefined;
+  }
+
+  private extractTipNastaveId(termin: any): number | undefined {
+    if (!termin.tipNastave) return undefined;
+    
+    if (typeof termin.tipNastave === 'number') {
+      return termin.tipNastave;
+    }
+    
+    if (typeof termin.tipNastave === 'object' && termin.tipNastave.id) {
+      return termin.tipNastave.id;
+    }
+    
+    if (typeof termin.tipNastave === 'object' && termin.tipNastave.naziv) {
+      const tip = this.tipoviNastave.find(t => t.naziv === termin.tipNastave.naziv);
+      return tip?.id;
+    }
+    
+    return undefined;
   }
 }

@@ -22,6 +22,7 @@
           *ngIf="evaluacijeZnanja.length > 0"
           [data]="evaluacijeZnanja"
           [columns]="evaluacijeColumns"
+          [actions]="evaluacijeActions"
           [showDownloadButton]="false"
           downloadFileName="evaluacije-znanja">
         </app-generic-table>
@@ -56,6 +57,7 @@
           *ngIf="terminiNastave.length > 0"
           [data]="terminiNastave"
           [columns]="terminiColumns"
+          [actions]="terminiActions"
           [showDownloadButton]="false"
           downloadFileName="termini-nastave">
         </app-generic-table>
