@@ -31,6 +31,7 @@ import { StudentDetailsComponent } from './components/student-details/student-de
 import { NastavnikOcenjivanjeComponent } from './components/nastavnik-ocenjivanje/nastavnik-ocenjivanje.component';
 import { StudentKnjigeComponent } from './components/student-knjige/student-knjige.component';
 import { LiteraturaComponent } from './components/literatura/literatura.component';
+import { StudentskaStudentiComponent } from './components/studentska-studenti/studentska-studenti.component';
 
 
 export const routes: Routes = [
@@ -179,6 +180,12 @@ export const routes: Routes = [
   { 
     path: 'literatura',
     component: LiteraturaComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['studentska_sluzba'] }
+  },
+  { 
+    path: 'upravljanje-studenti',
+    component: StudentskaStudentiComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['studentska_sluzba'] }
   },

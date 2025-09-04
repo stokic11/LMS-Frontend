@@ -1,0 +1,13 @@
+.header-actions {
+  margin-left: auto;
+}
+
+mat-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+mat-card-title {
+  flex: 1;
+}

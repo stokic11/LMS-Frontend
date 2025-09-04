@@ -303,5 +303,31 @@ export class DialogConfigService {
     };
   }
 
+  getKnjigaConfig(data?: any, isNew: boolean = false): DialogConfig {
+    return {
+      title: isNew ? 'Dodaj Knjigu' : 'Izmeni Knjigu',
+      isNew,
+      data,
+      fields: [
+        {
+          name: 'naziv',
+          label: 'Naziv knjige',
+          type: 'text',
+          required: true,
+          placeholder: 'Unesite naziv knjige',
+          fullWidth: true
+        },
+        {
+          name: 'autor',
+          label: 'Autor',
+          type: 'text',
+          required: true,
+          placeholder: 'Unesite ime autora',
+          fullWidth: true
+        }
+      ]
+    };
+  }
+
   
 }

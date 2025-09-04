@@ -52,6 +52,12 @@
       <mat-card-header>
         <mat-card-title>Upravljanje bibliotekom</mat-card-title>
         <mat-card-subtitle>{{biblioteka.length}} različitih knjiga u biblioteci</mat-card-subtitle>
+        <div class="header-actions">
+          <button mat-raised-button color="primary" (click)="dodajKnjigu()">
+            <mat-icon>add</mat-icon>
+            Dodaj knjigu
+          </button>
+        </div>
       </mat-card-header>
       <mat-card-content>
         <app-generic-table

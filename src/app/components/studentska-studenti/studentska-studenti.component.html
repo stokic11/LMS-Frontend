@@ -1,0 +1,19 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Upravljanje Studentima</mat-card-title>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="openStudentDialog()">
+        <mat-icon>add</mat-icon>
+        Dodaj Studenta
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <app-generic-table
+      [data]="studenti"
+      [columns]="columns"
+      [showDownloadButton]="false">
+    </app-generic-table>
+  </mat-card-content>
+</mat-card>
