@@ -29,12 +29,18 @@ export class ObavestenjeService extends CrudService<Obavestenje, number> {
     return this.http.get<any[]>(`http://localhost:8080/api/obavestenja/admin`);
   }
 
+  getAllForStudentskaSluzba(): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8080/api/obavestenja/studentska-sluzba`);
+  }
+
   getAllByRole(): Observable<any[]> {
     const roles = this.authService.getCurrentUserRoles();
     const userId = this.authService.getKorisnikId();
     
-    if (roles.includes('admin') || roles.includes('studentska_sluzba')) {
+    if (roles.includes('admin')) {
       return this.getAllForAdmin();
+    } else if (roles.includes('studentska_sluzba')) {
+      return this.getAllForStudentskaSluzba();
     } else if (roles.includes('nastavnik') && userId) {
       return this.getByNastavnikId(userId);
     } else if (roles.includes('student') && userId) {
