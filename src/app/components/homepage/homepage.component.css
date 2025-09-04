@@ -49,6 +49,9 @@
   text-transform: uppercase;
   font-weight: 600;
   transition: all 0.3s ease;
+  background-color: #E64833 !important;
+  color: white !important;
+  border: 2px solid #E64833 !important;
 }
 
 .hero-btn {

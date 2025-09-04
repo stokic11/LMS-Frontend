@@ -8,9 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Observable, forkJoin } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { IshodService } from '../../services/ishod/ishod.service';
 import { ObrazovniCiljService } from '../../services/obrazovniCilj/obrazovni-cilj.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
@@ -41,7 +41,8 @@ export interface SilabusDialogData {
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './silabus-edit-dialog.component.html',
   styleUrl: './silabus-edit-dialog.component.css'

@@ -1,94 +1,215 @@
-.silabus-dialog {
+/* Generic Dialog Style */
+.generic-dialog-container {
   min-width: 800px;
-  max-width: 90vw;
+  max-width: 1200px;
+  width: 90vw;
+  height: 80vh;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
+/* Dialog Header */
+.dialog-header {
+  background: linear-gradient(135deg, #244855 0%, #1a3440 100%);
+  color: white;
+  padding: 24px;
+  margin: -24px -24px 24px -24px;
+}
+
+.dialog-title-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dialog-icon {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 28px;
+}
+
+.dialog-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  color: white;
+}
+
+/* Dialog Content */
 .dialog-content {
-  max-height: 60vh;
+  flex: 1;
+  padding: 0 24px 24px 24px;
   overflow-y: auto;
-  padding: 20px 0;
+  min-height: 0;
 }
 
 .add-button-container {
-  margin-bottom: 20px;
-  text-align: right;
+  margin-top: 24px;
+  text-align: center;
+  padding: 16px 0;
 }
 
+.add-button {
+  background: #244855 !important;
+  color: white !important;
+}
+
+.add-button mat-icon {
+  margin-right: 8px;
+}
+
+/* Table Styles */
 .table-container {
-  width: 100%;
-  overflow-x: auto;
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 0;
 }
 
 .silabus-table {
   width: 100%;
-  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.silabus-table th {
+  background: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #244855;
+}
+
+.silabus-table td {
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.silabus-table tr:hover {
+  background-color: #f9f9f9;
 }
 
 .full-width {
   width: 100%;
-}
-
-.dialog-actions {
-  padding: 20px 24px;
-  margin: 0;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.no-data {
-  text-align: center;
-  padding: 40px 20px;
-  color: #666;
-  font-style: italic;
+  margin-bottom: 16px;
 }
 
 .current-cilj {
-  margin-top: 5px;
-  padding: 5px;
-  background-color: #f5f5f5;
+  margin-top: 8px;
+}
+
+.selected-info {
+  color: #666;
+  font-style: italic;
+  padding: 8px;
+  background: #f0f8ff;
+  border-left: 3px solid #244855;
   border-radius: 4px;
-  font-size: 12px;
+  display: block;
+}
+
+.delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Empty State */
+.no-data {
+  text-align: center;
+  padding: 48px 24px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   color: #666;
 }
 
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+.empty-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #ccc;
 }
 
-.loading-spinner {
-  background: #2196f3;
-  color: white;
-  padding: 15px 30px;
-  border-radius: 5px;
+.empty-state p {
+  font-size: 1.2rem;
   font-weight: 500;
+  margin: 0;
 }
 
-.mat-mdc-table {
-  box-shadow: none;
+.empty-state small {
+  color: #999;
 }
 
-.mat-mdc-header-cell {
-  font-weight: 600;
-  color: #333;
+/* Dialog Actions */
+.dialog-actions {
+  padding: 16px 24px 24px 24px;
+  margin: 0 -24px -24px -24px;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  min-height: 80px;
+  align-items: center;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
-.mat-mdc-cell {
-  padding: 12px 8px;
+.cancel-button {
+  margin-right: 16px;
 }
 
-.mat-mdc-form-field {
-  margin-bottom: 10px;
+.save-button {
+  background: #244855 !important;
+  color: white !important;
 }
 
-.mat-mdc-icon-button {
-  margin-left: 8px;
+.save-button mat-icon {
+  margin-right: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .generic-dialog-container {
+    min-width: 95vw;
+    max-width: 95vw;
+    width: 95vw;
+    height: 90vh;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .dialog-title {
+    font-size: 1.4rem;
+  }
+  
+  .dialog-actions {
+    flex-direction: column;
+  }
+  
+  .dialog-actions button {
+    width: 100%;
+  }
 }

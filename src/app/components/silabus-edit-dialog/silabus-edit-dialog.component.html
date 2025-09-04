@@ -1,21 +1,22 @@
-<div class="silabus-dialog">
-  <h1 mat-dialog-title>Uređivanje silabusa - {{data.predmetNaziv}}</h1>
-  
-  <div mat-dialog-content class="dialog-content">
-    <div class="add-button-container">
-      <button mat-raised-button color="primary" (click)="addNewIshod()" [disabled]="loading">
-        <mat-icon>add</mat-icon>
-        Dodaj novi ishod
-      </button>
+<div class="generic-dialog-container">
+  <!-- Dialog Header (generic-dialog style) -->
+  <div class="dialog-header">
+    <div class="dialog-title-section">
+      <mat-icon class="dialog-icon">edit</mat-icon>
+      <h1 class="dialog-title">Uređivanje silabusa - {{data.predmetNaziv}}</h1>
     </div>
-
-    <div class="table-container">
+  </div>
+  
+  <!-- Dialog Content -->
+  <div class="dialog-content">
+    <div class="table-container" *ngIf="ishodi.length > 0">
       <table mat-table [dataSource]="dataSource" class="silabus-table">
         <ng-container matColumnDef="opis">
           <th mat-header-cell *matHeaderCellDef>Opis ishoda</th>
           <td mat-cell *matCellDef="let element; let i = index">
             <mat-form-field appearance="outline" class="full-width">
-              <input matInput [(ngModel)]="element.opis" placeholder="Unesite opis ishoda">
+              <mat-label>Opis ishoda</mat-label>
+              <textarea matInput [(ngModel)]="element.opis" placeholder="Unesite opis ishoda" rows="3"></textarea>
             </mat-form-field>
           </td>
         </ng-container>
@@ -24,6 +25,7 @@
           <th mat-header-cell *matHeaderCellDef>Obrazovni cilj</th>
           <td mat-cell *matCellDef="let element">
             <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Obrazovni cilj</mat-label>
               <mat-select [value]="element.obrazovniCilj?.id" 
                          (selectionChange)="onObrazovniCiljChange(element, $event.value)"
                          placeholder="Izaberite ili unesite novi obrazovni cilj">
@@ -39,6 +41,7 @@
             <!-- Polje za unos novog obrazovnog cilja -->
             <mat-form-field appearance="outline" class="full-width" 
                            *ngIf="element.isCreatingNewCilj">
+              <mat-label>Novi obrazovni cilj</mat-label>
               <input matInput [(ngModel)]="element.newCiljOpis" 
                      placeholder="Unesite opis novog obrazovnog cilja"
                      (blur)="saveNewObrazovniCilj(element)"
@@ -49,7 +52,7 @@
             <!-- Prikaz trenutnog cilja ako nije kreiranje novog -->
             <div *ngIf="!element.isCreatingNewCilj && element.obrazovniCilj?.opis" 
                  class="current-cilj">
-              <small>Trenutni: {{element.obrazovniCilj.opis}}</small>
+              <small class="selected-info">Trenutni: {{element.obrazovniCilj.opis}}</small>
             </div>
           </td>
         </ng-container>
@@ -57,8 +60,8 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Akcije</th>
           <td mat-cell *matCellDef="let element; let i = index">
-            <button mat-icon-button color="warn" (click)="deleteIshod(i)" [disabled]="loading">
-              <mat-icon>delete</mat-icon>
+            <button mat-raised-button (click)="deleteIshod(i)" [disabled]="loading" class="delete-button">
+              Obriši
             </button>
           </td>
         </ng-container>
@@ -69,18 +72,30 @@
     </div>
 
     <div *ngIf="ishodi.length === 0" class="no-data">
-      <p>Nema definisanih ishoda. Kliknite "Dodaj novi ishod" da biste dodali prvi ishod.</p>
+      <div class="empty-state">
+        <mat-icon class="empty-icon">description</mat-icon>
+        <p>Nema definisanih ishoda</p>
+        <small>Kliknite "Dodaj novi ishod" da biste dodali prvi ishod.</small>
+      </div>
+    </div>
+
+    <div class="add-button-container">
+      <button mat-raised-button color="primary" (click)="addNewIshod()" [disabled]="loading" class="add-button">
+        <mat-icon>add</mat-icon>
+        Dodaj novi ishod
+      </button>
     </div>
   </div>
 
-  <div mat-dialog-actions class="dialog-actions">
-    <button mat-button (click)="cancel()" [disabled]="loading">Otkaži</button>
-    <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="loading">
-      Sačuvaj izmene
+  <!-- Dialog Actions (generic-dialog style) -->
+  <div class="dialog-actions">
+    <button mat-raised-button (click)="cancel()" [disabled]="loading" class="cancel-button">
+      Otkaži
     </button>
-  </div>
-
-  <div *ngIf="loading" class="loading-overlay">
-    <div class="loading-spinner">Čuvanje...</div>
+    <button mat-raised-button color="primary" (click)="saveChanges()" [disabled]="loading" class="save-button">
+      <mat-icon *ngIf="!loading">save</mat-icon>
+      <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+      {{loading ? 'Čuvanje...' : 'Sačuvaj izmene'}}
+    </button>
   </div>
 </div>
