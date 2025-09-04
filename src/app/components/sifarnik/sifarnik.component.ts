@@ -64,7 +64,7 @@ export class SifarnikComponent implements OnInit {
     this.loading = true;
     this.sifarnikService.getAll().subscribe({
       next: (data) => {
-        this.sifarnici = data;
+        this.sifarnici = data.filter(s => !s.obrisan);
         this.loading = false;
       },
       error: (error) => {

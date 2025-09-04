@@ -80,11 +80,13 @@ export class TerminiRasporedComponent implements OnInit {
       tipoviNastave: this.tipNastaveService.getAll()
     }).subscribe({
       next: (data) => {
-        this.termini = data.termini.map((termin: any) => ({
-          ...termin,
-          ishodInfo: this.getIshodInfo(termin.ishod),
-          tipNastaveInfo: this.getTipNastaveInfo(termin.tipNastave)
-        }));
+        this.termini = data.termini
+          .filter(termin => !termin.obrisan)
+          .map((termin: any) => ({
+            ...termin,
+            ishodInfo: this.getIshodInfo(termin.ishod),
+            tipNastaveInfo: this.getTipNastaveInfo(termin.tipNastave)
+          }));
         this.ishodi = Array.from(data.ishodi);
         this.tipoviNastave = Array.from(data.tipoviNastave);
         

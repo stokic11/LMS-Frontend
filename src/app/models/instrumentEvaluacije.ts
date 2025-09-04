@@ -6,4 +6,6 @@ export interface InstrumentEvaluacije {
     evaluacijaZnanja?: EvaluacijaZnanja;
     evaluacijaZnanjaId: number;
     fajloviIds?: number[];
+    obrisan?: boolean;
+    datumBrisanja?: string;
 }

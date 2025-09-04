@@ -4,4 +4,6 @@ export interface StudijskiProgram {
     godineStudijaIds: number[];
     rukovodilaId: number;
     fakultetId: number;
+    obrisan?: boolean;
+    datumBrisanja?: string;
 }

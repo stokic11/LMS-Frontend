@@ -114,14 +114,15 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
         this.obavestenjeService.getAllByRole()
       );
       
-      // Backend response već sadrži potrebna polja
-      this.obavestenja = obavestenjaResponse.map((obavestenje: any) => ({
-        ...obavestenje,
-        predmet: obavestenje.nazivPredmeta || 'Nepoznat predmet',
-        nastavnik: (obavestenje.nastavnikIme && obavestenje.nastavnikPrezime) 
-          ? `${obavestenje.nastavnikIme} ${obavestenje.nastavnikPrezime}`
-          : this.getNastavnikName(obavestenje.nastavnikNaRealizacijiId)
-      }));
+      this.obavestenja = obavestenjaResponse
+        .filter((obavestenje: any) => !obavestenje.obrisan)
+        .map((obavestenje: any) => ({
+          ...obavestenje,
+          predmet: obavestenje.nazivPredmeta || 'Nepoznat predmet',
+          nastavnik: (obavestenje.nastavnikIme && obavestenje.nastavnikPrezime) 
+            ? `${obavestenje.nastavnikIme} ${obavestenje.nastavnikPrezime}`
+            : this.getNastavnikName(obavestenje.nastavnikNaRealizacijiId)
+        }));
 
     } catch (error) {
       this.snackBar.open('Greška pri učitavanju podataka', 'Zatvori', { duration: 3000 });

@@ -8,4 +8,6 @@ export interface TerminNastave {
     ishod: Ishod;
     realizacijaPredmetaId: number;
     tipNastave: TipNastave;
+    obrisan?: boolean;
+    datumBrisanja?: string;
 }

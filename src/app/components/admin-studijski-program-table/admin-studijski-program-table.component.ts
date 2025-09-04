@@ -43,12 +43,14 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
   loadStudijskiProgrami(): void {
     this.studijskiProgramService.getAllWithDetails().subscribe({
       next: (data) => {
-        this.studijskiProgramiDisplay = data.map(sp => ({
-          id: sp.id,
-          naziv: sp.naziv,
-          fakultetNaziv: sp.fakultetNaziv,
-          rukovodiocImePrezime: sp.rukovodiocImePrezime
-        }));
+        this.studijskiProgramiDisplay = data
+          .filter(sp => !sp.obrisan)
+          .map(sp => ({
+            id: sp.id,
+            naziv: sp.naziv,
+            fakultetNaziv: sp.fakultetNaziv,
+            rukovodiocImePrezime: sp.rukovodiocImePrezime
+          }));
       },
       error: (error) => {
         console.error('Greška pri učitavanju studijskih programa:', error);

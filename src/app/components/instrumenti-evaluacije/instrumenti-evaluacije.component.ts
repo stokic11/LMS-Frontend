@@ -135,7 +135,9 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
       this.instrumentEvaluacijeService.getByNastavnikId(nastavnikId).subscribe({
         next: (data: InstrumentEvaluacije[]) => {
           this.originalInstrumenti = data;
-          this.instrumentiDisplay = data.map(instrument => {
+          this.instrumentiDisplay = data
+            .filter(instrument => !instrument.obrisan)
+            .map(instrument => {
             const evaluacija = this.evaluacijeZnanja.find(ev => ev.id === instrument.evaluacijaZnanjaId);
             return {
               ...instrument,
@@ -151,7 +153,9 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
         }
       });
 
-      this.evaluacijeZnanjaDisplay = this.evaluacijeZnanja.map(evaluacija => {
+      this.evaluacijeZnanjaDisplay = this.evaluacijeZnanja
+        .filter(evaluacija => !evaluacija.obrisan)
+        .map(evaluacija => {
         const predmet = this.predmetInfo.find(p => p.id === evaluacija.realizacijaPredmetaId);
         return {
           ...evaluacija,

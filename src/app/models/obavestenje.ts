@@ -6,4 +6,6 @@ export interface Obavestenje {
     priloziIds?: number[];
     nastavnikNaRealizacijiId: number;
     realizacijaPredmetaId: number;
+    obrisan?: boolean;
+    datumBrisanja?: string;
 }

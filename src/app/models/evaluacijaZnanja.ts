@@ -10,4 +10,6 @@ export interface EvaluacijaZnanja {
     realizacijaPredmetaId: number;
     ishod?: Ishod;
     instrumentiEvaluacijeIds?: number[];
+    obrisan?: boolean;
+    datumBrisanja?: string;
 }

@@ -122,11 +122,11 @@ export class KorisnikTableComponent implements OnInit {
         console.log('Osnovni korisnici:', korisnici);
         
         this.korisnici = korisnici
+          .filter(korisnik => !korisnik.obrisan)
           .map(korisnik => ({
             ...korisnik,
             uloga: this.ulogaMap.get(korisnik.ulogaId || 0) || 'Nepoznata uloga'
           }));
-          // Prikazujemo sve korisnike u tabeli Korisnici Sistema
         this.checkLoadingComplete();
       },
       error: (error) => {
@@ -141,7 +141,7 @@ export class KorisnikTableComponent implements OnInit {
     this.studentService.getAll().subscribe({
       next: (studenti) => {
         console.log('Studenti iz student tabele:', studenti);
-        this.studenti = studenti;
+        this.studenti = studenti.filter(student => !student.obrisan);
         this.checkLoadingComplete();
       },
       error: (error) => {
@@ -156,7 +156,7 @@ export class KorisnikTableComponent implements OnInit {
     this.nastavnikService.getAll().subscribe({
       next: (nastavnici) => {
         console.log('Nastavnici iz nastavnik tabele:', nastavnici);
-        this.nastavnici = nastavnici;
+        this.nastavnici = nastavnici.filter(nastavnik => !nastavnik.obrisan);
         this.checkLoadingComplete();
       },
       error: (error) => {
@@ -222,7 +222,7 @@ export class KorisnikTableComponent implements OnInit {
       this.korisnikService.delete(korisnik.id!).subscribe({
         next: () => {
           this.snackBar.open('Korisnik je uspešno obrisan', 'Zatvori', { duration: 3000 });
-          this.loadUloge();
+          this.loadAllUserData();
         },
         error: (error) => {
           console.error('Error deleting user:', error);

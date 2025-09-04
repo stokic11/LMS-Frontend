@@ -9,4 +9,6 @@ export interface Korisnik {
     uloga?: string;
     forumiIds?: number[]; 
     datumRodjenja?: Date;
+    obrisan?: boolean;
+    datumBrisanja?: string;
 }
