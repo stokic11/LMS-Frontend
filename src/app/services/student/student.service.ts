@@ -35,7 +35,6 @@ export class StudentService extends WritableCrudService<Student, number> {
 
   getGodineStudija(): Observable<GodinaStudija[]> {
     const url = AppConstants.buildUrl('godine-studija');
-    console.log('Pozivam URL za godine studija:', url);
     return this.http.get<GodinaStudija[]>(url);
   }
 

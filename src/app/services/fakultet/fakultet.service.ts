@@ -15,13 +15,11 @@ export class FakultetService extends ReadOnlyCrudService<Fakultet, number> {
 
   getFakultetInfo(id: number): Observable<any> {
     const backendUrl = `http://localhost:8080/api/fakulteti/${id}/info`;
-    console.log('Pozivam direktno backend URL:', backendUrl);
     return this.http.get<any>(backendUrl);
   }
 
   override getById(id: number): Observable<Fakultet> {
     const backendUrl = `http://localhost:8080/api/fakulteti/${id}`;
-    console.log('Pozivam direktno backend URL za punu informaciju:', backendUrl);
     return this.http.get<Fakultet>(backendUrl);
   }
 }

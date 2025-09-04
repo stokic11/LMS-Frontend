@@ -15,13 +15,11 @@ export class PredmetService extends CrudService<Predmet, number> {
 
   override getById(id: number): Observable<Predmet> {
     const backendUrl = `http://localhost:8080/api/predmeti/${id}`;
-    console.log('Pozivam backend URL za predmet:', backendUrl);
     return this.http.get<Predmet>(backendUrl);
   }
 
   override getAll(): Observable<Predmet[]> {
     const backendUrl = `http://localhost:8080/api/predmeti`;
-    console.log('Pozivam backend URL za sve predmete:', backendUrl);
     return this.http.get<Predmet[]>(backendUrl);
   }
 }

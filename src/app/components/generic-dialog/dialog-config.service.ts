@@ -51,12 +51,10 @@ export class DialogConfigService {
         }
       ],
       customProcessing: (formValue: any, isNewUser: boolean) => {
-        // Ako lozinka nije uneta za postojeće korisnike, obriši je
         if (!isNewUser && (formValue.lozinka === undefined || formValue.lozinka === null || formValue.lozinka === '')) {
           delete formValue.lozinka;
         }
         
-        // Osiguraj da su ime i prezime definisani
         if (!formValue.ime) formValue.ime = '';
         if (!formValue.prezime) formValue.prezime = '';
         

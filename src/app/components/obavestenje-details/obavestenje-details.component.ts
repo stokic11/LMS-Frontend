@@ -46,7 +46,6 @@ export class ObavestenjeDetailsComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading obavestenje:', error);
         this.error = true;
         this.loading = false;
       }
@@ -75,7 +74,7 @@ export class ObavestenjeDetailsComponent implements OnInit {
           },
           {
             label: 'Datum postavljanja',
-            value: new Date(this.obavestenje.vremePostavljanja).toLocaleDateString('sr-RS'),
+            value: new Date(this.obavestenje.vremePostavljanja).toLocaleDateString('en-GB'),
             type: 'text'
           }
         ]

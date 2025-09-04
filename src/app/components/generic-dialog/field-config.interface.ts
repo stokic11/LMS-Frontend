@@ -1,7 +1,7 @@
 export interface FieldConfig {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'datetime' | 'select' | 'textarea';
+  type: 'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'datetime' | 'select' | 'textarea' | 'dynamic-text';
   required?: boolean;
   placeholder?: string;
   hint?: string;
@@ -14,6 +14,7 @@ export interface FieldConfig {
   max?: number;
   showOnNew?: boolean;
   showOnEdit?: boolean;
+  dynamicText?: (formValue: any) => string;
 }
 
 export interface DialogConfig {

@@ -31,15 +31,15 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
     { key: 'opis', label: 'Opis instrumenta' },
     { key: 'evaluacijaInfo', label: 'Evaluacija' },
     { key: 'bodovi', label: 'Bodovi' },
-    { key: 'vremePocetka', label: 'Vreme početka', pipe: 'date', pipeArgs: 'dd/MM/yyyy HH:mm' },
-    { key: 'vremeZavrsetka', label: 'Vreme završetka', pipe: 'date', pipeArgs: 'dd/MM/yyyy HH:mm' }
+    { key: 'vremePocetka', label: 'Vreme početka' },
+    { key: 'vremeZavrsetka', label: 'Vreme završetka' }
   ];
 
   evaluacijeColumns: TableColumn[] = [
     { key: 'id', label: 'ID' },
     { key: 'bodovi', label: 'Bodovi' },
-    { key: 'vremePocetka', label: 'Vreme početka', pipe: 'date', pipeArgs: 'dd/MM/yyyy HH:mm' },
-    { key: 'vremeZavrsetka', label: 'Vreme završetka', pipe: 'date', pipeArgs: 'dd/MM/yyyy HH:mm' },
+    { key: 'vremePocetka', label: 'Vreme početka' },
+    { key: 'vremeZavrsetka', label: 'Vreme završetka' },
     { key: 'predmetInfo', label: 'Predmet' }
   ];
   actions: TableAction[] = [
@@ -141,8 +141,8 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
               ...instrument,
               evaluacijaInfo: evaluacija ? `Evaluacija ${evaluacija.id}` : 'N/A',
               bodovi: evaluacija?.bodovi || 0,
-              vremePocetka: evaluacija?.vremePocetka ? new Date(evaluacija.vremePocetka).toLocaleString('sr-RS') : 'N/A',
-              vremeZavrsetka: evaluacija?.vremeZavrsetka ? new Date(evaluacija.vremeZavrsetka).toLocaleString('sr-RS') : 'N/A'
+              vremePocetka: evaluacija?.vremePocetka || null,
+              vremeZavrsetka: evaluacija?.vremeZavrsetka || null
             };
           });
         },
@@ -155,8 +155,8 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
         const predmet = this.predmetInfo.find(p => p.id === evaluacija.realizacijaPredmetaId);
         return {
           ...evaluacija,
-          vremePocetka: evaluacija.vremePocetka ? new Date(evaluacija.vremePocetka).toLocaleString('sr-RS') : 'N/A',
-          vremeZavrsetka: evaluacija.vremeZavrsetka ? new Date(evaluacija.vremeZavrsetka).toLocaleString('sr-RS') : 'N/A',
+          vremePocetka: evaluacija.vremePocetka || null,
+          vremeZavrsetka: evaluacija.vremeZavrsetka || null,
           predmetInfo: predmet?.predmetNaziv || 'Nepoznat predmet'
         };
       });
@@ -164,10 +164,16 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const evaluacijeOptions = this.evaluacijeZnanja.map(ev => ({
-      value: ev.id,
-      label: `Evaluacija ${ev.id} - ${ev.bodovi} bodova (${new Date(ev.vremePocetka).toLocaleDateString()})`
-    }));
+    const evaluacijeOptions = this.evaluacijeZnanja.map(ev => {
+      const date = ev.vremePocetka ? new Date(ev.vremePocetka) : null;
+      const formattedDate = date ? 
+        date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'}) : 
+        'N/A';
+      return {
+        value: ev.id,
+        label: `Evaluacija ${ev.id} - ${ev.bodovi} bodova (${formattedDate})`
+      };
+    });
 
     const dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
@@ -209,10 +215,16 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
   }
 
   openEditDialog(item: InstrumentEvaluacije): void {
-    const evaluacijeOptions = this.evaluacijeZnanja.map(ev => ({
-      value: ev.id,
-      label: `Evaluacija ${ev.id} - ${ev.bodovi} bodova (${new Date(ev.vremePocetka).toLocaleDateString()})`
-    }));
+    const evaluacijeOptions = this.evaluacijeZnanja.map(ev => {
+      const date = ev.vremePocetka ? new Date(ev.vremePocetka) : null;
+      const formattedDate = date ? 
+        date.toLocaleDateString('en-GB') + ' ' + date.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'}) : 
+        'N/A';
+      return {
+        value: ev.id,
+        label: `Evaluacija ${ev.id} - ${ev.bodovi} bodova (${formattedDate})`
+      };
+    });
 
     const dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
@@ -284,7 +296,6 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
     this.openCreateDialog();
   }
 
-  // Evaluacije znanja functions
   openCreateEvaluacijaDialog(): void {
     const realizacijeOptions = this.realizacijePredmeta.map(rp => {
       const predmet = this.predmetInfo.find(p => p.id === rp.id);

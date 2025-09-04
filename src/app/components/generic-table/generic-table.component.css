@@ -104,7 +104,6 @@ table tbody tr:nth-child(even) {
   background-color: #fdfdfd;
 }
 
-/* Action buttons styles */
 .actions-cell {
   white-space: nowrap;
   text-align: center;
@@ -124,7 +123,6 @@ table tbody tr:nth-child(even) {
   transform: scale(1.1);
 }
 
-/* Clickable row styles */
 .clickable {
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -471,7 +469,6 @@ table tbody tr:nth-child(even) {
   }
 }
 
-
 .actions-cell {
   white-space: nowrap;
   text-align: center;
@@ -525,7 +522,6 @@ table tbody tr:nth-child(even) {
   font-size: 14px;
 }
 
-/* ZELENI TEKST ZA SVA DUGMAD U GENERIC-TABLE */
 button {
   color: #244855 !important;
 }
@@ -542,7 +538,6 @@ button {
   color: #244855 !important;
 }
 
-/* DODATNO ZA MATERIAL DESIGN DUGMAD */
 ::ng-deep button[mat-raised-button] {
   color: #244855 !important;
 }

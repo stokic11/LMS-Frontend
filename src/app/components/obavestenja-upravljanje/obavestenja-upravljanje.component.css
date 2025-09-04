@@ -55,6 +55,19 @@
   border-radius: 12px;
 }
 
+.button-row {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 16px 16px 16px;
+  margin-top: -8px;
+}
+
+.create-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .loading-content {
   display: flex;
   flex-direction: column;
@@ -181,4 +194,49 @@
 
 .upis-studenata-container * {
   transition: all 0.3s ease;
+}
+
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-actions .create-button {
+  height: 36px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0 16px;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(36, 72, 85, 0.2);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 140px;
+  max-width: 160px;
+}
+
+.header-actions .create-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(36, 72, 85, 0.3);
+}
+
+.header-actions .create-button mat-icon {
+  margin-right: 6px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+::ng-deep .mat-mdc-card-header {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  padding: 16px;
+}
+
+::ng-deep .mat-mdc-card-header .mat-mdc-card-header-text {
+  flex: 1;
+  min-width: 0;
+  margin-right: 16px;
 }

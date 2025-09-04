@@ -59,7 +59,6 @@ export class AuthenticationService {
       const currentTime = Date.now() / 1000;
       return decodedToken.exp > currentTime;
     } catch (error) {
-      console.error('Error validating token:', error);
       return false;
     }
   }

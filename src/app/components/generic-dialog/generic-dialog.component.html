@@ -12,7 +12,6 @@
     </div>
   </div>
   
-  <!-- <mat-dialog-content class="dialog-content" [class.long-content]="getVisibleFields().length > 4"> -->
   <mat-dialog-content class="dialog-content">
     
     <div class="loading-section" *ngIf="isLoading">
@@ -104,7 +103,6 @@
             </mat-form-field>
           </div>
 
-          <!-- DateTime Local Input -->
           <div class="form-row" *ngIf="field.type === 'datetime-local'">
             <mat-form-field 
               appearance="outline" 
@@ -123,7 +121,6 @@
             </mat-form-field>
           </div>
 
-          <!-- DateTime Separate Input (Date + Time) -->
           <div class="form-row datetime-inputs" *ngIf="field.type === 'datetime'">
             <mat-form-field appearance="outline" class="date-field">
               <mat-label>{{field.label}} - Datum</mat-label>
@@ -164,10 +161,16 @@
             </mat-form-field>
           </div>
 
+
+          <div class="form-row" *ngIf="field.type === 'dynamic-text'">
+            <div class="dynamic-text-field">
+              <p class="dynamic-text-content">{{getDynamicText(field)}}</p>
+            </div>
+          </div>
+
         </ng-container>
       </form>
       
-      <!-- Date range validation error -->
       <div *ngIf="form.errors?.['dateRangeInvalid']" class="date-range-error">
         <mat-error>Vreme početka mora biti pre vremena završetka</mat-error>
       </div>

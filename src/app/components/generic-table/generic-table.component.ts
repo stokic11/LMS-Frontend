@@ -237,31 +237,7 @@ export class GenericTableComponent {
     }
     
     if (typeof dateValue === 'string') {
-      
-      if (dateValue.includes('.') && dateValue.includes(':')) {
-        
-        const parts = dateValue.split(' ');
-        if (parts.length >= 2) {
-          const datePart = parts[0] + ' ' + parts[1] + ' ' + parts[2]; 
-          const timePart = parts[3];
-          
-          
-          const dateNumbers = datePart.replace(/\./g, '').split(' ').filter(p => p.trim());
-          if (dateNumbers.length === 3) {
-            const day = parseInt(dateNumbers[0]);
-            const month = parseInt(dateNumbers[1]);
-            const year = parseInt(dateNumbers[2]);
-            
-            
-            const isoDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-            const fullIsoString = `${isoDate}T${timePart}`;
-            
-            return new Date(fullIsoString);
-          }
-        }
-      }
-      
-      
+
       const parsed = new Date(dateValue);
       if (!isNaN(parsed.getTime())) {
         return parsed;
@@ -269,5 +245,42 @@ export class GenericTableComponent {
     }
     
     return null;
+  }
+
+  formatDate(dateValue: any, includeTime: boolean = true): string {
+    const date = this.parseDate(dateValue);
+    if (!date) return '';
+    
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    
+    if (includeTime) {
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    } else {
+      return `${day}/${month}/${year}`;
+    }
+  }
+
+  isDateField(fieldKey: string): boolean {
+    const dateFieldNames = [
+      'datum', 'vreme', 'vremePocetka', 'vremeZavrsetka', 'vremePostavljanja', 
+      'datumUpisa', 'datumPolaganja', 'datumIzdanja', 'datumKreiranja',
+      'createdAt', 'updatedAt', 'timestamp'
+    ];
+    return dateFieldNames.some(name => fieldKey.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  formatDateAuto(dateValue: any): string {
+    if (!dateValue) return '';
+    
+    const date = this.parseDate(dateValue);
+    if (!date) return dateValue;
+    
+    const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0;
+    
+    return this.formatDate(dateValue, hasTime);
   }
 }

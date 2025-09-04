@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { firstValueFrom } from 'rxjs';
 
@@ -15,6 +16,7 @@ import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
 import { NastavnikNaRealizacijiService } from '../../services/nastavnikNaRealizaciji/nastavnik-na-realizaciji.service';
 import { RealizacijaPredmetaService } from '../../services/realizacijaPredmeta/realizacija-predmeta.service';
 import { PredmetService } from '../../services/predmet/predmet.service';
+import { AuthenticationService } from '../../services/authentication/authentication.service';
 
 @Component({
   selector: 'app-obavestenje-dialog',
@@ -27,7 +29,8 @@ import { PredmetService } from '../../services/predmet/predmet.service';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
   templateUrl: './obavestenje-dialog.component.html',
   styleUrls: ['./obavestenje-dialog.component.css']
@@ -42,6 +45,9 @@ export class ObavestenjeDialogComponent implements OnInit {
   predmeti: any[] = [];
   
   filteredPredmeti: any[] = [];
+  
+  isNastavnik = false;
+  currentNastavnikId: number | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +57,7 @@ export class ObavestenjeDialogComponent implements OnInit {
     private nastavnikNaRealizacijiService: NastavnikNaRealizacijiService,
     private realizacijaPredmetaService: RealizacijaPredmetaService,
     private predmetService: PredmetService,
+    private authService: AuthenticationService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
@@ -63,12 +70,45 @@ export class ObavestenjeDialogComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    await this.checkUserRole();
     await this.loadData();
+    this.setupFormBasedOnRole();
+  }
+
+  async checkUserRole(): Promise<void> {
+    const roles = this.authService.getCurrentUserRoles();
+    this.isNastavnik = roles.includes('nastavnik') && !roles.includes('studentska_sluzba');
+    
+    if (this.isNastavnik) {
+      const currentUserId = this.authService.getKorisnikId();
+      if (currentUserId) {
+        try {
+          const allNastavnici = await firstValueFrom(this.nastavnikService.getAll());
+          const currentNastavnik = (allNastavnici as any[]).find(n => n.id === currentUserId);
+          if (currentNastavnik) {
+            this.currentNastavnikId = currentNastavnik.id;
+          } else {
+            this.isNastavnik = false; 
+          }
+        } catch (error) {
+          this.isNastavnik = false;
+        }
+      }
+    }
+  }
+
+  setupFormBasedOnRole(): void {
+    if (this.isNastavnik && this.currentNastavnikId) {
+      this.obavestenjeForm.patchValue({
+        nastavnikId: this.currentNastavnikId
+      });
+      
+      this.onNastavnikChange();
+    }
   }
 
   async loadData(): Promise<void> {
     try {
-      // Load all required data
       const [nastavnici, nastavniciNaRealizaciji, realizacije, predmeti] = await Promise.all([
         firstValueFrom(this.nastavnikService.getAll()),
         firstValueFrom(this.nastavnikNaRealizacijiService.getAll()),
@@ -82,7 +122,6 @@ export class ObavestenjeDialogComponent implements OnInit {
       this.predmeti = predmeti as any[];
 
     } catch (error) {
-      console.error('Greška pri učitavanju podataka:', error);
       this.snackBar.open('Greška pri učitavanju podataka', 'Zatvori', { duration: 3000 });
     }
   }
@@ -91,28 +130,38 @@ export class ObavestenjeDialogComponent implements OnInit {
     const nastavnikId = this.obavestenjeForm.get('nastavnikId')?.value;
     
     if (nastavnikId) {
-      // Reset predmet selection
       this.obavestenjeForm.get('nastavnikNaRealizacijiId')?.setValue('');
       
-      // Enable predmet dropdown
       this.obavestenjeForm.get('nastavnikNaRealizacijiId')?.enable();
       
-      // Find all nastavnik-na-realizaciji records for this nastavnik
       const nastavnikRealizacije = this.nastavniciNaRealizaciji.filter(nnr => 
         nnr.nastavnikId === nastavnikId
       );
       
-      // Get predmeti for these realizacije
-      this.filteredPredmeti = nastavnikRealizacije.map(nnr => {
+      const predmetRealizacijaMap = new Map<number, any>();
+      
+      nastavnikRealizacije.forEach(nnr => {
         const realizacija = this.realizacijePredmeta.find(r => r.id === nnr.realizacijaPredmetaId);
         const predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
         
-        return {
-          nastavnikNaRealizacijiId: nnr.id,
-          predmetNaziv: predmet?.naziv || 'Nepoznat predmet',
-          predmetId: predmet?.id
-        };
+        if (predmet && realizacija) {
+          const predmetId = predmet.id;
+          
+          if (!predmetRealizacijaMap.has(predmetId) || 
+              realizacija.id > predmetRealizacijaMap.get(predmetId).realizacijaId) {
+            
+            predmetRealizacijaMap.set(predmetId, {
+              nastavnikNaRealizacijiId: nnr.id,
+              predmetNaziv: predmet.naziv,
+              predmetId: predmet.id,
+              realizacijaId: realizacija.id
+            });
+          }
+        }
       });
+      
+      this.filteredPredmeti = Array.from(predmetRealizacijaMap.values())
+        .sort((a, b) => a.predmetNaziv.localeCompare(b.predmetNaziv));
       
     } else {
       this.filteredPredmeti = [];
@@ -126,10 +175,8 @@ export class ObavestenjeDialogComponent implements OnInit {
       this.loading = true;
       
       try {
-        // Koristimo getRawValue() da dobijemo sve vrednosti uključujući disabled polja
         const formValue = this.obavestenjeForm.getRawValue();
         
-        // Find realizacija predmeta ID
         const selectedNnr = this.nastavniciNaRealizaciji.find(nnr => 
           nnr.id === formValue.nastavnikNaRealizacijiId
         );
@@ -153,7 +200,6 @@ export class ObavestenjeDialogComponent implements OnInit {
         this.dialogRef.close(true);
         
       } catch (error) {
-        console.error('Greška pri kreiranju obaveštenja:', error);
         this.snackBar.open('Greška pri kreiranju obaveštenja', 'Zatvori', { duration: 3000 });
       } finally {
         this.loading = false;

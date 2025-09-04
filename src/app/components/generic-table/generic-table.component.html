@@ -36,12 +36,11 @@
 				    [class.clickable]="rowClickable" 
 				    (click)="onRowClick(row)">
 					<td *ngFor="let col of columns">
-						<span *ngIf="!col.pipe; else pipeCell">{{ row[col.key] }}</span>
-						<ng-template #pipeCell>
-							<span [ngSwitch]="col.pipe">
-								<span *ngSwitchCase="'date'">{{ parseDate(row[col.key]) | date: col.pipeArgs }}</span>
-								<span *ngSwitchDefault>{{ row[col.key] }}</span>
-							</span>
+						<span *ngIf="!col.pipe && !isDateField(col.key); else formattedCell">{{ row[col.key] }}</span>
+						<ng-template #formattedCell>
+							<span *ngIf="col.pipe === 'date'">{{ parseDate(row[col.key]) | date: col.pipeArgs }}</span>
+							<span *ngIf="isDateField(col.key) && !col.pipe">{{ formatDateAuto(row[col.key]) }}</span>
+							<span *ngIf="col.pipe && col.pipe !== 'date'">{{ row[col.key] }}</span>
 						</ng-template>
 					</td>
 					<td *ngIf="hasActions" class="actions-cell">

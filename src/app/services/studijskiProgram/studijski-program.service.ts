@@ -13,14 +13,12 @@ export class StudijskiProgramService extends CrudService<StudijskiProgram, numbe
     super(http, 'http://localhost:8080/api/studijski-programi');
   }
 
-  // Add update method for full entity updates
   update(id: number, studijskiProgram: StudijskiProgram): Observable<StudijskiProgram> {
     return this.http.put<StudijskiProgram>(`${this.baseUrl}/${id}`, studijskiProgram);
   }
 
   getStudijskiProgramInfo(id: number): Observable<any> {
     const backendUrl = `http://localhost:8080/api/studijski-programi/${id}/info`;
-    console.log('Pozivam backend URL za detaljne informacije o studijskom programu:', backendUrl);
     return this.http.get<any>(backendUrl);
   }
 
@@ -54,7 +52,6 @@ export class StudijskiProgramService extends CrudService<StudijskiProgram, numbe
                   obs.complete();
                 },
                 error: (error) => {
-                  console.error('Greška pri učitavanju detalja:', error);
                   obs.next({
                     ...program,
                     fakultetNaziv: `Fakultet ID: ${program.fakultetId}`,

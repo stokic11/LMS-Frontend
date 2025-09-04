@@ -63,18 +63,26 @@ export class PrijavaIspitaComponent implements OnInit {
           this.prepareTableData();
         },
         error: (error: any) => {
-          console.error('Error loading dostupne ispite:', error);
         }
       });
     }
   }
 
   private prepareTableData(): void {
-    this.data = this.dostupniIspiti.map((ispit, index) => ({
+    const predmetMap = new Map<string, any>();
+    
+    this.dostupniIspiti.forEach(ispit => {
+      const predmetNaziv = ispit.predmetNaziv;
+      if (!predmetMap.has(predmetNaziv) || ispit.id > predmetMap.get(predmetNaziv).id) {
+        predmetMap.set(predmetNaziv, ispit);
+      }
+    });
+    
+    this.data = Array.from(predmetMap.values()).map((ispit, index) => ({
       id: ispit.id || 0,
       predmetNaziv: ispit.predmetNaziv || 'Nepoznat predmet',
       tipEvaluacije: ispit.tipEvaluacije?.naziv || 'Ispit',
-      vremePocetka: new Date(ispit.vremePocetka).toLocaleDateString('sr-RS'),
+      vremePocetka: ispit.vremePocetka,
       espb: ispit.espb || 6
     }));
   }
@@ -89,7 +97,6 @@ export class PrijavaIspitaComponent implements OnInit {
           this.loadPrijavljenaPolaganja();
         },
         error: (error: any) => {
-          console.error('Error prijavljujući ispit:', error);
           alert('Greška pri prijavi ispita. Pokušajte ponovo.');
         }
       });
@@ -105,12 +112,11 @@ export class PrijavaIspitaComponent implements OnInit {
             id: polaganje.id,
             predmetNaziv: polaganje.predmetNaziv || 'Nepoznat predmet',
             tipEvaluacije: polaganje.tipEvaluacije || 'Ispit',
-            vremePocetka: new Date(polaganje.vremePocetka).toLocaleDateString('sr-RS'),
+            vremePocetka: polaganje.vremePocetka,
             status: 'Prijavljen'
           }));
         },
         error: (error: any) => {
-          console.error('Error loading prijavljena polaganja:', error);
           this.prijavljenaPolaganja = [];
         }
       });

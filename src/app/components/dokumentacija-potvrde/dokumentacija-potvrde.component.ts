@@ -33,13 +33,13 @@ export class DokumentacijaPotvrdaComponent implements OnInit {
   pendingColumns: TableColumn[] = [
     { key: 'tipPotvrdaNaziv', label: 'Tip potvrde' },
     { key: 'studentInfo', label: 'Student' },
-    { key: 'datumIzdanja', label: 'Datum zahteva', pipe: 'date', pipeArgs: 'dd.MM.yyyy' }
+    { key: 'datumIzdanja', label: 'Datum zahteva' }
   ];
 
   approvedColumns: TableColumn[] = [
     { key: 'tipPotvrdaNaziv', label: 'Tip potvrde' },
     { key: 'studentInfo', label: 'Student' },
-    { key: 'datumIzdanja', label: 'Datum odobrenja', pipe: 'date', pipeArgs: 'dd.MM.yyyy' },
+    { key: 'datumIzdanja', label: 'Datum odobrenja' },
     { key: 'status', label: 'Status' }
   ];
 
@@ -74,7 +74,6 @@ export class DokumentacijaPotvrdaComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        console.error('Error loading pending potvrde:', error);
         this.snackBar.open('Greška pri učitavanju potvrda na čekanju', 'Zatvori', { duration: 3000 });
         this.loading = false;
       }
@@ -90,7 +89,6 @@ export class DokumentacijaPotvrdaComponent implements OnInit {
         }));
       },
       error: (error) => {
-        console.error('Error loading approved potvrde:', error);
         this.snackBar.open('Greška pri učitavanju odobrenih potvrda', 'Zatvori', { duration: 3000 });
       }
     });
@@ -104,7 +102,6 @@ export class DokumentacijaPotvrdaComponent implements OnInit {
           this.loadPotvrde();
         },
         error: (error) => {
-          console.error('Error approving potvrda:', error);
           this.snackBar.open('Greška pri odobravanju potvrde', 'Zatvori', { duration: 3000 });
         }
       });
@@ -112,7 +109,6 @@ export class DokumentacijaPotvrdaComponent implements OnInit {
   }
 
   getStudentDisplayName(potvrda: Potvrda): string {
-    console.log('Potvrda data:', potvrda);
     if (potvrda.studentIme && potvrda.studentPrezime) {
       return `${potvrda.studentIme} ${potvrda.studentPrezime} (${potvrda.studentKorisnickoIme})`;
     }

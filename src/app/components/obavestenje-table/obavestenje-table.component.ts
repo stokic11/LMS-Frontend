@@ -57,12 +57,10 @@ export class ObavestenjeTableComponent implements OnInit {
         this.obavestenjeService.getByStudentId(userId).subscribe({
           next: (obavestenja) => {
             this.data = obavestenja.map(obavestenje => ({
-              ...obavestenje,
-              vremePostavljanja: new Date(obavestenje.vremePostavljanja).toLocaleDateString('sr-RS')
+              ...obavestenje
             }));
           },
           error: (error) => {
-            console.error('Error loading student obavestenja:', error);
           }
         });
       }

@@ -33,15 +33,11 @@ export class TerminiRasporedComponent implements OnInit {
   columns: TableColumn[] = [
     { 
       key: 'vremePocetka', 
-      label: 'Vreme početka', 
-      pipe: 'date',
-      pipeArgs: 'dd/MM/yyyy HH:mm'
+      label: 'Vreme početka'
     },
     { 
       key: 'vremeZavrsetka', 
-      label: 'Vreme završetka', 
-      pipe: 'date',
-      pipeArgs: 'dd/MM/yyyy HH:mm'
+      label: 'Vreme završetka'
     },
     { key: 'ishodInfo', label: 'Ishod' },
     { key: 'tipNastaveInfo', label: 'Tip nastave' }

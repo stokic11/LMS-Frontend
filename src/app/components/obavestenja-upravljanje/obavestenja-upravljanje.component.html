@@ -12,7 +12,6 @@
 
   <div class="main-content">
     
-    <!-- Loading section -->
     <div class="loading-section" *ngIf="loading">
       <mat-card class="loading-card">
         <div class="loading-content">
@@ -22,10 +21,8 @@
       </mat-card>
     </div>
 
-    <!-- Content -->
     <div class="content-section" *ngIf="!loading">
       
-      <!-- Obaveštenja tabela -->
       <div class="students-section">
         <mat-card class="section-card">
           <mat-card-header>
@@ -36,11 +33,23 @@
             <mat-card-subtitle>Pregled svih obaveštenja u sistemu</mat-card-subtitle>
           </mat-card-header>
           
+          <div class="button-row">
+            <button 
+              mat-raised-button 
+              color="primary" 
+              (click)="kreirajNovoObavestenje()"
+              class="create-button">
+              <mat-icon>add</mat-icon>
+              Kreiraj novo obaveštenje
+            </button>
+          </div>
+          
           <mat-card-content>
             <div class="table-container" *ngIf="obavestenja.length > 0">
               <app-generic-table 
                 [data]="obavestenja"
                 [columns]="obavestenjaColumns"
+                [actions]="obavestenjaActions"
                 [pageSize]="10"
                 [rowClickable]="false"
                 [showDownloadButton]="false">
@@ -51,18 +60,6 @@
               <mat-icon>info</mat-icon>
               <h3>Nema obaveštenja</h3>
               <p>Trenutno nema obaveštenja u sistemu.</p>
-            </div>
-
-            <!-- Action button ispod tabele -->
-            <div class="action-section">
-              <button 
-                mat-raised-button 
-                color="primary" 
-                (click)="kreirajNovoObavestenje()"
-                class="create-button">
-                <mat-icon>add</mat-icon>
-                Kreiraj novo obaveštenje
-              </button>
             </div>
           </mat-card-content>
         </mat-card>

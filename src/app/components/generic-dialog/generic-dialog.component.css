@@ -339,3 +339,15 @@ button:disabled {
   color: #244855 !important;
   border-color: #244855 !important;
 }
+
+.dynamic-text-field {
+  margin-bottom: 8px;
+}
+
+.dynamic-text-content {
+  padding: 4px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}

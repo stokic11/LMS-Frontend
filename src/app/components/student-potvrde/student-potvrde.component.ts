@@ -40,13 +40,13 @@ export class StudentPotvrdaComponent implements OnInit {
   
   columns: TableColumn[] = [
     { key: 'tipPotvrdaNaziv', label: 'Tip potvrde' },
-    { key: 'datumIzdanja', label: 'Datum zahteva', pipe: 'date', pipeArgs: 'dd.MM.yyyy' },
+    { key: 'datumIzdanja', label: 'Datum zahteva' },
     { key: 'odobreno', label: 'Status' }
   ];
 
   approvedColumns: TableColumn[] = [
     { key: 'tipPotvrdaNaziv', label: 'Tip potvrde' },
-    { key: 'datumIzdanja', label: 'Datum odobrenja', pipe: 'date', pipeArgs: 'dd.MM.yyyy' },
+    { key: 'datumIzdanja', label: 'Datum odobrenja' },
     { key: 'status', label: 'Status' }
   ];
 
@@ -77,7 +77,6 @@ export class StudentPotvrdaComponent implements OnInit {
         this.tipovePotvrda = data;
       },
       error: (error) => {
-        console.error('Error loading tipove potvrda:', error);
       }
     });
   }
@@ -100,7 +99,6 @@ export class StudentPotvrdaComponent implements OnInit {
           this.loading = false;
         },
         error: (error) => {
-          console.error('Error loading potvrde:', error);
           this.snackBar.open('Greška pri učitavanju potvrda', 'Zatvori', { duration: 3000 });
           this.loading = false;
         }
@@ -130,7 +128,6 @@ export class StudentPotvrdaComponent implements OnInit {
               resolve(result);
             },
             error: (error) => {
-              console.error('Error creating potvrda:', error);
               this.snackBar.open('Greška pri slanju zahteva', 'Zatvori', { duration: 3000 });
               reject(error);
             }

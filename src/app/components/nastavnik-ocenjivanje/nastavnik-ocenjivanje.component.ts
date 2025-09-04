@@ -14,7 +14,8 @@ import { firstValueFrom } from 'rxjs';
 import { PolaganjeService } from '../../services/polaganje/polaganje.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { GenericTableComponent, TableColumn, TableAction } from '../generic-table/generic-table.component';
-import { NastavnikOcenjivanjeDialogComponent } from '../nastavnik-ocenjivanje-dialog/nastavnik-ocenjivanje-dialog.component';
+import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
+import { DialogConfig, FieldConfig } from '../generic-dialog/field-config.interface';
 
 @Component({
   selector: 'app-nastavnik-ocenjivanje',
@@ -97,8 +98,7 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
           this.polaganjeService.getPrijavljeneIspiteZaNastavnika(nastavnikId)
         );
         this.prijavljeniIspiti = response.map(ispit => ({
-          ...ispit,
-          vremePocetka: new Date(ispit.vremePocetka).toLocaleDateString('sr-RS')
+          ...ispit
         }));
       }
     } catch (error) {
@@ -109,21 +109,66 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
   }
 
   oceniStudenta(ispit: any): void {
-    const dialogRef = this.dialog.open(NastavnikOcenjivanjeDialogComponent, {
-      width: '500px',
+    const dialogConfig: DialogConfig = {
+      title: `Ocenjivanje`,
+      subtitle: `${ispit.studentIme} ${ispit.studentPrezime} - ${ispit.studentBrojIndeksa}`,
+      isNew: false,
       data: {
-        student: `${ispit.studentIme} ${ispit.studentPrezime}`,
-        brojIndeksa: ispit.studentBrojIndeksa,
-        predmet: ispit.predmetNaziv,
-        tipEvaluacije: ispit.tipEvaluacije,
-        trenutniBodovi: ispit.bodovi === '-' ? 0 : ispit.bodovi,
-        trenutnaNapomena: ispit.napomena || ''
-      }
+        bodovi: ispit.bodovi === '-' ? 0 : ispit.bodovi,
+        napomena: ''
+      },
+      fields: [
+        {
+          name: 'bodovi',
+          label: 'Bodovi (0-100)',
+          type: 'number',
+          required: true,
+          min: 0,
+          max: 100
+        },
+        {
+          name: 'ocenaPreview',
+          label: '',
+          type: 'dynamic-text',
+          dynamicText: (formValue: any) => {
+            const bodovi = formValue.bodovi;
+            if (!bodovi || bodovi < 0 || bodovi > 100) {
+              return 'Ocena:';
+            }
+            if (bodovi < 51) {
+              return 'Ocena: 5';
+            } else if (bodovi <= 60) {
+              return 'Ocena: 6';
+            } else if (bodovi <= 70) {
+              return 'Ocena: 7';
+            } else if (bodovi <= 80) {
+              return 'Ocena: 8';
+            } else if (bodovi <= 90) {
+              return 'Ocena: 9';
+            } else {
+              return 'Ocena: 10';
+            }
+          }
+        },
+        {
+          name: 'napomena',
+          label: 'Napomena (opciono)',
+          type: 'textarea',
+          required: false,
+          maxLength: 500,
+          rows: 3
+        }
+      ]
+    };
+
+    const dialogRef = this.dialog.open(GenericDialogComponent, {
+      width: '500px',
+      data: dialogConfig
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.sacuvajOcenu(ispit.id, result.bodovi, result.napomena);
+        this.sacuvajOcenu(ispit.id, result.bodovi, result.napomena || '');
       }
     });
   }
@@ -154,8 +199,7 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
           this.polaganjeService.getOcenjeneIspiteZaNastavnika(nastavnikId)
         );
         this.ocenjeniIspiti = response.map(ispit => ({
-          ...ispit,
-          vremePocetka: new Date(ispit.vremePocetka).toLocaleDateString('sr-RS')
+          ...ispit
         }));
       }
     } catch (error) {

@@ -73,15 +73,12 @@ export class GenericDialogComponent implements OnInit {
       const validators = this.buildValidators(field);
       let value = this.config.data ? (this.config.data[field.name] || null) : null;
       
-      // Lozinka polje uvek treba da bude prazno
       if (field.type === 'password') {
         value = '';
       }
       
-      // Format date values for HTML date input
       if (field.type === 'date' && value) {
         if (typeof value === 'string') {
-          // Convert ISO string to YYYY-MM-DD format
           const date = new Date(value);
           if (!isNaN(date.getTime())) {
             value = date.toISOString().split('T')[0];
@@ -91,13 +88,10 @@ export class GenericDialogComponent implements OnInit {
         }
       }
 
-      // Format datetime values for HTML datetime-local input
       if (field.type === 'datetime-local' && value) {
         if (typeof value === 'string') {
-          // Convert ISO string to YYYY-MM-DDTHH:mm format
           const date = new Date(value);
           if (!isNaN(date.getTime())) {
-            // Format to YYYY-MM-DDTHH:mm (local timezone)
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
@@ -115,37 +109,32 @@ export class GenericDialogComponent implements OnInit {
         }
       }
 
-      // Format datetime values for separate date and time inputs
       if (field.type === 'datetime' && value) {
         if (typeof value === 'string') {
-          // Handle Serbian date format: "13. 7. 2025. 22:00:00"
           if (value.includes('.') && value.includes(':')) {
             const parts = value.split(' ');
             if (parts.length >= 4) {
-              const datePart = parts[0] + ' ' + parts[1] + ' ' + parts[2]; // "13. 7. 2025."
-              const timePart = parts[3]; // "22:00:00"
+              const datePart = parts[0] + ' ' + parts[1] + ' ' + parts[2];
+              const timePart = parts[3];
               
-              // Parse date part: "13. 7. 2025."
               const dateNumbers = datePart.replace(/\./g, '').split(' ').filter(p => p.trim());
               if (dateNumbers.length === 3) {
                 const day = parseInt(dateNumbers[0]);
                 const month = parseInt(dateNumbers[1]);
                 const year = parseInt(dateNumbers[2]);
                 
-                // Create ISO format string: YYYY-MM-DDTHH:mm:ss
                 const isoDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
                 value = `${isoDate}T${timePart}`;
               }
             }
           } else {
-            // Try to parse as ISO string and format
             const date = new Date(value);
             if (!isNaN(date.getTime())) {
-              value = date.toISOString().substring(0, 19); // YYYY-MM-DDTHH:mm:ss
+              value = date.toISOString().substring(0, 19);
             }
           }
         } else if (value instanceof Date) {
-          value = value.toISOString().substring(0, 19); // YYYY-MM-DDTHH:mm:ss
+          value = value.toISOString().substring(0, 19);
         }
       }
       
@@ -155,7 +144,6 @@ export class GenericDialogComponent implements OnInit {
     this.form = this.fb.group(formControls, { validators: this.dateRangeValidator });
   }
 
-  // Custom validator to ensure start date is before end date
   dateRangeValidator = (group: AbstractControl): {[key: string]: any} | null => {
     const startDate = group.get('vremePocetka')?.value;
     const endDate = group.get('vremeZavrsetka')?.value;
@@ -252,6 +240,13 @@ export class GenericDialogComponent implements OnInit {
     return errors;
   }
 
+  getDynamicText(field: FieldConfig): string {
+    if (field.dynamicText && this.form) {
+      return field.dynamicText(this.form.value);
+    }
+    return '';
+  }
+
   onSave(): void {
     if (this.form.valid) {
       let formValue = { ...this.form.value };
@@ -276,7 +271,6 @@ export class GenericDialogComponent implements OnInit {
           }
         }).catch((error) => {
           this.isLoading = false;
-          console.error('Error in custom save:', error);
           
         });
       } else {
@@ -298,13 +292,11 @@ export class GenericDialogComponent implements OnInit {
     return this.config.title;
   }
 
-  // DateTime handling methods for separate date and time inputs
   getDateFromDateTimeString(fieldName: string): Date | null {
     const value = this.form.get(fieldName)?.value;
     if (!value) return null;
     
     if (typeof value === 'string') {
-      // Format: "YYYY-MM-DDTHH:mm:ss" or "YYYY-MM-DD HH:mm:ss"
       const cleanValue = value.replace(' ', 'T').split('T')[0];
       return new Date(cleanValue + 'T00:00:00');
     }
@@ -317,10 +309,9 @@ export class GenericDialogComponent implements OnInit {
     if (!value) return '';
     
     if (typeof value === 'string') {
-      // Extract time part from datetime string
       const timePart = value.replace(' ', 'T').split('T')[1];
       if (timePart) {
-        return timePart.substring(0, 5); // Return HH:mm format
+        return timePart.substring(0, 5);
       }
     } else if (value instanceof Date) {
       return value.toTimeString().substring(0, 5);
@@ -347,7 +338,6 @@ export class GenericDialogComponent implements OnInit {
 
     const currentDate = this.getDateFromDateTimeString(fieldName);
     if (!currentDate) {
-      // If no date is set, use today's date
       const today = new Date();
       const dateStr = today.toISOString().split('T')[0];
       const newDateTime = `${dateStr}T${newTime}:00`;

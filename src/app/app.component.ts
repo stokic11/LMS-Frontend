@@ -96,9 +96,7 @@ export class AppComponent {
       
       this.korisnikService.getById(korisnikId).subscribe({
         next: (korisnik) => {
-          console.log('Loaded user data:', korisnik);
           const config = this.dialogConfigService.getKorisnikConfig(korisnik, false);
-          console.log('Dialog config:', config);
           
           const dialogRef = this.dialog.open(GenericDialogComponent, {
             width: '600px',
@@ -110,11 +108,9 @@ export class AppComponent {
               
               this.korisnikService.patch(korisnikId, result).subscribe({
                 next: (updatedKorisnik: any) => {
-                  console.log('Korisnik uspešno ažuriran:', updatedKorisnik);
                   alert('Profil je uspešno ažuriran!');
                 },
                 error: (error: any) => {
-                  console.error('Greška pri ažuriranju korisnika:', error);
                   alert('Greška pri ažuriranju profila.');
                 }
               });
@@ -122,7 +118,6 @@ export class AppComponent {
           });
         },
         error: (error: any) => {
-          console.error('Greška pri dohvatanju podataka korisnika:', error);
           alert('Greška pri dohvatanju podataka korisnika.');
         }
       });
