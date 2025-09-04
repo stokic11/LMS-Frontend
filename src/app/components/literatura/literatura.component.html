@@ -1,0 +1,78 @@
+<div class="literatura-container">
+  <div class="header-section">
+    <h1 class="page-title">Upravljanje knjigama</h1>
+    <p class="page-subtitle">Odobravajte ili odbacujte zahteve studenata za iznajmljivanje knjiga</p>
+  </div>
+
+  <div class="content-section" *ngIf="!loading">
+    
+    <mat-card class="table-card" *ngIf="neodobreniZahtevi.length > 0">
+      <mat-card-header>
+        <mat-card-title>Zahtevi na čekanju</mat-card-title>
+        <mat-card-subtitle>{{neodobreniZahtevi.length}} zahteva čeka na odobravanje</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="neodobreniZahtevi"
+          [columns]="neodobreniColumns"
+          [actions]="pendingActions"
+          [showAddButton]="false"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+        <div class="info-section" *ngIf="neodobreniZahtevi.length > 0">
+          <mat-icon>info</mat-icon>
+          <p>Kliknite na "Odobri" da odobrite zahtev ili "Odbaci" da ga odbacite.</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="table-card" *ngIf="odobreniZahtevi.length > 0">
+      <mat-card-header>
+        <mat-card-title>Odobreni zahtevi</mat-card-title>
+        <mat-card-subtitle>{{odobreniZahtevi.length}} zahteva je odobreno</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="odobreniZahtevi"
+          [columns]="odobreniColumns"
+          [actions]="approvedActions"
+          [showAddButton]="false"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+        <div class="info-section" *ngIf="odobreniZahtevi.length > 0">
+          <mat-icon>check_circle</mat-icon>
+          <p>Ovi zahtevi su odobreni. Studenti mogu sami vratiti knjige iz svoje sekcije.</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Upravljanje bibliotekom</mat-card-title>
+        <mat-card-subtitle>{{biblioteka.length}} različitih knjiga u biblioteci</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="biblioteka"
+          [columns]="bibliotekaColumns"
+          [actions]="bibliotekaActions"
+          [showAddButton]="false"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+        <div class="info-section" *ngIf="biblioteka.length > 0">
+          <mat-icon>info</mat-icon>
+          <p>Kliknite na "Dodaj primerke" da povećate broj dostupnih primeraka knjige.</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <p class="loading-text">Učitavanje zahteva...</p>
+  </div>
+</div>

@@ -29,6 +29,8 @@ import { SifarnikComponent } from './components/sifarnik/sifarnik.component';
 import { NastavnikStudentiComponent } from './components/nastavnik-studenti/nastavnik-studenti.component';
 import { StudentDetailsComponent } from './components/student-details/student-details.component';
 import { NastavnikOcenjivanjeComponent } from './components/nastavnik-ocenjivanje/nastavnik-ocenjivanje.component';
+import { StudentKnjigeComponent } from './components/student-knjige/student-knjige.component';
+import { LiteraturaComponent } from './components/literatura/literatura.component';
 
 
 export const routes: Routes = [
@@ -167,6 +169,18 @@ export const routes: Routes = [
     component: SifarnikComponent,
     canActivate: [AuthGuard],
     data: { uloge: ['admin'] }
+  },
+  { 
+    path: 'biblioteka',
+    component: StudentKnjigeComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['student'] }
+  },
+  { 
+    path: 'literatura',
+    component: LiteraturaComponent,
+    canActivate: [AuthGuard],
+    data: { uloge: ['studentska_sluzba'] }
   },
   { path: '**', redirectTo: '' }
 ];

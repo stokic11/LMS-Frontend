@@ -1,0 +1,93 @@
+<div class="student-knjige-container">
+  <div class="header-section">
+    <h1 class="page-title">Biblioteka</h1>
+    <p class="page-subtitle">Pretražite i pozajmite knjige iz univerzitetske biblioteke</p>
+  </div>
+
+  <div class="content-section" *ngIf="!loading">
+    
+    <!-- Dostupne knjige -->
+    <mat-card class="table-card">
+      <mat-card-header>
+        <mat-card-title>Dostupne knjige</mat-card-title>
+        <mat-card-subtitle>Ukupno: {{dostupneKnjige.length}} knjiga</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="dostupneKnjige"
+          [columns]="dostupneKnjigeColumns"
+          [actions]="dostupneKnjigeActions"
+          [showAddButton]="false"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Moji zahtevi na čekanju -->
+    <mat-card class="table-card" *ngIf="mojeNeodobreneKnjige.length > 0">
+      <mat-card-header>
+        <mat-card-title>Zahtevi na čekanju</mat-card-title>
+        <mat-card-subtitle>{{mojeNeodobreneKnjige.length}} zahteva čeka odobravanje</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="mojeNeodobreneKnjige"
+          [columns]="mojeKnjigeColumns"
+          [showAddButton]="false"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+        
+        <div class="info-section">
+          <mat-icon>pending</mat-icon>
+          <p>Ovi zahtevi čekaju odobravanje od strane studentske službe.</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Moje odobrene knjige -->
+    <mat-card class="table-card" *ngIf="mojeOdobreneKnjige.length > 0">
+      <mat-card-header>
+        <mat-card-title>Odobrene knjige</mat-card-title>
+        <mat-card-subtitle>{{mojeOdobreneKnjige.length}} odobrenih knjiga</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <app-generic-table
+          [data]="mojeOdobreneKnjige"
+          [columns]="mojeKnjigeColumns"
+          [actions]="mojeKnjigeActions"
+          [showAddButton]="false"
+          [showDownloadButton]="false"
+          [pageSize]="10">
+        </app-generic-table>
+        
+        <div class="info-section">
+          <mat-icon>check_circle</mat-icon>
+          <p>Ove knjige su odobrene. Možete ih vratiti kada završite čitanje.</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Poruka ako nema zahteva -->
+    <mat-card class="table-card" *ngIf="mojeKnjige.length === 0">
+      <mat-card-header>
+        <mat-card-title>Moji zahtevi za knjige</mat-card-title>
+        <mat-card-subtitle>0 zahteva</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-section">
+          <mat-icon>info</mat-icon>
+          <p>Trenutno nemate zahteva za knjigama. Pretražite dostupne knjige i zatražite one koje vam trebaju.</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <p>Učitavanje knjiga...</p>
+  </div>
+</div>
