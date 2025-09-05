@@ -69,16 +69,7 @@ export class PrijavaIspitaComponent implements OnInit {
   }
 
   private prepareTableData(): void {
-    const predmetMap = new Map<string, any>();
-    
-    this.dostupniIspiti.forEach(ispit => {
-      const predmetNaziv = ispit.predmetNaziv;
-      if (!predmetMap.has(predmetNaziv) || ispit.id > predmetMap.get(predmetNaziv).id) {
-        predmetMap.set(predmetNaziv, ispit);
-      }
-    });
-    
-    this.data = Array.from(predmetMap.values()).map((ispit, index) => ({
+    this.data = this.dostupniIspiti.map((ispit, index) => ({
       id: ispit.id || 0,
       predmetNaziv: ispit.predmetNaziv || 'Nepoznat predmet',
       tipEvaluacije: ispit.tipEvaluacije?.naziv || 'Ispit',
