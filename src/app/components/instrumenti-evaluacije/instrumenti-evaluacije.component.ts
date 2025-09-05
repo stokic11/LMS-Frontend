@@ -1,12 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
 import { GenericTableComponent, TableColumn, TableAction } from '../generic-table/generic-table.component';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 import { InstrumentEvaluacijeService } from '../../services/instrumentEvaluacije/instrument-evaluacije.service';
 import { EvaluacijaZnanjaService } from '../../services/evaluacijaZnanja/evaluacija-znanja.service';
 import { RealizacijaPredmetaService } from '../../services/realizacijaPredmeta/realizacija-predmeta.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { XmlService } from '../../services/xml.service';
 import { InstrumentEvaluacije } from '../../models/instrumentEvaluacije';
 import { EvaluacijaZnanja } from '../../models/evaluacijaZnanja';
 import { RealizacijaPredmeta } from '../../models/realizacijaPredmeta';
@@ -14,7 +23,18 @@ import { RealizacijaPredmeta } from '../../models/realizacijaPredmeta';
 @Component({
   selector: 'app-instrumenti-evaluacije',
   standalone: true,
-  imports: [CommonModule, GenericTableComponent],
+  imports: [
+    CommonModule, 
+    GenericTableComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    FormsModule
+  ],
   templateUrl: './instrumenti-evaluacije.component.html',
   styleUrls: ['./instrumenti-evaluacije.component.css']
 })
@@ -25,6 +45,27 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
   evaluacijeZnanjaDisplay: any[] = [];
   realizacijePredmeta: RealizacijaPredmeta[] = [];
   predmetInfo: any[] = [];
+  
+  showXmlUpload = false;
+  selectedFile: File | null = null;
+  isDragOver = false;
+  xmlContent: string = '';
+  
+  xmlExample = `<?xml version="1.0" encoding="UTF-8"?>
+<rezultatiEvaluacije>
+    <rezultat>
+        <studentIndex>20200001</studentIndex>
+        <realizacijaId>1</realizacijaId>
+        <bodovi>85.5</bodovi>
+        <tipEvaluacije>kolokvijum</tipEvaluacije>
+    </rezultat>
+    <rezultat>
+        <studentIndex>20200002</studentIndex>
+        <realizacijaId>1</realizacijaId>
+        <bodovi>92.0</bodovi>
+        <tipEvaluacije>ispit</tipEvaluacije>
+    </rezultat>
+</rezultatiEvaluacije>`;
   
   columns: TableColumn[] = [
     { key: 'id', label: 'ID' },
@@ -77,7 +118,9 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
     private evaluacijaZnanjaService: EvaluacijaZnanjaService,
     private realizacijaPredmetaService: RealizacijaPredmetaService,
     private authService: AuthenticationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private xmlService: XmlService
   ) {}
 
   ngOnInit(): void {
@@ -455,5 +498,75 @@ export class InstrumentiEvaluacijeComponent implements OnInit {
 
   onAddEvaluacijaClick(): void {
     this.openCreateEvaluacijaDialog();
+  }
+
+  toggleXmlUpload(): void {
+    this.showXmlUpload = !this.showXmlUpload;
+  }
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadFile(): void {
+    if (this.selectedFile) {
+      this.xmlService.uploadXmlFile(this.selectedFile).subscribe({
+        next: (response) => {
+          this.snackBar.open(response.message, 'Zatvori', { duration: 3000 });
+          this.selectedFile = null;
+          this.loadEvaluacijeZnanja();
+        },
+        error: (error) => {
+          this.snackBar.open(error.error.error || 'Greška pri upload-u', 'Zatvori', { duration: 5000 });
+        }
+      });
+    }
+  }
+
+  submitXmlContent(): void {
+    if (this.xmlContent) {
+      this.xmlService.submitXmlContent(this.xmlContent).subscribe({
+        next: (response) => {
+          this.snackBar.open(response.message, 'Zatvori', { duration: 3000 });
+          this.xmlContent = '';
+          this.loadEvaluacijeZnanja();
+        },
+        error: (error) => {
+          this.snackBar.open(error.error.error || 'Greška pri obradi XML-a', 'Zatvori', { duration: 5000 });
+        }
+      });
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file.type === 'text/xml' || file.name.endsWith('.xml')) {
+        this.selectedFile = file;
+      } else {
+        this.snackBar.open('Molimo izaberite XML fajl', 'Zatvori', { duration: 3000 });
+      }
+    }
+  }
+
+  clearSelectedFile(): void {
+    this.selectedFile = null;
   }
 }

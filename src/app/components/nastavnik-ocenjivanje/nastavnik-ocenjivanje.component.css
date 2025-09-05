@@ -6,6 +6,13 @@
 
 .header-section {
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-actions {
+  padding: 20px;
 }
 
 .header-content {
@@ -163,4 +170,89 @@
 
 .nastavnik-ocenjivanje-container * {
   transition: all 0.3s ease;
+}
+
+/* XML Upload styles */
+.xml-upload-section {
+  margin-top: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.drag-drop-zone {
+  border: 2px dashed #007bff;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.drag-drop-zone:hover {
+  background: #f8f9fa;
+  border-color: #0056b3;
+}
+
+.drag-drop-zone.drag-over {
+  background: #e7f3ff;
+  border-color: #007bff;
+  border-style: solid;
+}
+
+.upload-icon {
+  font-size: 48px;
+  color: #007bff;
+  margin-bottom: 16px;
+}
+
+.upload-text {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.upload-subtext {
+  color: #666;
+  font-size: 14px;
+}
+
+.file-input {
+  display: none;
+}
+
+.selected-file-info {
+  background: #e8f5e8;
+  border: 1px solid #4caf50;
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.xml-example {
+  background: #f8f9fa;
+  border-left: 4px solid #007bff;
+  padding: 16px;
+  margin-top: 16px;
+  border-radius: 4px;
+}
+
+.xml-example h4 {
+  margin-top: 0;
+  color: #333;
+}
+
+.xml-example pre {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+  margin: 8px 0 0 0;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.4;
 }

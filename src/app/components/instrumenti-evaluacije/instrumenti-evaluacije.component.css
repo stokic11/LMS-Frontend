@@ -6,6 +6,17 @@
 
 .table-header {
   margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.header-actions {
+  padding: 10px;
 }
 
 .table-header h2 {
@@ -38,6 +49,62 @@
 
 ::ng-deep .mat-mdc-row:hover {
   background-color: rgba(0, 0, 0, 0.02);
+}
+
+.drag-drop-zone {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.drag-drop-zone:hover {
+  border-color: #244855;
+  background-color: #f0f8ff;
+}
+
+.drag-drop-zone.drag-over {
+  border-color: #244855;
+  background-color: #e3f2fd;
+  transform: scale(1.02);
+}
+
+.drag-drop-zone mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.drag-drop-zone p {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.selected-file-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #e8f5e8;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.selected-file-info mat-icon {
+  color: #4caf50;
+}
+
+.selected-file-info span {
+  flex: 1;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {

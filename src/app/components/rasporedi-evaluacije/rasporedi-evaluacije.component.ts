@@ -6,6 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { EvaluacijaZnanjaService } from '../../services/evaluacijaZnanja/evaluacija-znanja.service';
 import { TerminNastaveService } from '../../services/terminNastave/termin-nastave.service';
@@ -15,6 +19,7 @@ import { TipEvaluacijeService } from '../../services/tipEvaluacije/tip-evaluacij
 import { TipNastaveService } from '../../services/tipNastave/tip-nastave.service';
 import { IshodService } from '../../services/ishod/ishod.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { XmlService } from '../../services/xml.service';
 import { EvaluacijaZnanja } from '../../models/evaluacijaZnanja';
 import { TerminNastave } from '../../models/terminNastave';
 import { RealizacijaPredmeta } from '../../models/realizacijaPredmeta';
@@ -35,6 +40,10 @@ import { GenericDialogComponent } from '../generic-dialog/generic-dialog.compone
     MatCardModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
     GenericTableComponent
   ],
   templateUrl: './rasporedi-evaluacije.component.html',
@@ -52,6 +61,28 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
   loading = false;
   canCreateNew = false; 
   isStudentskaSluzba = false;
+  
+  // XML Upload properties
+  showXmlUpload = false;
+  selectedFile: File | null = null;
+  xmlContent: string = '';
+  isDragOver = false;
+  
+  xmlExample = `<?xml version="1.0" encoding="UTF-8"?>
+<rezultatiEvaluacije>
+    <rezultat>
+        <studentIndex>20200001</studentIndex>
+        <realizacijaId>1</realizacijaId>
+        <bodovi>85.5</bodovi>
+        <tipEvaluacije>kolokvijum</tipEvaluacije>
+    </rezultat>
+    <rezultat>
+        <studentIndex>20200002</studentIndex>
+        <realizacijaId>1</realizacijaId>
+        <bodovi>92.0</bodovi>
+        <tipEvaluacije>ispit</tipEvaluacije>
+    </rezultat>
+</rezultatiEvaluacije>`;
   
   evaluacijeActions: TableAction[] = [];
   terminiActions: TableAction[] = []; 
@@ -83,7 +114,8 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
     private ishodService: IshodService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private xmlService: XmlService
   ) {}
 
   ngOnInit(): void {
@@ -935,5 +967,76 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
     }
     
     return undefined;
+  }
+
+  toggleXmlUpload(): void {
+    this.showXmlUpload = !this.showXmlUpload;
+  }
+
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+  }
+
+  uploadFile(): void {
+    if (this.selectedFile) {
+      this.xmlService.uploadXmlFile(this.selectedFile).subscribe({
+        next: (response) => {
+          this.snackBar.open(response.message, 'Zatvori', { duration: 3000 });
+          this.selectedFile = null;
+          this.loadData();
+        },
+        error: (error) => {
+          this.snackBar.open(error.error.error || 'Greška pri upload-u', 'Zatvori', { duration: 5000 });
+        }
+      });
+    }
+  }
+
+  submitXmlContent(): void {
+    if (this.xmlContent) {
+      this.xmlService.submitXmlContent(this.xmlContent).subscribe({
+        next: (response) => {
+          this.snackBar.open(response.message, 'Zatvori', { duration: 3000 });
+          this.xmlContent = '';
+          this.loadData();
+        },
+        error: (error) => {
+          this.snackBar.open(error.error.error || 'Greška pri obradi XML-a', 'Zatvori', { duration: 5000 });
+        }
+      });
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = false;
+    
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file.type === 'text/xml' || file.name.endsWith('.xml')) {
+        this.selectedFile = file;
+      } else {
+        this.snackBar.open('Molimo izaberite XML fajl', 'Zatvori', { duration: 3000 });
+      }
+    }
+  }
+
+  clearSelectedFile(): void {
+    this.selectedFile = null;
+    const fileInput = document.getElementById('xmlFileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 }

@@ -9,10 +9,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { PolaganjeService } from '../../services/polaganje/polaganje.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { XmlService } from '../../services/xml.service';
 import { GenericTableComponent, TableColumn, TableAction } from '../generic-table/generic-table.component';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 import { DialogConfig, FieldConfig } from '../generic-dialog/field-config.interface';
@@ -31,6 +33,7 @@ import { DialogConfig, FieldConfig } from '../generic-dialog/field-config.interf
     MatSnackBarModule,
     MatCardModule,
     MatDialogModule,
+    MatTabsModule,
     FormsModule,
     GenericTableComponent
   ],
@@ -42,6 +45,23 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
   prijavljeniIspiti: any[] = [];
   ocenjeniIspiti: any[] = [];
   loading = false;
+  
+  showXmlUpload = false;
+  selectedFile: File | null = null;
+  xmlContent: string = '';
+  isDragOver = false;
+  
+  xmlExample = `<?xml version="1.0" encoding="UTF-8"?>
+<ocenjeniIspiti>
+    <ispit>
+        <studentIndex>SI-0000-000</studentIndex>
+        <predmet>Predmet</predmet>
+        <datumIspita>dd/MM/yyyy</datumIspita>
+        <bodovi>0</bodovi>
+        <napomena>OPCIONO</napomena>
+    </ispit>
+</ocenjeniIspiti>
+`;
   
   tableColumns: TableColumn[] = [
     { key: 'studentIme', label: 'Ime' },
@@ -81,7 +101,8 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
     private polaganjeService: PolaganjeService,
     private authService: AuthenticationService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private xmlService: XmlService
   ) {}
 
   ngOnInit(): void {
@@ -204,6 +225,84 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
       }
     } catch (error) {
       this.snackBar.open('Greška pri učitavanju ocenjenih ispita', 'Zatvori', { duration: 3000 });
+    }
+  }
+
+  toggleXmlUpload(): void {
+    this.showXmlUpload = !this.showXmlUpload;
+  }
+
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file && (file.type === 'text/xml' || file.name.endsWith('.xml'))) {
+      this.selectedFile = file;
+    } else {
+      this.snackBar.open('Molimo izaberite XML fajl', 'Zatvori', { duration: 3000 });
+    }
+  }
+
+  uploadFile(): void {
+    if (this.selectedFile) {
+      this.xmlService.uploadXmlFile(this.selectedFile).subscribe({
+        next: (response) => {
+          this.snackBar.open(response.message, 'Zatvori', { duration: 3000 });
+          this.selectedFile = null;
+          this.loadPrijavljeneIspite();
+          this.loadOcenjeneIspite();
+        },
+        error: (error) => {
+          this.snackBar.open(error.error.error || 'Greška pri upload-u fajla', 'Zatvori', { duration: 5000 });
+        }
+      });
+    }
+  }
+
+  submitXmlContent(): void {
+    if (this.xmlContent) {
+      this.xmlService.submitXmlContent(this.xmlContent).subscribe({
+        next: (response) => {
+          this.snackBar.open(response.message, 'Zatvori', { duration: 3000 });
+          this.xmlContent = '';
+          this.loadPrijavljeneIspite();
+          this.loadOcenjeneIspite();
+        },
+        error: (error) => {
+          this.snackBar.open(error.error.error || 'Greška pri obradi XML-a', 'Zatvori', { duration: 5000 });
+        }
+      });
+    }
+  }
+
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent): void {
+    event.preventDefault();
+    this.isDragOver = false;
+    
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      if (file.type === 'text/xml' || file.name.endsWith('.xml')) {
+        this.selectedFile = file;
+      } else {
+        this.snackBar.open('Molimo izaberite XML fajl', 'Zatvori', { duration: 3000 });
+      }
+    }
+  }
+
+  clearSelectedFile(): void {
+    this.selectedFile = null;
+    const fileInput = document.getElementById('xmlFileInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
     }
   }
 }

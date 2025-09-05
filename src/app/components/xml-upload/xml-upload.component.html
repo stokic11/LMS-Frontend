@@ -1,0 +1,36 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Upload XML rezultata evaluacije</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-tab-group>
+      <mat-tab label="Upload fajla">
+        <div style="padding: 20px;">
+          <input type="file" #fileInput accept=".xml" (change)="onFileSelected($event)" style="margin-bottom: 20px;">
+          <br>
+          <button mat-raised-button color="primary" (click)="uploadFile()" [disabled]="!selectedFile">
+            Upload XML
+          </button>
+        </div>
+      </mat-tab>
+      
+      <mat-tab label="Paste XML">
+        <div style="padding: 20px;">
+          <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>XML sadržaj</mat-label>
+            <textarea matInput [(ngModel)]="xmlContent" rows="15" placeholder="Nalepite XML sadržaj ovde..."></textarea>
+          </mat-form-field>
+          <br>
+          <button mat-raised-button color="primary" (click)="submitXmlContent()" [disabled]="!xmlContent">
+            Submit XML
+          </button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    
+    <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 4px;">
+      <h4>Primer XML formata:</h4>
+      <pre style="font-size: 12px; overflow-x: auto;">{{xmlExample}}</pre>
+    </div>
+  </mat-card-content>
+</mat-card>
