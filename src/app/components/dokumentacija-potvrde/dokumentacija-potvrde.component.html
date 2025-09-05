@@ -1,6 +1,6 @@
 <div class="dokumentacija-container">
   <div class="header-section">
-    <h1 class="page-title">Upravljanje potvrdama</h1>
+    <h1 class="table-page-title">Upravljanje potvrdama</h1>
     <p class="page-subtitle">Odobravanje i praćenje studentskih potvrda</p>
   </div>
 
@@ -20,9 +20,8 @@
           [showDownloadButton]="false"
           [pageSize]="10">
         </app-generic-table>
-        <div *ngIf="pendingPotvrde.length === 0" class="no-data">
-          <mat-icon>check_circle</mat-icon>
-          <p>Nema potvrda na čekanju</p>
+        <div *ngIf="pendingPotvrde.length === 0" class="no-data-container">
+          <p class="no-data-text">Nema potvrda na čekanju</p>
         </div>
       </mat-card-content>
     </mat-card>
@@ -40,9 +39,8 @@
           [showDownloadButton]="false"
           [pageSize]="10">
         </app-generic-table>
-        <div *ngIf="approvedPotvrde.length === 0" class="no-data">
-          <mat-icon>description</mat-icon>
-          <p>Nema odobrenih potvrda</p>
+        <div *ngIf="approvedPotvrde.length === 0" class="no-data-container">
+          <p class="no-data-text">Nema odobrenih potvrda</p>
         </div>
       </mat-card-content>
     </mat-card>

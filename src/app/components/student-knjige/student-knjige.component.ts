@@ -10,6 +10,13 @@ import { IzdataKnjiga } from '../../models/izdata-knjiga.model';
 import { BibliotekaService } from '../../services/biblioteka/biblioteka.service';
 import { IzdataKnjigaService } from '../../services/izdata-knjiga/izdata-knjiga.service';
 
+interface MojaKnjiga extends IzdataKnjiga {
+  naziv: string;
+  autor: string;
+  status: string;
+  mozeVratiti: boolean;
+}
+
 @Component({
   selector: 'app-student-knjige',
   standalone: true,
@@ -28,9 +35,9 @@ export class StudentKnjigeComponent implements OnInit {
   
   loading = true;
   dostupneKnjige: Biblioteka[] = [];
-  mojeKnjige: any[] = [];
-  mojeOdobreneKnjige: any[] = [];
-  mojeNeodobreneKnjige: any[] = [];
+  mojeKnjige: MojaKnjiga[] = [];
+  mojeOdobreneKnjige: MojaKnjiga[] = [];
+  mojeNeodobreneKnjige: MojaKnjiga[] = [];
   
   dostupneKnjigeColumns: TableColumn[] = [
     { key: 'naziv', label: 'Naziv' },
@@ -58,7 +65,7 @@ export class StudentKnjigeComponent implements OnInit {
       label: 'Vrati',
       icon: 'assignment_return',
       color: 'accent',
-      action: (item: any) => this.vratiKnjigu(item)
+      action: (item: MojaKnjiga) => this.vratiKnjigu(item)
     }
   ];
   
@@ -81,10 +88,9 @@ export class StudentKnjigeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.bibliotekaService.getAll().subscribe({
         next: (data: Biblioteka[]) => {
-          console.log('Biblioteka data:', data);
           this.dostupneKnjige = data.filter(b => {
-            const imaPrimeraka = b.brojPrimeraka > 0;
-            const vecIma = this.mojeKnjige.some(mk => mk.knjigaId === b.knjigaId);
+            let imaPrimeraka = b.brojPrimeraka > 0;
+            let vecIma = this.mojeKnjige.some(mk => mk.knjigaId === b.knjigaId);
             return imaPrimeraka && !vecIma;
           }).map(b => ({
             ...b,
@@ -105,7 +111,7 @@ export class StudentKnjigeComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.izdataKnjigaService.getMojeKnjige().subscribe({
         next: (data: IzdataKnjiga[]) => {
-          this.mojeKnjige = data.map(knjiga => ({
+          this.mojeKnjige = data.map((knjiga): MojaKnjiga => ({
             ...knjiga,
             naziv: knjiga.knjiga?.naziv || 'Nepoznato',
             autor: knjiga.knjiga?.autor || 'Nepoznat autor',
@@ -145,7 +151,7 @@ export class StudentKnjigeComponent implements OnInit {
     });
   }
 
-  vratiKnjigu(knjiga: any): void {
+  vratiKnjigu(knjiga: MojaKnjiga): void {
     if (!knjiga.odobreno) {
       this.snackBar.open('Možete vratiti samo odobrene knjige', 'Zatvori', { duration: 3000 });
       return;

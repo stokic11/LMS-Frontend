@@ -1,6 +1,6 @@
 <div class="predmet-table-wrapper">
-  <div class="table-header">
-    <h2>{{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti' : 'Predmeti') }}</h2>
+  <div class="table-header-section">
+    <h1 class="table-page-title">{{ isStudent ? 'Moji Predmeti' : (isNastavnik ? 'Predmeti' : 'Predmeti') }}</h1>
   </div>
   <app-generic-table 
     [data]="data"

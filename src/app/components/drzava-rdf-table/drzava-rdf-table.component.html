@@ -1,6 +1,6 @@
 <div class="drzava-rdf-container">
   <div class="header-section">
-    <h1 class="page-title">RDF Upravljanje Državama</h1>
+    <h1 class="table-page-title">RDF Upravljanje Državama</h1>
     <div class="header-actions">
       <mat-form-field appearance="outline" class="search-field">
         <mat-label>Pretraži po nazivu</mat-label>
@@ -21,7 +21,6 @@
       </div>
 
       <div *ngIf="!loading && drzave.length === 0" class="no-data-container">
-        <mat-icon class="no-data-icon">public</mat-icon>
         <p class="no-data-text">Nema država u RDF skladištu</p>
       </div>
 

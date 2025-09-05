@@ -1,10 +1,10 @@
 <h2 mat-dialog-title>Ocenjivanje studenta</h2>
 <mat-dialog-content>
   <div class="student-info">
-    <p><strong>Student:</strong> {{data.student}}</p>
+    <p><strong>Student:</strong> {{data.student.ime}} {{data.student.prezime}}</p>
     <p><strong>Broj indeksa:</strong> {{data.brojIndeksa}}</p>
-    <p><strong>Predmet:</strong> {{data.predmet}}</p>
-    <p><strong>Tip evaluacije:</strong> {{data.tipEvaluacije}}</p>
+    <p><strong>Predmet:</strong> {{data.predmet.naziv}}</p>
+    <p><strong>Tip evaluacije:</strong> {{data.tipEvaluacije.naziv}}</p>
   </div>
   
   <mat-form-field appearance="outline" class="full-width">

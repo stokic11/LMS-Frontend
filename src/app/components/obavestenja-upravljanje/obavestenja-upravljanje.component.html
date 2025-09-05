@@ -2,8 +2,7 @@
   
   <div class="header-section">
     <div class="header-content">
-      <h1 class="page-title">
-        <mat-icon>announcement</mat-icon>
+      <h1 class="table-page-title">
         Upravljanje obaveštenjima
       </h1>
       <p class="page-subtitle">Pregled, kreiranje i upravljanje obaveštenjima u sistemu</p>
@@ -56,10 +55,9 @@
               </app-generic-table>
             </div>
 
-            <div class="no-students-message" *ngIf="obavestenja.length === 0">
-              <mat-icon>info</mat-icon>
-              <h3>Nema obaveštenja</h3>
-              <p>Trenutno nema obaveštenja u sistemu.</p>
+            <div class="no-data-container" *ngIf="obavestenja.length === 0">
+              <p class="no-data-text">Nema obaveštenja</p>
+              <p class="no-data-text">Trenutno nema obaveštenja u sistemu.</p>
             </div>
           </mat-card-content>
         </mat-card>

@@ -18,7 +18,7 @@ export class StudijskiProgramService extends CrudService<StudijskiProgram, numbe
   }
 
   getStudijskiProgramInfo(id: number): Observable<any> {
-    const backendUrl = `http://localhost:8080/api/studijski-programi/${id}/info`;
+    let backendUrl = `http://localhost:8080/api/studijski-programi/${id}/info`;
     return this.http.get<any>(backendUrl);
   }
 
@@ -26,7 +26,7 @@ export class StudijskiProgramService extends CrudService<StudijskiProgram, numbe
     return new Observable(observer => {
       this.getAll().subscribe({
         next: (programi) => {
-          const programiArray = Array.from(programi);
+          let programiArray = Array.from(programi);
           
           if (programiArray.length === 0) {
             observer.next([]);
@@ -34,10 +34,10 @@ export class StudijskiProgramService extends CrudService<StudijskiProgram, numbe
             return;
           }
 
-          const detailRequests = programiArray.map(program => 
+          let detailRequests = programiArray.map(program => 
             new Observable(obs => {
-              const fakultetUrl = `http://localhost:8080/api/fakulteti/${program.fakultetId}`;
-              const nastavnikUrl = `http://localhost:8080/api/nastavnici/${program.rukovodilaId}`;
+              let fakultetUrl = `http://localhost:8080/api/fakulteti/${program.fakultetId}`;
+              let nastavnikUrl = `http://localhost:8080/api/nastavnici/${program.rukovodilaId}`;
               
               forkJoin({
                 fakultet: this.http.get<any>(fakultetUrl),

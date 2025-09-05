@@ -113,9 +113,9 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
   async loadPrijavljeneIspite(): Promise<void> {
     this.loading = true;
     try {
-      const nastavnikId = this.authService.getKorisnikId();
+      let nastavnikId = this.authService.getKorisnikId();
       if (nastavnikId) {
-        const response = await firstValueFrom(
+        let response = await firstValueFrom(
           this.polaganjeService.getPrijavljeneIspiteZaNastavnika(nastavnikId)
         );
         this.prijavljeniIspiti = response.map(ispit => ({
@@ -152,7 +152,7 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
           label: '',
           type: 'dynamic-text',
           dynamicText: (formValue: any) => {
-            const bodovi = formValue.bodovi;
+            let bodovi = formValue.bodovi;
             if (!bodovi || bodovi < 0 || bodovi > 100) {
               return 'Ocena:';
             }
@@ -214,9 +214,9 @@ export class NastavnikOcenjivanjeComponent implements OnInit {
 
   async loadOcenjeneIspite(): Promise<void> {
     try {
-      const nastavnikId = this.authService.getKorisnikId();
+      let nastavnikId = this.authService.getKorisnikId();
       if (nastavnikId) {
-        const response = await firstValueFrom(
+        let response = await firstValueFrom(
           this.polaganjeService.getOcenjeneIspiteZaNastavnika(nastavnikId)
         );
         this.ocenjeniIspiti = response.map(ispit => ({

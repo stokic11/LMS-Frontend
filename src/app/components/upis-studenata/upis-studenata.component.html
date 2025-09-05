@@ -2,8 +2,7 @@
   
   <div class="header-section">
     <div class="header-content">
-      <h1 class="page-title">
-        <mat-icon>school</mat-icon>
+      <h1 class="table-page-title">
         Upis studenata na godine studija
       </h1>
       <p class="page-subtitle">Upravljajte upisom studenata na odgovarajuće godine studija</p>
@@ -49,10 +48,9 @@
               </app-generic-table>
             </div>
 
-            <div class="no-students-message" *ngIf="studenti.length === 0">
-              <mat-icon>check_circle</mat-icon>
-              <h3>Svi studenti su već upisani</h3>
-              <p>Trenutno nema studenata koji nisu upisani na godine studija.</p>
+            <div class="no-data-container" *ngIf="studenti.length === 0">
+              <p class="no-data-text">Svi studenti su već upisani</p>
+              <p class="no-data-text">Trenutno nema studenata koji nisu upisani na godine studija.</p>
             </div>
           </mat-card-content>
         </mat-card>

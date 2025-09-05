@@ -20,26 +20,6 @@
   font-size: 1rem;
 }
 
-::ng-deep .mat-mdc-button:hover,
-::ng-deep .mat-mdc-icon-button:hover,
-::ng-deep .mat-mdc-row:hover {
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-::ng-deep .mat-mdc-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-::ng-deep .mat-mdc-icon-button:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-::ng-deep .mat-mdc-row:hover {
-  background-color: rgba(0, 0, 0, 0.02);
-}
-
 @media (max-width: 768px) {
   .termini-raspored-wrapper {
     padding: 10px;

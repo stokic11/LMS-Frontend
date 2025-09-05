@@ -99,7 +99,7 @@ export class DrzavaRdfTableComponent implements OnInit {
   }
 
   addDrzava(): void {
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '450px',
       maxHeight: '400px',
       data: {
@@ -127,7 +127,7 @@ export class DrzavaRdfTableComponent implements OnInit {
   }
 
   editDrzava(drzava: Drzava): void {
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '450px',
       maxHeight: '400px',
       data: {

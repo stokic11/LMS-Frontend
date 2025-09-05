@@ -14,12 +14,12 @@ export class UniverzitetService extends ReadOnlyCrudService<Univerzitet, number>
   }
 
   getUniverzitetInfo(id: number): Observable<any> {
-    const backendUrl = `http://localhost:8080/api/univerziteti/${id}/info`;
+    let backendUrl = `http://localhost:8080/api/univerziteti/${id}/info`;
     return this.http.get<any>(backendUrl);
   }
 
   override getById(id: number): Observable<Univerzitet> {
-    const backendUrl = `http://localhost:8080/api/univerziteti/${id}`;
+    let backendUrl = `http://localhost:8080/api/univerziteti/${id}`;
     return this.http.get<Univerzitet>(backendUrl);
   }
 }

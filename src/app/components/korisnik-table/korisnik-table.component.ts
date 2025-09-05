@@ -119,8 +119,6 @@ export class KorisnikTableComponent implements OnInit {
     
     this.korisnikService.getAll().subscribe({
       next: (korisnici) => {
-        console.log('Osnovni korisnici:', korisnici);
-        
         this.korisnici = korisnici
           .filter(korisnik => !korisnik.obrisan)
           .map(korisnik => ({
@@ -140,7 +138,6 @@ export class KorisnikTableComponent implements OnInit {
     
     this.studentService.getAll().subscribe({
       next: (studenti) => {
-        console.log('Studenti iz student tabele:', studenti);
         this.studenti = studenti.filter(student => !student.obrisan);
         this.checkLoadingComplete();
       },
@@ -155,7 +152,6 @@ export class KorisnikTableComponent implements OnInit {
     
     this.nastavnikService.getAll().subscribe({
       next: (nastavnici) => {
-        console.log('Nastavnici iz nastavnik tabele:', nastavnici);
         this.nastavnici = nastavnici.filter(nastavnik => !nastavnik.obrisan);
         this.checkLoadingComplete();
       },
@@ -192,7 +188,7 @@ export class KorisnikTableComponent implements OnInit {
 
  
   editKorisnik(korisnik: Korisnik): void {
-    const dialogRef = this.dialog.open(KorisnikEditDialogComponent, {
+    let dialogRef = this.dialog.open(KorisnikEditDialogComponent, {
       width: '600px',
       data: { ...korisnik }
     });
@@ -233,7 +229,7 @@ export class KorisnikTableComponent implements OnInit {
   }
 
   addKorisnik(): void {
-    const dialogRef = this.dialog.open(KorisnikEditDialogComponent, {
+    let dialogRef = this.dialog.open(KorisnikEditDialogComponent, {
       width: '600px',
       data: { isNew: true }
     });

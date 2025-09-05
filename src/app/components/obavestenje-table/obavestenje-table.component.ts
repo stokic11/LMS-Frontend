@@ -9,6 +9,10 @@ import { ObavestenjeService } from '../../services/obavestenje/obavestenje.servi
 import { AuthenticationService } from '../../services/authentication/authentication.service';
 import { Obavestenje } from '../../models/obavestenje';
 
+interface ObavestenjeSaPodacima extends Obavestenje {
+  nazivPredmeta?: string;
+}
+
 @Component({
   selector: 'app-obavestenje-table',
   standalone: true,
@@ -24,7 +28,7 @@ import { Obavestenje } from '../../models/obavestenje';
   styleUrl: './obavestenje-table.component.css'
 })
 export class ObavestenjeTableComponent implements OnInit {
-  data: any[] = [];
+  obavestenja: ObavestenjeSaPodacima[] = [];
   columns: TableColumn[] = [
     { key: 'naslov', label: 'Naslov' },
     { key: 'sadrzaj', label: 'Sadržaj' },
@@ -45,20 +49,22 @@ export class ObavestenjeTableComponent implements OnInit {
     this.loadData();
   }
 
+  get data(): Obavestenje[] {
+    return this.obavestenja;
+  }
+
   checkIfStudent(): void {
-    const roles = this.authService.getCurrentUserRoles();
+    let roles = this.authService.getCurrentUserRoles();
     this.isStudent = roles.includes('student');
   }
 
   loadData(): void {
     if (this.isStudent) {
-      const userId = this.authService.getKorisnikId();
+      let userId = this.authService.getKorisnikId();
       if (userId) {
         this.obavestenjeService.getByStudentId(userId).subscribe({
           next: (obavestenja) => {
-            this.data = obavestenja.map(obavestenje => ({
-              ...obavestenje
-            }));
+            this.obavestenja = obavestenja;
           },
           error: (error) => {
           }
@@ -67,7 +73,7 @@ export class ObavestenjeTableComponent implements OnInit {
     }
   }
 
-  onObavestenjeClick(obavestenje: any): void {
+  onObavestenjeClick(obavestenje: Obavestenje): void {
     if (obavestenje.id) {
       this.router.navigate(['/obavestenja', obavestenje.id]);
     }

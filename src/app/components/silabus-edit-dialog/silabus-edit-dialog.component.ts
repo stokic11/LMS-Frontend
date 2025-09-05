@@ -17,7 +17,6 @@ import { AuthenticationService } from '../../services/authentication/authenticat
 import { Ishod } from '../../models/ishod';
 import { ObrazovniCilj } from '../../models/obrazovniCilj';
 
-// Prošireni interface za potrebe komponente
 interface IshodEdit extends Ishod {
   isCreatingNewCilj?: boolean;
   newCiljOpis?: string;
@@ -91,7 +90,7 @@ export class SilabusEditDialogComponent implements OnInit {
   }
 
   deleteIshod(index: number) {
-    const ishod = this.ishodi[index];
+    let ishod = this.ishodi[index];
     if (ishod.id) {
       this.loading = true;
       this.ishodService.delete(ishod.id).subscribe({
@@ -112,7 +111,7 @@ export class SilabusEditDialogComponent implements OnInit {
   }
 
   private convertToIshodDTO(ishod: IshodEdit): any {
-    const ishodDTO = {
+    let ishodDTO = {
       id: ishod.id,
       opis: ishod.opis,
       predmetId: ishod.predmetId,
@@ -131,12 +130,12 @@ export class SilabusEditDialogComponent implements OnInit {
     const operations: Observable<any>[] = [];
 
     for (let i = 0; i < this.ishodi.length; i++) {
-      const ishod = this.ishodi[i];
+      let ishod = this.ishodi[i];
       
       if (ishod.opis.trim()) {
         if (ishod.id) {
-          const ishodDTO = this.convertToIshodDTO(ishod);
-          const putOp = this.ishodService.put(ishod.id, ishodDTO).pipe(
+          let ishodDTO = this.convertToIshodDTO(ishod);
+          let putOp = this.ishodService.put(ishod.id, ishodDTO).pipe(
             catchError(error => {
               console.error('Greška pri ažuriranju ishoda:', error);
               throw error;
@@ -144,8 +143,8 @@ export class SilabusEditDialogComponent implements OnInit {
           );
           operations.push(putOp);
         } else {
-          const ishodDTO = this.convertToIshodDTO(ishod);
-          const postOp = this.ishodService.create(ishodDTO).pipe(
+          let ishodDTO = this.convertToIshodDTO(ishod);
+          let postOp = this.ishodService.create(ishodDTO).pipe(
             catchError(error => {
               console.error('Greška pri kreiranju ishoda:', error);
               throw error;
@@ -183,7 +182,7 @@ export class SilabusEditDialogComponent implements OnInit {
       ishod.isCreatingNewCilj = true;
       ishod.newCiljOpis = '';
     } else {
-      const cilj = this.obrazovniCiljevi.find(c => c.id === Number(ciljId));
+      let cilj = this.obrazovniCiljevi.find(c => c.id === Number(ciljId));
       if (cilj) {
         ishod.obrazovniCilj = cilj;
         ishod.isCreatingNewCilj = false;
@@ -193,7 +192,7 @@ export class SilabusEditDialogComponent implements OnInit {
 
   saveNewObrazovniCilj(ishod: IshodEdit) {
     if (ishod.newCiljOpis && ishod.newCiljOpis.trim()) {
-      const noviCiljDTO = {
+      let noviCiljDTO = {
         opis: ishod.newCiljOpis.trim(),
         ishodiIds: []
       };

@@ -11,12 +11,30 @@ import { firstValueFrom } from 'rxjs';
 import { GenericTableComponent } from '../generic-table/generic-table.component';
 import { GenericDialogComponent } from '../generic-dialog/generic-dialog.component';
 import { Obavestenje } from '../../models/obavestenje';
+import { RealizacijaPredmeta } from '../../models/realizacijaPredmeta';
+import { Predmet } from '../../models/predmet';
+import { NastavnikNaRealizaciji } from '../../models/nastavnikNaRealizaciji';
+import { Nastavnik } from '../../models/nastavnik';
 import { ObavestenjeService } from '../../services/obavestenje/obavestenje.service';
 import { RealizacijaPredmetaService } from '../../services/realizacijaPredmeta/realizacija-predmeta.service';
 import { PredmetService } from '../../services/predmet/predmet.service';
 import { NastavnikNaRealizacijiService } from '../../services/nastavnikNaRealizaciji/nastavnik-na-realizaciji.service';
 import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+
+interface ObavestenjeSaPodacima extends Obavestenje {
+  nazivPredmeta?: string;
+  nastavnikIme?: string;
+  nastavnikPrezime?: string;
+  predmet?: string;
+  nastavnik?: string;
+}
+
+interface ObavestenjeResponse extends Obavestenje {
+  nazivPredmeta?: string;
+  nastavnikIme?: string;
+  nastavnikPrezime?: string;
+}
 
 @Component({
   selector: 'app-obavestenja-upravljanje',
@@ -34,11 +52,11 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   styleUrls: ['./obavestenja-upravljanje.component.css']
 })
 export class ObavestenjaUpravljanjeComponent implements OnInit {
-  obavestenja: any[] = [];
-  realizacijePredmeta: any[] = [];
-  predmeti: any[] = [];
-  nastavniciNaRealizaciji: any[] = [];
-  nastavnici: any[] = [];
+  obavestenja: ObavestenjeSaPodacima[] = [];
+  realizacijePredmeta: RealizacijaPredmeta[] = [];
+  predmeti: Predmet[] = [];
+  nastavniciNaRealizaciji: NastavnikNaRealizaciji[] = [];
+  nastavnici: Nastavnik[] = [];
   loading = false;
 
   obavestenjaColumns = [
@@ -54,13 +72,13 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
       label: 'Izmeni',
       icon: 'edit',
       color: 'accent',
-      action: (obavestenje: any) => this.izmeniObavestenje(obavestenje)
+      action: (obavestenje: Obavestenje) => this.izmeniObavestenje(obavestenje)
     },
     {
       label: 'Obriši',
       icon: 'delete',
       color: 'warn',
-      action: (obavestenje: any) => this.obrisiObavestenje(obavestenje)
+      action: (obavestenje: Obavestenje) => this.obrisiObavestenje(obavestenje)
     }
   ];
 
@@ -82,46 +100,46 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
   async loadData(): Promise<void> {
     this.loading = true;
     try {
-      const predmetiResponse = await firstValueFrom(
+      let predmetiResponse = await firstValueFrom(
         this.predmetService.getAll()
       );
       this.predmeti = predmetiResponse;
 
-      const realizacijeResponse = await firstValueFrom(
+      let realizacijeResponse = await firstValueFrom(
         this.realizacijaPredmetaService.getAll()
       );
-      this.realizacijePredmeta = realizacijeResponse as any[];
+      this.realizacijePredmeta = realizacijeResponse;
 
       try {
-        const nastavniciNaRealizacijiResponse = await firstValueFrom(
+        let nastavniciNaRealizacijiResponse = await firstValueFrom(
           this.nastavnikNaRealizacijiService.getAll()
         );
-        this.nastavniciNaRealizaciji = nastavniciNaRealizacijiResponse as any[];
+        this.nastavniciNaRealizaciji = nastavniciNaRealizacijiResponse;
       } catch (error) {
         this.nastavniciNaRealizaciji = [];
       }
 
       try {
-        const nastavniciResponse = await firstValueFrom(
+        let nastavniciResponse = await firstValueFrom(
           this.nastavnikService.getAll()
         );
-        this.nastavnici = nastavniciResponse as any[];
+        this.nastavnici = nastavniciResponse;
       } catch (error) {
         this.nastavnici = [];
       }
 
-      const obavestenjaResponse = await firstValueFrom(
+      let obavestenjaResponse = await firstValueFrom(
         this.obavestenjeService.getAllByRole()
       );
       
-      this.obavestenja = obavestenjaResponse
-        .filter((obavestenje: any) => !obavestenje.obrisan)
-        .map((obavestenje: any) => ({
+      this.obavestenja = (obavestenjaResponse as ObavestenjeResponse[])
+        .filter((obavestenje) => !obavestenje.obrisan)
+        .map((obavestenje): ObavestenjeSaPodacima => ({
           ...obavestenje,
           predmet: obavestenje.nazivPredmeta || 'Nepoznat predmet',
           nastavnik: (obavestenje.nastavnikIme && obavestenje.nastavnikPrezime) 
             ? `${obavestenje.nastavnikIme} ${obavestenje.nastavnikPrezime}`
-            : this.getNastavnikName(obavestenje.nastavnikNaRealizacijiId)
+            : this.getNastavnikName(obavestenje.nastavnikNaRealizacijiId!)
         }));
 
     } catch (error) {
@@ -153,7 +171,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
     return 'Nepoznat nastavnik';
   }
 
-  private mapObavestenjaWithDetails(obavestenja: any[]): any[] {
+  private mapObavestenjaWithDetails(obavestenja: Obavestenje[]): Obavestenje[] {
     return obavestenja.map((obavestenje, index) => {
       const realizacija = this.realizacijePredmeta.find(r => r.id === obavestenje.realizacijaPredmetaId);
       
@@ -204,7 +222,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
     if (currentUserId) {
       try {
         const currentNastavnik = this.nastavnici.find(n => n.id === currentUserId);
-        if (currentNastavnik) {
+        if (currentNastavnik && currentNastavnik.id) {
           currentNastavnikId = currentNastavnik.id;
           
           const nastavnikRealizacije = this.nastavniciNaRealizaciji.filter(nnr => 
@@ -217,7 +235,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
             const realizacija = this.realizacijePredmeta.find(r => r.id === nnr.realizacijaPredmetaId);
             const predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
             
-            if (predmet && realizacija) {
+            if (predmet && realizacija && predmet.id && realizacija.id) {
               const predmetId = predmet.id;
               
               if (!predmetRealizacijaMap.has(predmetId) || 
@@ -351,7 +369,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
       const realizacija = this.realizacijePredmeta.find(r => r.id === nnr.realizacijaPredmetaId);
       const predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
       
-      if (predmet && realizacija) {
+      if (predmet && realizacija && predmet.id && realizacija.id) {
         const predmetId = predmet.id;
         
         if (!predmetRealizacijaMap.has(predmetId) || 
@@ -439,7 +457,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
     });
   }
 
-  async izmeniObavestenje(obavestenje: any): Promise<void> {
+  async izmeniObavestenje(obavestenje: Obavestenje): Promise<void> {
     const nastavnikNaRealizaciji = this.nastavniciNaRealizaciji.find(nnr => 
       nnr.id === obavestenje.nastavnikNaRealizacijiId
     );
@@ -463,7 +481,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
       const rel = this.realizacijePredmeta.find(r => r.id === nnr.realizacijaPredmetaId);
       const pred = this.predmeti.find(p => p.id === rel?.predmetId);
       
-      if (pred && rel) {
+      if (pred && rel && pred.id && rel.id) {
         const predmetId = pred.id;
         
         if (!predmetRealizacijaMap.has(predmetId) || 
@@ -535,7 +553,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
             };
 
             const updatedObavestenje = await firstValueFrom(
-              this.obavestenjeService.put(obavestenje.id, obavestenjeData as Obavestenje)
+              this.obavestenjeService.put(obavestenje.id!, obavestenjeData as Obavestenje)
             );
             
             this.snackBar.open('Obaveštenje je uspešno izmenjeno!', 'Zatvori', { duration: 3000 });
@@ -556,7 +574,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
     });
   }
 
-  async obrisiObavestenje(obavestenje: any): Promise<void> {
+  async obrisiObavestenje(obavestenje: Obavestenje): Promise<void> {
     const dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '400px',
       disableClose: true,
@@ -574,7 +592,7 @@ export class ObavestenjaUpravljanjeComponent implements OnInit {
         isNew: false,
         customSave: async (formValue: any, isNew: boolean) => {
           try {
-            await firstValueFrom(this.obavestenjeService.delete(obavestenje.id));
+            await firstValueFrom(this.obavestenjeService.delete(obavestenje.id!));
             this.snackBar.open('Obaveštenje je uspešno obrisano!', 'Zatvori', { duration: 3000 });
             return true;
           } catch (error) {

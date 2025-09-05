@@ -55,10 +55,10 @@ export class StudijskiProgramDialogComponent implements OnInit {
       this.nastavnici = Array.from(nastavnici || []);
       
       
-      const isNew = !this.data.isEdit;
-      const entityData = this.data.studijskiProgram || {};
+      let isNew = !this.data.isEdit;
+      let entityData = this.data.studijskiProgram || {};
       
-      const config = this.configService.getStudijskiProgramConfig(
+      let config = this.configService.getStudijskiProgramConfig(
         entityData, 
         isNew, 
         this.fakulteti, 
@@ -102,8 +102,8 @@ export class StudijskiProgramDialogComponent implements OnInit {
     }).catch(error => {
       console.error('Greška pri učitavanju podataka:', error);
       
-      const isNew = !this.data.isEdit;
-      const entityData = this.data.studijskiProgram || {};
+      let isNew = !this.data.isEdit;
+      let entityData = this.data.studijskiProgram || {};
       this.dialogConfig = this.configService.getStudijskiProgramConfig(entityData, isNew, [], []);
     });
   }

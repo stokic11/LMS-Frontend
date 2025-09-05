@@ -6,4 +6,9 @@ export interface Student extends Korisnik {
     adresa: Adresa;
     studentNaGodiniIds?: number[];
     pohadjanjaPredmetaIds?: number[];
+    
+    brojIndeksa?: string;
+    godinaUpisa?: number;
+    prosecnaOcena?: string;
+    konacnaOcena?: string;
 }

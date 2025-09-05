@@ -5,15 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-
-export interface OcenjivanjeData {
-  student: string;
-  brojIndeksa: string;
-  predmet: string;
-  tipEvaluacije: string;
-  trenutniBodovi: number;
-  trenutnaNapomena: string;
-}
+import { Student } from '../../models/student';
+import { Predmet } from '../../models/predmet';
+import { TipEvaluacije } from '../../models/tipEvaluacije';
 
 @Component({
   selector: 'app-nastavnik-ocenjivanje-dialog',
@@ -32,11 +26,26 @@ export interface OcenjivanjeData {
 export class NastavnikOcenjivanjeDialogComponent {
   bodovi: number;
   napomena: string;
+  student: Student;
+  brojIndeksa: string;
+  predmet: Predmet;
+  tipEvaluacije: TipEvaluacije;
 
   constructor(
     public dialogRef: MatDialogRef<NastavnikOcenjivanjeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: OcenjivanjeData
+    @Inject(MAT_DIALOG_DATA) public data: {
+      student: Student;
+      brojIndeksa: string;
+      predmet: Predmet;
+      tipEvaluacije: TipEvaluacije;
+      trenutniBodovi: number;
+      trenutnaNapomena: string;
+    }
   ) {
+    this.student = data.student;
+    this.brojIndeksa = data.brojIndeksa;
+    this.predmet = data.predmet;
+    this.tipEvaluacije = data.tipEvaluacije;
     this.bodovi = data.trenutniBodovi;
     this.napomena = data.trenutnaNapomena;
   }

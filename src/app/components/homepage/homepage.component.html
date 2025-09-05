@@ -4,8 +4,8 @@
       <h1 class="hero-title">{{univerzitetInfo.naziv}}</h1>
       <p class="hero-subtitle">Oblikujemo lidere budućnosti kroz izvrsnost u obrazovanju</p>
       <div class="hero-buttons">
-        <button mat-raised-button color="accent" class="hero-btn" (click)="goToStudijskiProgrami()">Istražite programe</button>
-        <button mat-flat-button color="primary" class="hero-btn" (click)="goToFakulteti()">Prikaži fakultete</button>
+        <button mat-raised-button class="hero-btn-orange" (click)="goToStudijskiProgrami()">Istražite programe</button>
+        <button mat-flat-button class="hero-btn-orange" (click)="goToFakulteti()">Prikaži fakultete</button>
       </div>
     </div>
     <div class="hero-decoration"></div>
@@ -94,7 +94,6 @@
       <mat-card class="program-card" *ngFor="let program of getDisplayedPrograms()">
         <mat-card-header>
           <mat-card-title>{{ program.naziv }}</mat-card-title>
-          <mat-card-subtitle>{{ program.fakultet?.naziv || 'Fakultet' }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p>Saznajte više o ovom studijskom programu i mogućnostima koje vam pruža.</p>

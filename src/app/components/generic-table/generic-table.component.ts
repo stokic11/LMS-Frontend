@@ -57,8 +57,8 @@ export class GenericTableComponent {
     this.sortedData.forEach(row => {
       xmlContent += '  <row>\n';
       this.columns.forEach(col => {
-        const value = row[col.key] !== undefined ? String(row[col.key]) : '';
-        const escapedValue = value
+        let value = row[col.key] !== undefined ? String(row[col.key]) : '';
+        let escapedValue = value
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
@@ -71,9 +71,9 @@ export class GenericTableComponent {
     
     xmlContent += '</table>';
     
-    const blob = new Blob([xmlContent], { type: 'application/xml' });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    let blob = new Blob([xmlContent], { type: 'application/xml' });
+    let url = window.URL.createObjectURL(blob);
+    let link = document.createElement('a');
     link.href = url;
     link.download = 'tabela.xml';
     link.click();
@@ -82,9 +82,9 @@ export class GenericTableComponent {
 
   downloadPdf(): void {
     if (!this.columns?.length || !this.sortedData?.length) return;
-    const doc = new jsPDF();
+    let doc = new jsPDF();
     
-    const cleanText = (text: string) => text
+    let cleanText = (text: string) => text
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
       .replace(/[а-я]/gi, (match) => {
         const map: any = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ж':'z','з':'z','и':'i','ј':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'c','ч':'c','ш':'s','ћ':'c','џ':'dz'};
@@ -95,10 +95,10 @@ export class GenericTableComponent {
         return map[match] || match;
       });
     
-    const head = [this.columns.map(col => cleanText(col.label))];
-    const body = this.sortedData.map(row => 
+    let head = [this.columns.map(col => cleanText(col.label))];
+    let body = this.sortedData.map(row => 
       this.columns.map(col => {
-        const value = row[col.key] !== undefined ? String(row[col.key]) : '';
+        let value = row[col.key] !== undefined ? String(row[col.key]) : '';
         return cleanText(value);
       })
     );
@@ -143,8 +143,8 @@ export class GenericTableComponent {
   get sortedData(): any[] {
     if (!this.sortColumn) return this.data;
     return [...this.data].sort((a, b) => {
-      const aValue = a[this.sortColumn];
-      const bValue = b[this.sortColumn];
+      let aValue = a[this.sortColumn];
+      let bValue = b[this.sortColumn];
       if (aValue == null) return 1;
       if (bValue == null) return -1;
       if (aValue === bValue) return 0;
@@ -157,7 +157,7 @@ export class GenericTableComponent {
   }
 
   get pagedData(): any[] {
-    const start = (this.currentPage - 1) * this.pageSize;
+    let start = (this.currentPage - 1) * this.pageSize;
     return this.sortedData.slice(start, start + this.pageSize);
   }
 
@@ -238,7 +238,7 @@ export class GenericTableComponent {
     
     if (typeof dateValue === 'string') {
 
-      const parsed = new Date(dateValue);
+      let parsed = new Date(dateValue);
       if (!isNaN(parsed.getTime())) {
         return parsed;
       }
@@ -248,16 +248,16 @@ export class GenericTableComponent {
   }
 
   formatDate(dateValue: any, includeTime: boolean = true): string {
-    const date = this.parseDate(dateValue);
+    let date = this.parseDate(dateValue);
     if (!date) return '';
     
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
+    let day = date.getDate().toString().padStart(2, '0');
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let year = date.getFullYear();
     
     if (includeTime) {
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
+      let hours = date.getHours().toString().padStart(2, '0');
+      let minutes = date.getMinutes().toString().padStart(2, '0');
       return `${day}/${month}/${year} ${hours}:${minutes}`;
     } else {
       return `${day}/${month}/${year}`;
@@ -265,7 +265,7 @@ export class GenericTableComponent {
   }
 
   isDateField(fieldKey: string): boolean {
-    const dateFieldNames = [
+    let dateFieldNames = [
       'datum', 'vreme', 'vremePocetka', 'vremeZavrsetka', 'vremePostavljanja', 
       'datumUpisa', 'datumPolaganja', 'datumIzdanja', 'datumKreiranja',
       'createdAt', 'updatedAt', 'timestamp'
@@ -276,10 +276,10 @@ export class GenericTableComponent {
   formatDateAuto(dateValue: any): string {
     if (!dateValue) return '';
     
-    const date = this.parseDate(dateValue);
+    let date = this.parseDate(dateValue);
     if (!date) return dateValue;
     
-    const hasTime = date.getHours() !== 0 || date.getMinutes() !== 0;
+    let hasTime = date.getHours() !== 0 || date.getMinutes() !== 0;
     
     return this.formatDate(dateValue, hasTime);
   }

@@ -10,6 +10,8 @@ import { GenericTableComponent, TableColumn } from '../generic-table/generic-tab
 import { NastavnikService } from '../../services/nastavnik/nastavnik.service';
 import { PohadjanjePredmetaService } from '../../services/pohadjanjePredmeta/pohadjanje-predmeta.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { Predmet } from '../../models/predmet';
+import { Student } from '../../models/student';
 
 @Component({
   selector: 'app-nastavnik-studenti',
@@ -20,10 +22,10 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   styleUrl: './nastavnik-studenti.component.css'
 })
 export class NastavnikStudentiComponent implements OnInit {
-  predmeti: any[] = [];
-  studenti: any[] = [];
-  filteredStudenti: any[] = [];
-  selectedPredmet: any | null = null;
+  predmeti: Predmet[] = [];
+  studenti: Student[] = [];
+  filteredStudenti: Student[] = [];
+  selectedPredmet: Predmet | null = null;
   showStudenti = false;
 
   searchFilters = {
@@ -62,18 +64,24 @@ export class NastavnikStudentiComponent implements OnInit {
   }
 
   loadNastavnikPredmeti(): void {
-    const userId = this.authService.getKorisnikId();
+    let userId = this.authService.getKorisnikId();
     if (userId) {
       this.nastavnikService.getPredmeti(userId).subscribe({
         next: (predmeti: any) => {
-          this.predmeti = predmeti.map((row: any[]) => ({
+          this.predmeti = predmeti.map((row: any[]): Predmet => ({
             id: row[0],
             naziv: row[1],
             espb: row[2],
-            obavezan: row[3] ? 'Obavezan' : 'Izborni',
+            obavezan: row[3],
+            obavezanText: row[3] ? 'Obavezan' : 'Izborni',
             brojSemestra: row[4],
             brojPredavanja: row[5],
-            brojVezbi: row[6]
+            brojVezbi: row[6],
+            drugiObliciNastave: 0,
+            istrazivackiRad: 0,
+            ostaliCasovi: 0,
+            silabus: [],
+            godinaStudijaId: 0
           }));
         },
         error: (error: any) => console.error('Error loading predmeti:', error)
@@ -81,23 +89,37 @@ export class NastavnikStudentiComponent implements OnInit {
     }
   }
 
-  onPredmetClick(predmet: any): void {
+  onPredmetClick(predmet: Predmet): void {
     this.selectedPredmet = predmet;
     this.showStudenti = true;
-    this.loadStudentiByPredmet(predmet.id);
+    this.loadStudentiByPredmet(predmet.id!);
   }
 
   loadStudentiByPredmet(predmetId: number): void {
     this.pohadjanjePredmetaService.getStudentsByPredmetId(predmetId).subscribe({
       next: (data: any[]) => {
-        this.studenti = data.map((row: any[]) => ({
-          studentId: row[0],
+        this.studenti = data.map((row: any[]): Student => ({
+          id: row[0],
           ime: row[1],
           prezime: row[2],
           brojIndeksa: row[3],
           godinaUpisa: new Date(row[4]).getFullYear(),
           prosecnaOcena: row[5] === 0 ? 'Nema ocena' : parseFloat(row[5]).toFixed(2),
-          konacnaOcena: row[6] || 'Nije ocenjen'
+          konacnaOcena: row[6] || 'Nije ocenjen',
+          jmbg: '',
+          adresa: { 
+            id: 0, 
+            ulica: '', 
+            broj: '', 
+            mesto: { 
+              id: 0, 
+              naziv: '', 
+              postanskiBroj: '', 
+              drzava: { id: 0, naziv: '' }
+            } 
+          },
+          korisnickoIme: '',
+          email: ''
         }));
         this.filteredStudenti = [...this.studenti];
       },
@@ -107,12 +129,12 @@ export class NastavnikStudentiComponent implements OnInit {
 
   applyFilters(): void {
     this.filteredStudenti = this.studenti.filter(student => {
-      return this.matchesFilter(student.ime, this.searchFilters.ime) &&
-             this.matchesFilter(student.prezime, this.searchFilters.prezime) &&
-             this.matchesFilter(student.brojIndeksa, this.searchFilters.brojIndeksa) &&
-             this.matchesFilter(student.godinaUpisa.toString(), this.searchFilters.godinaUpisa) &&
-             this.matchesFilter(student.prosecnaOcena, this.searchFilters.prosecnaOcena) &&
-             this.matchesFilter(student.konacnaOcena.toString(), this.searchFilters.konacnaOcena);
+      return this.matchesFilter(student.ime || '', this.searchFilters.ime) &&
+             this.matchesFilter(student.prezime || '', this.searchFilters.prezime) &&
+             this.matchesFilter(student.brojIndeksa || '', this.searchFilters.brojIndeksa) &&
+             this.matchesFilter((student.godinaUpisa || 0).toString(), this.searchFilters.godinaUpisa) &&
+             this.matchesFilter(student.prosecnaOcena || '', this.searchFilters.prosecnaOcena) &&
+             this.matchesFilter((student.konacnaOcena || '').toString(), this.searchFilters.konacnaOcena);
     });
   }
 
@@ -134,15 +156,15 @@ export class NastavnikStudentiComponent implements OnInit {
   }
 
   allowOnlyNumbers(event: KeyboardEvent): void {
-    const charCode = event.charCode;
+    let charCode = event.charCode;
     if (charCode < 48 || charCode > 57) {
       event.preventDefault();
     }
   }
 
   allowNumbersAndDecimal(event: KeyboardEvent): void {
-    const charCode = event.charCode;
-    const inputValue = (event.target as HTMLInputElement).value;
+    let charCode = event.charCode;
+    let inputValue = (event.target as HTMLInputElement).value;
     if ((charCode < 48 || charCode > 57) && charCode !== 46) {
       event.preventDefault();
     }
@@ -159,11 +181,11 @@ export class NastavnikStudentiComponent implements OnInit {
     this.clearFilters();
   }
 
-  onStudentClick(student: any): void {
-    if (student && student.studentId) {
-      this.router.navigate(['/studenti', student.studentId]);
+  onStudentClick(student: Student): void {
+    if (student && student.id) {
+      this.router.navigate(['/studenti', student.id]);
     } else {
-      console.error('Student nema valid studentId:', student);
+      console.error('Student nema valid id:', student);
     }
   }
 }

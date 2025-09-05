@@ -88,22 +88,25 @@ h2 {
 }
 
 .btn-primary {
-  background-color: #E64833;
+  background-color: #E64833 !important;
   color: white;
   box-shadow: 0 4px 15px rgba(230, 72, 51, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
+  background-color: #c23e2a !important;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 25px rgba(230, 72, 51, 0.4);
 }
 
 .btn-primary:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 15px rgba(230, 72, 51, 0.2);
 }
+
+
 
 .alert {
   padding: 12px 16px;
@@ -143,23 +146,6 @@ h2 {
   text-decoration: underline;
 }
 
-.spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: spin 1s ease-in-out infinite;
-  margin-right: 8px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @media (max-width: 480px) {
   .register-container {
     padding: 10px;
@@ -173,14 +159,4 @@ h2 {
   h2 {
     font-size: 24px;
   }
-}
-
-.form-control:focus,
-.btn:focus {
-  outline: 1px solid #90AEAD;
-  outline-offset: 0px;
-}
-
-.btn-primary:disabled .spinner {
-  animation: spin 1s linear infinite;
 }

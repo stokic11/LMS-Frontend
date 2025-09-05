@@ -52,7 +52,6 @@ export class OrganizacijaNastaveComponent implements OnInit {
   brojCasova = 0;
   loading = false;
   
-  // Configuration for generic table
   tableColumns: TableColumn[] = [
     { key: 'ime', label: 'Ime' },
     { key: 'prezime', label: 'Prezime' },
@@ -86,11 +85,10 @@ export class OrganizacijaNastaveComponent implements OnInit {
   async loadNastavnici(): Promise<void> {
     this.loading = true;
     try {
-      const response = await firstValueFrom(
+      let response = await firstValueFrom(
         this.nastavnikService.getAll()
       );
       this.nastavnici = response;
-      console.log('Učitani nastavnici:', this.nastavnici);
     } catch (error) {
       console.error('Greška pri učitavanju nastavnika:', error);
       this.snackBar.open('Greška pri učitavanju nastavnika', 'Zatvori', { duration: 3000 });
@@ -101,11 +99,10 @@ export class OrganizacijaNastaveComponent implements OnInit {
 
   async loadTipoviNastave(): Promise<void> {
     try {
-      const response = await firstValueFrom(
+      let response = await firstValueFrom(
         this.tipNastaveService.getAll()
       );
       this.tipoviNastave = response;
-      console.log('Učitani tipovi nastave:', this.tipoviNastave);
     } catch (error) {
       console.error('Greška pri učitavanju tipova nastave:', error);
       this.snackBar.open('Greška pri učitavanju tipova nastave', 'Zatvori', { duration: 3000 });
@@ -114,11 +111,10 @@ export class OrganizacijaNastaveComponent implements OnInit {
 
   async loadPredmeti(): Promise<void> {
     try {
-      const response = await firstValueFrom(
+      let response = await firstValueFrom(
         this.predmetService.getAll()
       );
       this.predmeti = response;
-      console.log('Učitani predmeti:', this.predmeti);
     } catch (error) {
       console.error('Greška pri učitavanju predmeta:', error);
       this.snackBar.open('Greška pri učitavanju predmeta', 'Zatvori', { duration: 3000 });
@@ -127,7 +123,6 @@ export class OrganizacijaNastaveComponent implements OnInit {
 
   selectNastavnik(nastavnik: Nastavnik): void {
     this.selectedNastavnik = nastavnik;
-    console.log('Izabran nastavnik:', nastavnik);
   }
 
   async dodajNastavnikaNaRealizaciju(): Promise<void> {
@@ -138,35 +133,29 @@ export class OrganizacijaNastaveComponent implements OnInit {
 
     this.loading = true;
     try {
-      // Prvo kreiraj realizaciju predmeta
       const novaRealizacijaPredmeta: RealizacijaPredmeta = {
         predmetId: this.selectedPredmet.id!
       };
 
       console.log('Kreiram realizaciju predmeta:', novaRealizacijaPredmeta);
-      const kreirana_realizacija = await firstValueFrom(
+      let kreirana_realizacija = await firstValueFrom(
         this.realizacijaPredmetaService.create(novaRealizacijaPredmeta)
       );
-      
-      console.log('Kreirana realizacija predmeta:', kreirana_realizacija);
 
-      // Zatim kreiraj nastavnika na realizaciji sa ID-om nove realizacije
-      const nastavnikNaRealizaciji: NastavnikNaRealizaciji = {
+      let nastavnikNaRealizaciji: NastavnikNaRealizaciji = {
         brojCasova: this.brojCasova,
-        realizacijaPredmetaId: kreirana_realizacija.id!, // Koristi ID nove realizacije
+        realizacijaPredmetaId: kreirana_realizacija.id!,
         tipNastave: this.selectedTipNastave,
         nastavnikId: this.selectedNastavnik.id!
       };
 
       console.log('Kreiram nastavnika na realizaciji:', nastavnikNaRealizaciji);
-      const response = await firstValueFrom(
+      let response = await firstValueFrom(
         this.nastavnikNaRealizacijiService.create(nastavnikNaRealizaciji)
       );
       
-      console.log('Nastavnik uspešno dodeljen na realizaciju:', response);
       this.snackBar.open(`Nastavnik ${this.selectedNastavnik.ime} ${this.selectedNastavnik.prezime} je uspešno dodeljen na predmet ${this.selectedPredmet.naziv}!`, 'Zatvori', { duration: 5000 });
       
-      // Reset form
       this.selectedTipNastave = null;
       this.selectedPredmet = null;
       this.brojCasova = 0;

@@ -17,6 +17,17 @@ import { NastavnikNaRealizacijiService } from '../../services/nastavnikNaRealiza
 import { RealizacijaPredmetaService } from '../../services/realizacijaPredmeta/realizacija-predmeta.service';
 import { PredmetService } from '../../services/predmet/predmet.service';
 import { AuthenticationService } from '../../services/authentication/authentication.service';
+import { Nastavnik } from '../../models/nastavnik';
+import { NastavnikNaRealizaciji } from '../../models/nastavnikNaRealizaciji';
+import { RealizacijaPredmeta } from '../../models/realizacijaPredmeta';
+import { Predmet } from '../../models/predmet';
+
+interface NastavnikPredmetInfo {
+  nastavnikNaRealizacijiId: number;
+  predmetNaziv: string;
+  predmetId: number;
+  realizacijaId: number;
+}
 
 @Component({
   selector: 'app-obavestenje-dialog',
@@ -39,12 +50,12 @@ export class ObavestenjeDialogComponent implements OnInit {
   obavestenjeForm: FormGroup;
   loading = false;
   
-  nastavnici: any[] = [];
-  nastavniciNaRealizaciji: any[] = [];
-  realizacijePredmeta: any[] = [];
-  predmeti: any[] = [];
+  nastavnici: Nastavnik[] = [];
+  nastavniciNaRealizaciji: NastavnikNaRealizaciji[] = [];
+  realizacijePredmeta: RealizacijaPredmeta[] = [];
+  predmeti: Predmet[] = [];
   
-  filteredPredmeti: any[] = [];
+  filteredPredmeti: NastavnikPredmetInfo[] = [];
   
   isNastavnik = false;
   currentNastavnikId: number | null = null;
@@ -59,7 +70,7 @@ export class ObavestenjeDialogComponent implements OnInit {
     private predmetService: PredmetService,
     private authService: AuthenticationService,
     private snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: { obavestenje?: Obavestenje }
   ) {
     this.obavestenjeForm = this.fb.group({
       nastavnikId: ['', Validators.required],
@@ -76,16 +87,16 @@ export class ObavestenjeDialogComponent implements OnInit {
   }
 
   async checkUserRole(): Promise<void> {
-    const roles = this.authService.getCurrentUserRoles();
+    let roles = this.authService.getCurrentUserRoles();
     this.isNastavnik = roles.includes('nastavnik') && !roles.includes('studentska_sluzba');
     
     if (this.isNastavnik) {
-      const currentUserId = this.authService.getKorisnikId();
+      let currentUserId = this.authService.getKorisnikId();
       if (currentUserId) {
         try {
-          const allNastavnici = await firstValueFrom(this.nastavnikService.getAll());
-          const currentNastavnik = (allNastavnici as any[]).find(n => n.id === currentUserId);
-          if (currentNastavnik) {
+          let allNastavnici = await firstValueFrom(this.nastavnikService.getAll());
+          let currentNastavnik = allNastavnici.find(n => n.id === currentUserId);
+          if (currentNastavnik && currentNastavnik.id) {
             this.currentNastavnikId = currentNastavnik.id;
           } else {
             this.isNastavnik = false; 
@@ -109,17 +120,17 @@ export class ObavestenjeDialogComponent implements OnInit {
 
   async loadData(): Promise<void> {
     try {
-      const [nastavnici, nastavniciNaRealizaciji, realizacije, predmeti] = await Promise.all([
+      let [nastavnici, nastavniciNaRealizaciji, realizacije, predmeti] = await Promise.all([
         firstValueFrom(this.nastavnikService.getAll()),
         firstValueFrom(this.nastavnikNaRealizacijiService.getAll()),
         firstValueFrom(this.realizacijaPredmetaService.getAll()),
         firstValueFrom(this.predmetService.getAll())
       ]);
 
-      this.nastavnici = nastavnici as any[];
-      this.nastavniciNaRealizaciji = nastavniciNaRealizaciji as any[];
-      this.realizacijePredmeta = realizacije as any[];
-      this.predmeti = predmeti as any[];
+      this.nastavnici = nastavnici;
+      this.nastavniciNaRealizaciji = nastavniciNaRealizaciji;
+      this.realizacijePredmeta = realizacije;
+      this.predmeti = predmeti;
 
     } catch (error) {
       this.snackBar.open('Greška pri učitavanju podataka', 'Zatvori', { duration: 3000 });
@@ -127,31 +138,31 @@ export class ObavestenjeDialogComponent implements OnInit {
   }
 
   onNastavnikChange(): void {
-    const nastavnikId = this.obavestenjeForm.get('nastavnikId')?.value;
+    let nastavnikId = this.obavestenjeForm.get('nastavnikId')?.value;
     
     if (nastavnikId) {
       this.obavestenjeForm.get('nastavnikNaRealizacijiId')?.setValue('');
       
       this.obavestenjeForm.get('nastavnikNaRealizacijiId')?.enable();
       
-      const nastavnikRealizacije = this.nastavniciNaRealizaciji.filter(nnr => 
+      let nastavnikRealizacije = this.nastavniciNaRealizaciji.filter(nnr => 
         nnr.nastavnikId === nastavnikId
       );
       
-      const predmetRealizacijaMap = new Map<number, any>();
+      let predmetRealizacijaMap = new Map<number, NastavnikPredmetInfo>();
       
       nastavnikRealizacije.forEach(nnr => {
-        const realizacija = this.realizacijePredmeta.find(r => r.id === nnr.realizacijaPredmetaId);
-        const predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
+        let realizacija = this.realizacijePredmeta.find(r => r.id === nnr.realizacijaPredmetaId);
+        let predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
         
-        if (predmet && realizacija) {
-          const predmetId = predmet.id;
+        if (predmet && realizacija && predmet.id && realizacija.id) {
+          let predmetId = predmet.id;
           
           if (!predmetRealizacijaMap.has(predmetId) || 
-              realizacija.id > predmetRealizacijaMap.get(predmetId).realizacijaId) {
+              realizacija.id > (predmetRealizacijaMap.get(predmetId)?.realizacijaId || 0)) {
             
             predmetRealizacijaMap.set(predmetId, {
-              nastavnikNaRealizacijiId: nnr.id,
+              nastavnikNaRealizacijiId: nnr.id!,
               predmetNaziv: predmet.naziv,
               predmetId: predmet.id,
               realizacijaId: realizacija.id
@@ -175,9 +186,9 @@ export class ObavestenjeDialogComponent implements OnInit {
       this.loading = true;
       
       try {
-        const formValue = this.obavestenjeForm.getRawValue();
+        let formValue = this.obavestenjeForm.getRawValue();
         
-        const selectedNnr = this.nastavniciNaRealizaciji.find(nnr => 
+        let selectedNnr = this.nastavniciNaRealizaciji.find(nnr => 
           nnr.id === formValue.nastavnikNaRealizacijiId
         );
         
@@ -186,7 +197,7 @@ export class ObavestenjeDialogComponent implements OnInit {
           return;
         }
         
-        const obavestenjeData = {
+        let obavestenjeData = {
           naslov: formValue.naslov,
           sadrzaj: formValue.sadrzaj,
           vremePostavljanja: new Date(),
@@ -194,7 +205,7 @@ export class ObavestenjeDialogComponent implements OnInit {
           realizacijaPredmetaId: selectedNnr.realizacijaPredmetaId
         };
 
-        const createdObavestenje = await firstValueFrom(this.obavestenjeService.create(obavestenjeData as Obavestenje));
+        let createdObavestenje = await firstValueFrom(this.obavestenjeService.create(obavestenjeData as Obavestenje));
         
         this.snackBar.open('Obaveštenje je uspešno kreirano!', 'Zatvori', { duration: 3000 });
         this.dialogRef.close(true);
@@ -212,8 +223,8 @@ export class ObavestenjeDialogComponent implements OnInit {
   }
 
   isFormValid(): boolean {
-    const rawValue = this.obavestenjeForm.getRawValue();
-    const isValid = !!(rawValue.nastavnikId && 
+    let rawValue = this.obavestenjeForm.getRawValue();
+    let isValid = !!(rawValue.nastavnikId && 
              rawValue.nastavnikNaRealizacijiId && 
              rawValue.naslov && 
              rawValue.sadrzaj);

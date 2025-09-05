@@ -42,27 +42,22 @@
   animation: fadeInUp 1s ease-out 0.4s both;
 }
 
-.hero-btn, .hero-btn-outline {
+.hero-btn-orange {
+  background-color: #E64833 !important;
+  color: white !important;
+  border: 2px solid #E64833 !important;
   padding: 12px 30px;
   font-size: 1.1rem;
   border-radius: 30px;
   text-transform: uppercase;
   font-weight: 600;
   transition: all 0.3s ease;
-  background-color: #E64833 !important;
-  color: white !important;
-  border: 2px solid #E64833 !important;
+  cursor: pointer !important;
 }
 
-.hero-btn {
-  background-color: #E64833;
-  color: white;
-  border: 2px solid #E64833;
-}
-
-.hero-btn:hover {
-  background-color: #c23e2a;
-  border-color: #c23e2a;
+.hero-btn-orange:hover {
+  background-color: #c23e2a !important;
+  border-color: #c23e2a !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(230, 72, 51, 0.3);
 }
@@ -71,6 +66,12 @@
   color: white;
   border: 2px solid white;
   background-color: transparent;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border-radius: 30px;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .hero-btn-outline:hover {
@@ -144,7 +145,7 @@
   align-items: center;
 }
 
-.section-title {
+.homepage-section-title {
   font-size: 2.5rem;
   font-weight: 700;
   color: #333;
@@ -152,7 +153,7 @@
   line-height: 1.2;
 }
 
-.section-title.center {
+.homepage-section-title.center {
   text-align: center;
   margin-bottom: 3rem;
 }
@@ -197,11 +198,6 @@
   height: 300px;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
-}
-
-.university-image:hover {
-  transform: scale(1.05);
 }
 
 .placeholder-image {
@@ -222,8 +218,9 @@
 }
 
 .programs-section {
-  padding: 100px 0;
+  padding: 120px 0 100px 0;
   background: #f8f9fa;
+  text-align: center;
 }
 
 .programs-grid {
@@ -233,6 +230,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  justify-items: center;
 }
 
 .program-card {
@@ -422,6 +420,29 @@
   margin-bottom: 1rem;
 }
 
+.location-section {
+  position: relative;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  overflow: hidden;
+  height: 350px;
+}
+
+.location-section #map {
+  height: 90%;
+  width: 100%; 
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.location-icon {
+  font-size: 3rem;
+  color: #3F51B5;
+  margin-bottom: 1rem;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -458,41 +479,6 @@
   
   .programs-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-
-.contact-section h2 {
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
-}
-
-.location-section #map {
-  height: 90%;
-  width: 100%; 
-  border-radius: 8px;
-  margin: 0 auto;
-}
-
-.location-section {
-  position: relative;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  overflow: hidden;
-  height: 350px;
-}
-
-.location-icon {
-  font-size: 3rem;
-  color: #3F51B5;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 768px) {
-  .bottom-sections {
-    flex-direction: column;
   }
 
   .contact-section, .location-section {

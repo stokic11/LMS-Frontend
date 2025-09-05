@@ -63,60 +63,17 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.univerzitet = {
-      id: 1,
-      naziv: 'Univerzitet Singidunum',
-      datumOsnivanja: new Date('2005-01-01'),
-      adresa: {
-        id: 1,
-        ulica: 'Danijelova',
-        broj: '32',
-        mesto: {
-          id: 1,
-          naziv: 'Beograd',
-          drzava: {
-            id: 1,
-            naziv: 'Srbija'
-          }
-        }
-      },
-      rektorId: 1,
-      fakultetiIds: [1, 2, 3]
-    };
-
     this.loadUniverzitetFromBackend(1);
     this.loadStudijskiProgrami();
   }
 
   loadStudijskiProgrami(): void {
-    console.log('Učitavam studijske programe iz backend-a...');
-    
     this.studijskiProgramService.getAllWithDetails().subscribe({
       next: (data) => {
-        console.log('Uspešno dobijeni studijski programi:', data);
-        // Sačuvaj sve programe, a prikaži prva 3
         this.studijskiProgrami = data;
       },
       error: (error) => {
         console.error('Greška pri učitavanju studijskih programa:', error);
-        // Fallback na mock podatke ako nema backend-a
-        this.studijskiProgrami = [
-          {
-            id: 1,
-            naziv: 'Informacioni sistemi i tehnologije',
-            fakultet: { naziv: 'Fakultet informatike i računarstva' }
-          },
-          {
-            id: 2,
-            naziv: 'Menadžment i organizacija',
-            fakultet: { naziv: 'Poslovni fakultet' }
-          },
-          {
-            id: 3,
-            naziv: 'Digitalne komunikacije',
-            fakultet: { naziv: 'Fakultet za medije i komunikacije' }
-          }
-        ];
       }
     });
   }
@@ -130,16 +87,12 @@ export class HomepageComponent implements OnInit {
   }
 
   loadUniverzitetFromBackend(id: number): void {
-    console.log('Pokušavam da učitam univerzitet iz backend-a za ID:', id);
-    
     this.univerzitetService.getUniverzitetInfo(id).subscribe({
       next: (infoData) => {
-        console.log('Uspešno dobijeni info podaci o univerzitetu:', infoData);
         this.univerzitetInfo = infoData;
         
         this.univerzitetService.getById(id).subscribe({
           next: (detailsData) => {
-            console.log('Uspešno dobijeni detalji univerziteta:', detailsData);
             this.univerzitet = detailsData;
             
             if (infoData && infoData.rektorId) {
@@ -153,36 +106,17 @@ export class HomepageComponent implements OnInit {
       },
       error: (error) => {
         console.error('Greška pri učitavanju info o univerzitetu:', error);
-        this.univerzitetInfo = {
-          id: 1,
-          naziv: 'Univerzitet Singidunum',
-          rektorId: 1,
-          rektorIme: 'Prof. dr Dragan Domazet'
-        };
       }
     });
   }
 
   loadRektorFromBackend(rektorId: number): void {
-    console.log('Pokušavam da učitam rektora iz backend-a za ID:', rektorId);
-    
     this.nastavnikService.getById(rektorId).subscribe({
       next: (data) => {
-        console.log('Uspešno dobijeni podaci o rektoru:', data);
         this.rektor = data;
       },
       error: (error) => {
         console.error('Greška pri učitavanju rektora:', error);
-        this.rektor = {
-          id: 1,
-          ime: 'Prof. dr Dragan Domazet',
-          email: 'dragan.domazet@singidunum.ac.rs',
-          biografija: 'Prof. dr Dragan Domazet je rektor Univerziteta Singidunum.',
-          zvanje: {
-            tipZvanja: { naziv: 'Redovni profesor' },
-            naucnaOblast: { naziv: 'Ekonomija' }
-          }
-        } as any;
       }
     });
   }

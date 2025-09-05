@@ -44,36 +44,9 @@
   gap: 12px;
 }
 
-.save-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  transition: all 0.3s ease;
-}
-
-.save-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-}
-
-.save-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.cancel-button {
-  color: #6c757d;
-  border-radius: 8px;
-}
-
 .cancel-button:hover {
   background-color: #f8f9fa;
 }
-
 
 @media (max-width: 600px) {
   .dialog-content {

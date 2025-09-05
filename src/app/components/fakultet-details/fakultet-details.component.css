@@ -1,10 +1,3 @@
-.fakultet-details-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .back-button-container {
   margin-bottom: 20px;
 }
@@ -27,33 +20,6 @@
 .back-btn:hover {
   background-color: #7a9799;
   transform: translateY(-1px);
-}
-
-.fakultet-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.header-section {
-  background: linear-gradient(135deg, #244855 0%, #1a3440 100%);
-  color: white;
-  padding: 40px 30px;
-  text-align: center;
-}
-
-.fakultet-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 10px 0;
-  line-height: 1.2;
-}
-
-.fakultet-subtitle {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  font-weight: 400;
 }
 
 .content-grid {
@@ -82,15 +48,6 @@
   .dean-section {
     grid-area: dean;
   }
-}
-
-.section-title {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #244855;
-  margin: 0 0 20px 0;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #E64833;
 }
 
 .description-text {
@@ -219,44 +176,4 @@
   line-height: 1.5;
   color: #555;
   margin: 0;
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  color: #244855;
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #E64833;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.error-message {
-  text-align: center;
-  color: #244855;
-  padding: 60px 20px;
-}
-
-.error-message h2 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-.error-message p {
-  font-size: 1rem;
-  opacity: 0.8;
 }

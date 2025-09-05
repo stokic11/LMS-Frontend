@@ -29,27 +29,22 @@ export class AdminZaposleniComponent {
   ) {}
 
   openNastavnikDialog(): void {
-    const config = this.dialogConfigService.getZaposleniConfig(null, true, 'nastavnik');
+    let config = this.dialogConfigService.getZaposleniConfig(null, true, 'nastavnik');
     
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
       data: config
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        
         result.nazivUloge = 'nastavnik';
-        
-        console.log('Podaci koji se šalju za nastavnika:', result);
         
         this.korisnikService.create(result).subscribe({
           next: (createdUser: any) => {
-            console.log('Nastavnik uspešno kreiran:', createdUser);
             alert('Nastavnik je uspešno kreiran!');
           },
           error: (error: any) => {
-            console.error('Greška pri kreiranju nastavnika:', error);
             alert('Greška pri kreiranju nastavnika.');
           }
         });
@@ -58,9 +53,9 @@ export class AdminZaposleniComponent {
   }
 
   openStudentskaSluzbaDialog(): void {
-    const config = this.dialogConfigService.getZaposleniConfig(null, true, 'studentska_sluzba');
+    let config = this.dialogConfigService.getZaposleniConfig(null, true, 'studentska_sluzba');
     
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
       data: config
     });
@@ -72,11 +67,9 @@ export class AdminZaposleniComponent {
         
         this.korisnikService.create(result).subscribe({
           next: (createdUser: any) => {
-            console.log('Član studentske službe uspešno kreiran:', createdUser);
             alert('Član studentske službe je uspešno kreiran!');
           },
           error: (error: any) => {
-            console.error('Greška pri kreiranju člana studentske službe:', error);
             alert('Greška pri kreiranju člana studentske službe.');
           }
         });
@@ -85,9 +78,9 @@ export class AdminZaposleniComponent {
   }
 
   openAdminDialog(): void {
-    const config = this.dialogConfigService.getZaposleniConfig(null, true, 'admin');
+    let config = this.dialogConfigService.getZaposleniConfig(null, true, 'admin');
     
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
       data: config
     });
@@ -97,15 +90,11 @@ export class AdminZaposleniComponent {
         
         result.nazivUloge = 'admin';
         
-        console.log('Podaci koji se šalju za administratora:', result);
-        
         this.korisnikService.create(result).subscribe({
           next: (createdUser: any) => {
-            console.log('Administrator uspešno kreiran:', createdUser);
             alert('Administrator je uspešno kreiran!');
           },
           error: (error: any) => {
-            console.error('Greška pri kreiranju administratora:', error);
             alert('Greška pri kreiranju administratora.');
           }
         });

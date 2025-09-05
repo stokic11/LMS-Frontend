@@ -2,7 +2,7 @@
   
   <div class="header-section">
     <div class="header-content">
-      <h1 class="page-title">
+      <h1 class="table-page-title">
         Ocenjivanje studenata
       </h1>
       <p class="page-subtitle">Pregledajte neocenjene ispite i ocenite studente</p>
@@ -120,10 +120,9 @@
               </app-generic-table>
             </div>
 
-            <div class="no-students-message" *ngIf="prijavljeniIspiti.length === 0">
-              <mat-icon>info</mat-icon>
-              <h3>Nema neocenjenih ispita</h3>
-              <p>Trenutno nema studenata koji čekaju ocenjivanje.</p>
+            <div class="no-data-container" *ngIf="prijavljeniIspiti.length === 0">
+              <p class="no-data-text">Nema neocenjenih ispita</p>
+              <p class="no-data-text">Trenutno nema studenata koji čekaju ocenjivanje.</p>
             </div>
           </mat-card-content>
         </mat-card>
@@ -151,10 +150,9 @@
               </app-generic-table>
             </div>
 
-            <div class="no-students-message" *ngIf="ocenjeniIspiti.length === 0">
-              <mat-icon>info</mat-icon>
-              <h3>Nema ocenjenih ispita</h3>
-              <p>Trenutno nema ocenjenih ispita.</p>
+            <div class="no-data-container" *ngIf="ocenjeniIspiti.length === 0">
+              <p class="no-data-text">Nema ocenjenih ispita</p>
+              <p class="no-data-text">Trenutno nema ocenjenih ispita.</p>
             </div>
           </mat-card-content>
         </mat-card>

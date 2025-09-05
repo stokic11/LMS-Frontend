@@ -62,7 +62,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
   canCreateNew = false; 
   isStudentskaSluzba = false;
   
-  // XML Upload properties
   showXmlUpload = false;
   selectedFile: File | null = null;
   xmlContent: string = '';
@@ -125,7 +124,7 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
   }
 
   checkUserRole(): void {
-    const roles = this.authService.getCurrentUserRoles();
+    let roles = this.authService.getCurrentUserRoles();
     this.isStudentskaSluzba = roles.includes('studentska_sluzba');
   }
 
@@ -166,8 +165,6 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
   async loadData(): Promise<void> {
     this.loading = true;
     try {
-      console.log('Pocinje ucitavanje podataka...');
-      
       this.predmeti = [];
       this.tipoviEvaluacije = [];
       this.tipoviNastave = [];
@@ -177,11 +174,10 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       this.ishodi = [];
 
       try {
-        const tipoviEvaluacijeResponse = await firstValueFrom(
+        let tipoviEvaluacijeResponse = await firstValueFrom(
           this.tipEvaluacijeService.getAll()
         );
         this.tipoviEvaluacije = tipoviEvaluacijeResponse;
-        console.log('Ucitano tipova evaluacije:', this.tipoviEvaluacije.length);
       } catch (error: any) {
         if (error?.status === 403) {
           console.log('Tipovi evaluacije nisu dostupni studentskoj službi (403 Forbidden)');
@@ -191,11 +187,10 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       }
 
       try {
-        const tipoviNastaveResponse = await firstValueFrom(
+        let tipoviNastaveResponse = await firstValueFrom(
           this.tipNastaveService.getAll()
         );
         this.tipoviNastave = tipoviNastaveResponse;
-        console.log('Ucitano tipova nastave:', this.tipoviNastave.length);
       } catch (error: any) {
         if (error?.status === 403) {
           console.log('Tipovi nastave nisu dostupni studentskoj službi (403 Forbidden)');
@@ -205,31 +200,28 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       }
 
       try {
-        const predmetiResponse = await firstValueFrom(
+        let predmetiResponse = await firstValueFrom(
           this.predmetService.getAll()
         );
         this.predmeti = predmetiResponse;
-        console.log('Ucitano predmeta:', this.predmeti.length);
       } catch (error) {
         console.log('Predmeti nisu dostupni studentskoj službi:', error);
       }
 
       try {
-        const realizacijeResponse = await firstValueFrom(
+        let realizacijeResponse = await firstValueFrom(
           this.realizacijaPredmetaService.getAll()
         );
         this.realizacijePredmeta = realizacijeResponse;
-        console.log('Ucitano realizacija predmeta:', this.realizacijePredmeta.length);
       } catch (error) {
         console.log('Realizacije predmeta nisu dostupne studentskoj službi:', error);
       }
 
       try {
-        const ishodiResponse = await firstValueFrom(
+        let ishodiResponse = await firstValueFrom(
           this.ishodService.getAll()
         );
         this.ishodi = ishodiResponse;
-        console.log('Ucitano ishoda:', this.ishodi.length);
       } catch (error) {
         console.log('Ishodi nisu dostupni studentskoj službi:', error);
       }
@@ -242,33 +234,25 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
             evaluacijeResponse = await firstValueFrom(
               this.evaluacijaZnanjaService.getAllForStudentskaSluzba()
             );
-            console.log('Ucitano evaluacija znanja za studentsku službu:', evaluacijeResponse.length);
           } catch (specificError: any) {
-            console.log('Specifični endpoint za studentsku službu nije dostupan, pokušavam alternativni...');
-            
             try {
               evaluacijeResponse = await firstValueFrom(
                 this.evaluacijaZnanjaService.getAllEvaluacije()
               );
-              console.log('Ucitano evaluacija znanja kroz alternativni endpoint:', evaluacijeResponse.length);
             } catch (altError: any) {
-              console.log('Alternativni endpoint nije dostupan, koristim getAll...');
               evaluacijeResponse = await firstValueFrom(
                 this.evaluacijaZnanjaService.getAll()
               );
-              console.log('Ucitano evaluacija znanja kroz getAll:', evaluacijeResponse.length);
             }
           }
         } else {
           evaluacijeResponse = await firstValueFrom(
             this.evaluacijaZnanjaService.getAll()
           );
-          console.log('Ucitano evaluacija znanja (standardno):', evaluacijeResponse.length);
         }
         
         this.evaluacijeZnanja = this.mapEvaluacijeWithPredmeti(evaluacijeResponse)
           .filter(evaluacija => !evaluacija.obrisan);
-        console.log('Evaluacije znanja nakon mapiranja i filtriranja:', this.evaluacijeZnanja.length);
       } catch (error: any) {
         if (error?.status === 403) {
           console.log('Evaluacije znanja nisu dostupne studentskoj službi (403 Forbidden)');
@@ -279,13 +263,11 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       }
 
       try {
-        const terminiResponse = await firstValueFrom(
+        let terminiResponse = await firstValueFrom(
           this.terminNastaveService.getAll()
         );
-        console.log('Ucitano termina nastave (raw):', terminiResponse.length);
         this.terminiNastave = this.mapTerminiWithPredmeti(terminiResponse)
           .filter(termin => !termin.obrisan);
-        console.log('Termini nastave nakon mapiranja i filtriranja:', this.terminiNastave.length);
       } catch (error: any) {
         if (error?.status === 403) {
           console.log('Termini nastave nisu dostupni studentskoj službi (403 Forbidden)');
@@ -318,8 +300,8 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
 
   private mapEvaluacijeWithPredmeti(evaluacije: EvaluacijaZnanja[]): any[] {
     return evaluacije.map((evaluacija, index) => {
-      const realizacija = this.realizacijePredmeta.find(r => r.id === evaluacija.realizacijaPredmetaId);
-      const predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
+      let realizacija = this.realizacijePredmeta.find(r => r.id === evaluacija.realizacijaPredmetaId);
+      let predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
       
       let tipEvaluacijeNaziv = 'Nepoznat tip';
       
@@ -327,18 +309,18 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
         if (typeof evaluacija.tipEvaluacije === 'object' && evaluacija.tipEvaluacije.naziv) {
           tipEvaluacijeNaziv = evaluacija.tipEvaluacije.naziv;
         } else if (typeof evaluacija.tipEvaluacije === 'object' && evaluacija.tipEvaluacije.id) {
-          const tipEvaluacije = this.tipoviEvaluacije.find(t => t.id === evaluacija.tipEvaluacije.id);
+          let tipEvaluacije = this.tipoviEvaluacije.find(t => t.id === evaluacija.tipEvaluacije.id);
           tipEvaluacijeNaziv = tipEvaluacije?.naziv || 'Nepoznat tip';
         } else if (typeof evaluacija.tipEvaluacije === 'number') {
-          const tipId = evaluacija.tipEvaluacije as any as number;
-          const tipEvaluacije = this.tipoviEvaluacije.find(t => t.id === tipId);
+          let tipId = evaluacija.tipEvaluacije as any as number;
+          let tipEvaluacije = this.tipoviEvaluacije.find(t => t.id === tipId);
           tipEvaluacijeNaziv = tipEvaluacije?.naziv || 'Nepoznat tip';
         }
       }
       
       if (tipEvaluacijeNaziv === 'Nepoznat tip' && this.tipoviEvaluacije.length > 0) {
-        const evaluacijaId = evaluacija.id || 0;
-        const tipIndex = (evaluacijaId - 1) % this.tipoviEvaluacije.length;
+        let evaluacijaId = evaluacija.id || 0;
+        let tipIndex = (evaluacijaId - 1) % this.tipoviEvaluacije.length;
         tipEvaluacijeNaziv = this.tipoviEvaluacije[tipIndex].naziv;
       }
       
@@ -352,14 +334,14 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
 
   private mapTerminiWithPredmeti(termini: TerminNastave[]): any[] {
     return termini.map(termin => {
-      const realizacija = this.realizacijePredmeta.find(r => r.id === termin.realizacijaPredmetaId);
-      const predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
+      let realizacija = this.realizacijePredmeta.find(r => r.id === termin.realizacijaPredmetaId);
+      let predmet = this.predmeti.find(p => p.id === realizacija?.predmetId);
       
       let tipNastaveNaziv = 'Nepoznat tip';
       if (termin.tipNastave?.naziv) {
         tipNastaveNaziv = termin.tipNastave.naziv;
       } else if (termin.tipNastave?.id) {
-        const tipNastave = this.tipoviNastave.find(t => t.id === termin.tipNastave.id);
+        let tipNastave = this.tipoviNastave.find(t => t.id === termin.tipNastave.id);
         tipNastaveNaziv = tipNastave?.naziv || 'Nepoznat tip';
       }
       
@@ -377,20 +359,20 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       return;
     }
 
-    const realizacijeOptions = this.realizacijePredmeta.map(rp => {
-      const predmet = this.predmeti.find(p => p.id === rp.predmetId);
+    let realizacijeOptions = this.realizacijePredmeta.map(rp => {
+      let predmet = this.predmeti.find(p => p.id === rp.predmetId);
       return {
         value: rp.id,
         label: `${predmet?.naziv || 'Nepoznat predmet'} (Realizacija ${rp.id})`
       };
     });
 
-    const tipoviEvaluacijeOptions = this.tipoviEvaluacije.map(tip => ({
+    let tipoviEvaluacijeOptions = this.tipoviEvaluacije.map(tip => ({
       value: tip.id,
       label: tip.naziv
     }));
 
-    const ishodiOptions = this.ishodi.map(ishod => ({
+    let ishodiOptions = this.ishodi.map(ishod => ({
       value: ishod.id,
       label: ishod.opis
     }));
@@ -461,11 +443,11 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
           result.realizacijaPredmetaId = Number(result.realizacijaPredmetaId);
         }
         if (result.tipEvaluacije) {
-          const tipEvaluacije = this.tipoviEvaluacije.find(tip => tip.id === Number(result.tipEvaluacije));
+          let tipEvaluacije = this.tipoviEvaluacije.find(tip => tip.id === Number(result.tipEvaluacije));
           result.tipEvaluacije = tipEvaluacije;
         }
         if (result.ishod) {
-          const ishod = this.ishodi.find(i => i.id === Number(result.ishod));
+          let ishod = this.ishodi.find(i => i.id === Number(result.ishod));
           result.ishod = ishod;
         }
         
@@ -503,20 +485,20 @@ export class RasporeidiEvaluacijeComponent implements OnInit {
       return;
     }
 
-    const realizacijeOptions = this.realizacijePredmeta.map(rp => {
-      const predmet = this.predmeti.find(p => p.id === rp.predmetId);
+    let realizacijeOptions = this.realizacijePredmeta.map(rp => {
+      let predmet = this.predmeti.find(p => p.id === rp.predmetId);
       return {
         value: rp.id,
         label: `${predmet?.naziv || 'Nepoznat predmet'} (Realizacija ${rp.id})`
       };
     });
 
-    const tipoviNastaveOptions = this.tipoviNastave.map(tip => ({
+    let tipoviNastaveOptions = this.tipoviNastave.map(tip => ({
       value: tip.id,
       label: tip.naziv
     }));
 
-    const ishodiOptionsTermin = this.ishodi.map(ishod => ({
+    let ishodiOptionsTermin = this.ishodi.map(ishod => ({
       value: ishod.id,
       label: ishod.opis
     }));

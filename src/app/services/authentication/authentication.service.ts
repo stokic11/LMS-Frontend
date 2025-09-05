@@ -40,7 +40,7 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient) {
     if (typeof localStorage !== 'undefined') {
-      const token = localStorage.getItem('token');
+      let token = localStorage.getItem('token');
       if (token && this.isTokenValid(token)) {
         this.setRolesFromToken(token);
         this.setCurrentUserFromToken(token);
@@ -55,8 +55,8 @@ export class AuthenticationService {
 
   private isTokenValid(token: string): boolean {
     try {
-      const decodedToken: any = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
+      let decodedToken: any = jwtDecode(token);
+      let currentTime = Date.now() / 1000;
       return decodedToken.exp > currentTime;
     } catch (error) {
       return false;
@@ -65,7 +65,7 @@ export class AuthenticationService {
 
   private setCurrentUserFromToken(token: string): void {
     try {
-      const decodedToken = this.getDecodedAccessToken(token);
+      let decodedToken = this.getDecodedAccessToken(token);
       this.currentUserSubject.next(decodedToken);
     } catch (error) {
       console.error('Error setting user from token:', error);
@@ -74,11 +74,11 @@ export class AuthenticationService {
   }
 
   getKorisnikId(): number | null {
-    const token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
     if (!token) return null;
     
     try {
-      const decodedToken = this.getDecodedAccessToken(token);
+      let decodedToken = this.getDecodedAccessToken(token);
       return decodedToken?.id || decodedToken?.sub || null;
     } catch (error) {
       console.error('Error getting user ID:', error);
@@ -96,7 +96,7 @@ export class AuthenticationService {
 
   setRolesFromToken(token: string): void {
     try {
-      const decodedToken: any = jwtDecode(token);
+      let decodedToken: any = jwtDecode(token);
       this.uloge = decodedToken.uloge || [];
       this.rolesSubject.next(this.uloge);
       console.log('Roles set from token:', this.uloge);
@@ -124,7 +124,7 @@ export class AuthenticationService {
     console.log('Registering user:', registrationData);
     
     
-    const backendPayload = {
+    let backendPayload = {
       korisnickoIme: registrationData.korisnickoIme,
       email: registrationData.email,
       lozinka: registrationData.password,  
@@ -213,7 +213,7 @@ export class AuthenticationService {
   }
 
   refreshToken(): void {
-    const token = this.getToken();
+    let token = this.getToken();
     if (token && this.isTokenValid(token)) {
       this.setRolesFromToken(token);
       this.setCurrentUserFromToken(token);
@@ -230,7 +230,7 @@ export class AuthenticationService {
 
   
   isLoggedIn(): boolean {
-    const token = this.getToken();
+    let token = this.getToken();
     return token ? this.isTokenValid(token) : false;
   }
 }

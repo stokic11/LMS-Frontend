@@ -14,12 +14,12 @@ export class NastavnikService extends WritableCrudService<Nastavnik, number> {
   }
 
   override getById(id: number): Observable<Nastavnik> {
-    const backendUrl = `http://localhost:8080/api/nastavnici/${id}`;
+    let backendUrl = `http://localhost:8080/api/nastavnici/${id}`;
     return this.http.get<Nastavnik>(backendUrl);
   }
 
   getPredmeti(nastavnikId: number): Observable<any[]> {
-    const backendUrl = `http://localhost:8080/api/nastavnici/${nastavnikId}/predmeti`;
+    let backendUrl = `http://localhost:8080/api/nastavnici/${nastavnikId}/predmeti`;
     return this.http.get<any[]>(backendUrl);
   }
 }

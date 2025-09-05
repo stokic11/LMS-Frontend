@@ -83,7 +83,7 @@ export class GenericDetailsComponent {
 
     const grouped: { [key: string]: any[] } = {};
     tableSection.data.forEach(item => {
-      const groupKey = item[tableSection.groupBy!];
+      let groupKey = item[tableSection.groupBy!];
       if (!grouped[groupKey]) {
         grouped[groupKey] = [];
       }

@@ -13,23 +13,6 @@
   padding: 20px;
 }
 
-.page-title {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #244855;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.page-title mat-icon {
-  font-size: 2.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-}
-
 .page-subtitle {
   font-size: 1.1rem;
   color: #666;
@@ -39,33 +22,6 @@
 .main-content {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.loading-section {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-}
-
-.loading-card {
-  padding: 40px;
-  text-align: center;
-  min-width: 300px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-}
-
-.loading-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.loading-content p {
-  margin: 0;
-  color: #666;
-  font-size: 1.1rem;
 }
 
 .content-grid {
@@ -104,31 +60,6 @@
 
 .table-container {
   margin-top: 20px;
-}
-
-.no-students-message, .select-student-message {
-  text-align: center;
-  padding: 40px 20px;
-  color: #666;
-}
-
-.no-students-message mat-icon, .select-student-message mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #4caf50;
-  margin-bottom: 16px;
-}
-
-.no-students-message h3, .select-student-message h3 {
-  margin: 16px 0 8px 0;
-  color: #333;
-}
-
-.no-students-message p, .select-student-message p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.5;
 }
 
 .form-card {

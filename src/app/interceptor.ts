@@ -4,28 +4,28 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn) {
-    const router = inject(Router);
+    let router = inject(Router);
     
     
-    const authEndpoints = ['signin', 'signup', 'login', 'register', 'registracija'];
+    let authEndpoints = ['signin', 'signup', 'login', 'register', 'registracija'];
     
-    const publicGetEndpoints = [
+    let publicGetEndpoints = [
         'univerziteti', 'fakulteti', 'studijski-programi', 'godine-studija', 
         'predmeti', 'nastavnici', 'adrese', 'mesta', 'drzave', 
         'nastavni-materijali', 'forumi', 'termini-nastave'
     ];
     
-    const isAuthEndpoint = authEndpoints.some(endpoint => req.url.includes(endpoint));
-    const isRdfRequest = req.url.includes('/api/rdf/');
-    const isPublicGetRequest = req.method === 'GET' && 
+    let isAuthEndpoint = authEndpoints.some(endpoint => req.url.includes(endpoint));
+    let isRdfRequest = req.url.includes('/api/rdf/');
+    let isPublicGetRequest = req.method === 'GET' && 
                                publicGetEndpoints.some(endpoint => req.url.includes(endpoint)) &&
                                !isRdfRequest;
     
-    const skipAuth = isAuthEndpoint || isPublicGetRequest;
+    let skipAuth = isAuthEndpoint || isPublicGetRequest;
     
     
     if (typeof localStorage !== 'undefined' && !skipAuth) {
-        const token = localStorage.getItem('token');
+        let token = localStorage.getItem('token');
 
         if (token) {
             req = req.clone({

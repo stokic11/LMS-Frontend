@@ -34,8 +34,8 @@ export class ObavestenjeService extends CrudService<Obavestenje, number> {
   }
 
   getAllByRole(): Observable<any[]> {
-    const roles = this.authService.getCurrentUserRoles();
-    const userId = this.authService.getKorisnikId();
+    let roles = this.authService.getCurrentUserRoles();
+    let userId = this.authService.getKorisnikId();
     
     if (roles.includes('admin')) {
       return this.getAllForAdmin();

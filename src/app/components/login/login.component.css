@@ -4,7 +4,6 @@
   align-items: center;
   justify-content: center;
   background: #244855;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 15px;
 }
 
@@ -88,13 +87,13 @@ h2 {
 }
 
 .btn-primary {
-  background: #E64833;
+  background: #E64833 !important;
   color: white;
   box-shadow: 0 4px 15px rgba(230, 72, 51, 0.3);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #c23e2a;
+  background: #c23e2a !important;
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(230, 72, 51, 0.4);
 }
@@ -103,8 +102,10 @@ h2 {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 15px rgba(230, 72, 51, 0.2);
 }
+
+
 
 .alert {
   padding: 12px 16px;
@@ -153,12 +154,6 @@ h2 {
   border-top-color: transparent;
   animation: spin 1s ease-in-out infinite;
   margin-right: 8px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 @media (max-width: 480px) {

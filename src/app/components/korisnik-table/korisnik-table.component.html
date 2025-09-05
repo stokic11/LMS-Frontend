@@ -1,7 +1,6 @@
 <div class="korisnik-table-container">
   <div class="header-section">
-    <h1 class="page-title">
-      <mat-icon>people</mat-icon>
+    <h1 class="table-page-title">
       Upravljanje Korisnicima
     </h1>
     <p class="page-subtitle">Administracija svih tipova korisnika u sistemu</p>
@@ -25,7 +24,6 @@
       </mat-card-header>
       <mat-card-content>
         <div *ngIf="korisnici.length === 0" class="no-data-container">
-          <mat-icon class="no-data-icon">people_outline</mat-icon>
           <p class="no-data-text">Nema korisnika za prikaz</p>
         </div>
         <app-generic-table 
@@ -54,7 +52,6 @@
       </mat-card-header>
       <mat-card-content>
         <div *ngIf="studenti.length === 0" class="no-data-container">
-          <mat-icon class="no-data-icon">school</mat-icon>
           <p class="no-data-text">Nema studenata za prikaz</p>
         </div>
         <app-generic-table 
@@ -79,7 +76,6 @@
       </mat-card-header>
       <mat-card-content>
         <div *ngIf="nastavnici.length === 0" class="no-data-container">
-          <mat-icon class="no-data-icon">person_outline</mat-icon>
           <p class="no-data-text">Nema nastavnika za prikaz</p>
         </div>
         <app-generic-table 

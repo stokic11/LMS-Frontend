@@ -96,7 +96,7 @@ export class SifarnikComponent implements OnInit {
       ]
     };
 
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '500px',
       data: config
     });
@@ -140,7 +140,7 @@ export class SifarnikComponent implements OnInit {
       }
     };
 
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '500px',
       data: config
     });

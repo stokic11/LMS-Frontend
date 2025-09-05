@@ -8,6 +8,9 @@ export interface Potvrda {
   studentKorisnickoIme?: string;
   tipPotvrdaId?: number;
   tipPotvrdaNaziv?: string;
+
+  status?: string;
+  odobrenoText?: string;
 }
 
 export interface TipPotvrde {

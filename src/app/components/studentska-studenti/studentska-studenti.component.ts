@@ -75,9 +75,9 @@ export class StudentskaStudentiComponent implements OnInit {
   }
 
   openStudentDialog(): void {
-    const config = this.dialogConfigService.getZaposleniConfig(null, true, 'student');
+    let config = this.dialogConfigService.getZaposleniConfig(null, true, 'student');
     
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
       data: config
     });

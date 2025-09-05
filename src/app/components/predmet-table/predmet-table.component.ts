@@ -18,7 +18,10 @@ import { AuthenticationService } from '../../services/authentication/authenticat
   styleUrls: ['./predmet-table.component.css']
 })
 export class PredmetTableComponent implements OnInit {
-  data: any[] = [];
+  predmeti: Predmet[] = [];
+  pohadjanja: PohadjanjePredmeta[] = [];
+  nastavnikPredmeti: any[] = [];
+  
   isStudent: boolean = false;
   isNastavnik: boolean = false;
   columns = [
@@ -44,8 +47,29 @@ export class PredmetTableComponent implements OnInit {
     this.loadData();
   }
 
+  get data(): any[] {
+    if (this.isStudent) {
+      return this.pohadjanja.map(pohadjanje => ({
+        ...pohadjanje,
+        naziv: pohadjanje.nazivPredmeta,
+        obavezan: pohadjanje.obavezan ? 'Obavezan' : 'Izborni',
+        konacnaOcena: pohadjanje.konacnaOcena || 'Nije ocenjen'
+      }));
+    } else if (this.isNastavnik) {
+      return this.nastavnikPredmeti.map(predmet => ({
+        ...predmet,
+        obavezan: predmet.obavezan ? 'Obavezan' : 'Izborni'
+      }));
+    } else {
+      return this.predmeti.map(predmet => ({
+        ...predmet,
+        obavezan: predmet.obavezan ? 'Obavezan' : 'Izborni'
+      }));
+    }
+  }
+
   checkUserRole(): void {
-    const roles = this.authService.getCurrentUserRoles();
+    let roles = this.authService.getCurrentUserRoles();
     this.isStudent = roles.includes('student');
     this.isNastavnik = roles.includes('nastavnik');
     
@@ -62,15 +86,14 @@ export class PredmetTableComponent implements OnInit {
 
   loadData(): void {
     if (this.isStudent) {
-      const userId = this.authService.getKorisnikId();
+      let userId = this.authService.getKorisnikId();
       if (userId) {
         this.pohadjanjePredmetaService.getByStudentId(userId).subscribe({
           next: (pohadjanja) => {
-            this.data = pohadjanja.map(pohadjanje => ({
+            this.pohadjanja = pohadjanja.map(pohadjanje => ({
               ...pohadjanje,
-              naziv: pohadjanje.nazivPredmeta,
-              obavezan: pohadjanje.obavezan ? 'Obavezan' : 'Izborni',
-              konacnaOcena: pohadjanje.konacnaOcena || 'Nije ocenjen'
+              nazivPredmeta: pohadjanje.nazivPredmeta,
+              konacnaOcena: pohadjanje.konacnaOcena
             }));
           },
           error: (error) => {
@@ -79,15 +102,15 @@ export class PredmetTableComponent implements OnInit {
         });
       }
     } else if (this.isNastavnik) {
-      const userId = this.authService.getKorisnikId();
+      let userId = this.authService.getKorisnikId();
       if (userId) {
         this.nastavnikService.getPredmeti(userId).subscribe({
           next: (predmeti) => {
-            this.data = predmeti.map((row: any[]) => ({
+            this.nastavnikPredmeti = predmeti.map((row: any[]) => ({
               id: row[0],
               naziv: row[1],
               espb: row[2],
-              obavezan: row[3] ? 'Obavezan' : 'Izborni',
+              obavezan: row[3],
               brojSemestra: row[4],
               brojPredavanja: row[5],
               brojVezbi: row[6]
@@ -101,9 +124,8 @@ export class PredmetTableComponent implements OnInit {
     } else {
       this.predmetService.getAll().subscribe({
         next: (predmeti) => {
-          this.data = predmeti.map(predmet => ({
-            ...predmet,
-            obavezan: predmet.obavezan ? 'Obavezan' : 'Izborni'
+          this.predmeti = predmeti.map(predmet => ({
+            ...predmet
           }));
         },
         error: (error) => {
@@ -116,17 +138,20 @@ export class PredmetTableComponent implements OnInit {
   onPredmetClick(predmet: any): void {
     if (this.isStudent) {
       if (predmet.naziv) {
-        this.predmetService.getAll().subscribe({
-          next: (predmeti) => {
-            const targetPredmet = predmeti.find(p => p.naziv === predmet.naziv);
-            if (targetPredmet && targetPredmet.id) {
-              this.router.navigate(['/predmeti', targetPredmet.id]);
+        let targetPohadjanje = this.pohadjanja.find(p => p.nazivPredmeta === predmet.naziv);
+        if (targetPohadjanje && targetPohadjanje.realizacijaPredmetaId) {
+          this.predmetService.getAll().subscribe({
+            next: (predmeti) => {
+              let targetPredmet = predmeti.find(p => p.naziv === predmet.naziv);
+              if (targetPredmet && targetPredmet.id) {
+                this.router.navigate(['/predmeti', targetPredmet.id]);
+              }
+            },
+            error: (error) => {
+              
             }
-          },
-          error: (error) => {
-            
-          }
-        });
+          });
+        }
       }
     } else {
       if (predmet.id) {

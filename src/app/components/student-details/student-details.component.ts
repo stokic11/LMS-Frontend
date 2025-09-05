@@ -30,7 +30,7 @@ export class StudentDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.studentId = parseInt(id);
       this.loadStudentData();
@@ -66,7 +66,7 @@ export class StudentDetailsComponent implements OnInit {
 
   private processStudentData(data: any): void {
     if (data.osnovniPodaci && data.osnovniPodaci.length > 0) {
-      const student = data.osnovniPodaci[0];
+      let student = data.osnovniPodaci[0];
       this.title = `Detalji studenta`;
     } else {
       this.title = `Detalji studenta`;
@@ -74,7 +74,7 @@ export class StudentDetailsComponent implements OnInit {
     
     this.infoSections = [];
     if (data.osnovniPodaci && data.osnovniPodaci.length > 0) {
-      const student = data.osnovniPodaci[0];
+      let student = data.osnovniPodaci[0];
       this.infoSections.push({
         title: 'Osnovni podaci',
         icon: 'person',
@@ -89,7 +89,7 @@ export class StudentDetailsComponent implements OnInit {
     }
 
     if (data.akademskiPodaci && data.akademskiPodaci.length > 0) {
-      const akademski = data.akademskiPodaci[0];
+      let akademski = data.akademskiPodaci[0];
       this.infoSections.push({
         title: 'Akademski podaci',
         icon: 'school',
@@ -169,15 +169,15 @@ export class StudentDetailsComponent implements OnInit {
     if (!dateTimeString) return 'N/D';
     
     try {
-      const date = new Date(dateTimeString);
+      let date = new Date(dateTimeString);
       
       if (isNaN(date.getTime())) {
         return dateTimeString; 
       }
       
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
-      const year = date.getFullYear();
+      let day = date.getDate().toString().padStart(2, '0');
+      let month = (date.getMonth() + 1).toString().padStart(2, '0');
+      let year = date.getFullYear();
       
       return `${day}/${month}/${year}`;
     } catch (error) {

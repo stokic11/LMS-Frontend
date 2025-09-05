@@ -135,8 +135,7 @@ export class LiteraturaComponent implements OnInit {
   loadZahtevi(): void {
     this.izdataKnjigaService.getAll().subscribe({
       next: (data: IzdataKnjiga[]) => {
-        console.log('IzdataKnjiga data:', data);
-        
+
         const studentRequests = data.map(zahtev => 
           this.studentService.getById(zahtev.studentId)
         );
@@ -231,7 +230,6 @@ export class LiteraturaComponent implements OnInit {
   loadBiblioteka(): void {
     this.bibliotekaService.getAll().subscribe({
       next: (data: Biblioteka[]) => {
-        console.log('Biblioteka data:', data);
         this.biblioteka = data.map(item => ({
           ...item,
           nazivKnjige: item.knjiga?.naziv || 'Nepoznato',
@@ -301,11 +299,9 @@ export class LiteraturaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Podaci za novu knjigu:', result);
         
         this.knjigaService.create(result).subscribe({
           next: (createdKnjiga: Knjiga) => {
-            console.log('Knjiga uspešno kreirana:', createdKnjiga);
             
             const bibliotekaEntry: Biblioteka = {
               knjigaId: createdKnjiga.id!,
@@ -314,7 +310,6 @@ export class LiteraturaComponent implements OnInit {
             
             this.bibliotekaService.create(bibliotekaEntry).subscribe({
               next: (createdBiblioteka) => {
-                console.log('Biblioteka entry kreiran:', createdBiblioteka);
                 this.snackBar.open('Knjiga je uspešno dodana u biblioteku sa 0 primeraka!', 'Zatvori', { duration: 3000 });
                 this.loadBiblioteka();
               },

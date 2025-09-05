@@ -67,66 +67,6 @@
   border-top: 1px solid #e0e0e0;
 }
 
-.create-button {
-  padding: 12px 24px;
-  font-size: 1rem;
-  border-radius: 24px;
-  box-shadow: 0 4px 8px rgba(36, 72, 85, 0.3);
-  transition: all 0.3s ease;
-}
-
-.create-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(36, 72, 85, 0.4);
-}
-
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 50px;
-  text-align: center;
-}
-
-.loading-container mat-spinner {
-  margin-bottom: 20px;
-}
-
-.loading-container p {
-  font-size: 1.1rem;
-  color: #666;
-}
-
-.no-data-message {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-  color: #666;
-}
-
-.no-data-message mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 16px;
-}
-
-.no-data-message p {
-  font-size: 1.1rem;
-  margin: 0;
-}
-
-.no-data-message .help-text {
-  font-size: 0.9rem;
-  color: #888;
-  margin-top: 8px;
-  font-style: italic;
-}
-
 .no-permissions-message {
   display: flex;
   align-items: center;

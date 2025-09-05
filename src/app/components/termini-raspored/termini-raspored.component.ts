@@ -111,7 +111,7 @@ export class TerminiRasporedComponent implements OnInit {
   }
 
   private filterAvailableIshodi(): void {
-    const assignedIshodIds = this.termini
+    let assignedIshodIds = this.termini
       .map(termin => termin.ishod?.id)
       .filter(id => id !== undefined && id !== null) as number[];
     
@@ -123,7 +123,7 @@ export class TerminiRasporedComponent implements OnInit {
   }
 
   handleAdd(): void {
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
       data: this.getDialogConfig(true)
     });
@@ -155,7 +155,7 @@ export class TerminiRasporedComponent implements OnInit {
   }
 
   handleEdit(item: TerminNastave): void {
-    const config = this.getDialogConfig(false, item);
+    let config = this.getDialogConfig(false, item);
     config.title = 'Izmeni termin nastave';
     config.data = {
       ...item,
@@ -163,7 +163,7 @@ export class TerminiRasporedComponent implements OnInit {
       tipNastaveId: item.tipNastave?.id
     };
 
-    const dialogRef = this.dialog.open(GenericDialogComponent, {
+    let dialogRef = this.dialog.open(GenericDialogComponent, {
       width: '600px',
       data: config
     });
@@ -225,12 +225,12 @@ export class TerminiRasporedComponent implements OnInit {
       }
     }
     
-    const ishodOptions = ishodiToUse.map(ishod => ({
+    let ishodOptions = ishodiToUse.map(ishod => ({
       value: ishod.id,
       label: ishod.opis
     }));
 
-    const tipNastaveOptions = this.tipoviNastave.map(tip => ({
+    let tipNastaveOptions = this.tipoviNastave.map(tip => ({
       value: tip.id,
       label: tip.naziv
     }));

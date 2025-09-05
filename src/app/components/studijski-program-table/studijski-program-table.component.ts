@@ -31,7 +31,6 @@ export class StudijskiProgramTableComponent implements OnInit {
   loadStudijskiProgrami(): void {
     this.studijskiProgramService.getAllWithDetails().subscribe({
       next: (data) => {
-        console.log('Podaci iz baze sa detaljima:', data);
         this.studijskiProgramiDisplay = data.map(sp => ({
           id: sp.id,
           naziv: sp.naziv,

@@ -6,6 +6,12 @@ import { Obavestenje } from '../../models/obavestenje';
 import { ObavestenjeService } from '../../services/obavestenje/obavestenje.service';
 import { GenericDetailsComponent, InfoSection, TableSection } from '../generic-details/generic-details.component';
 
+interface ObavestenjeSaPodacima extends Obavestenje {
+  nazivPredmeta?: string;
+  nastavnikIme?: string;
+  nastavnikPrezime?: string;
+}
+
 @Component({
   selector: 'app-obavestenje-details',
   standalone: true,
@@ -14,7 +20,7 @@ import { GenericDetailsComponent, InfoSection, TableSection } from '../generic-d
   styleUrls: ['./obavestenje-details.component.css']
 })
 export class ObavestenjeDetailsComponent implements OnInit {
-  obavestenje: any = null;
+  obavestenje: ObavestenjeSaPodacima | null = null;
   loading = true;
   error = false;
 

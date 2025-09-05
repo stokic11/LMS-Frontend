@@ -80,22 +80,17 @@
   justify-content: center;
 }
 
-.employee-card button {
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-weight: 500;
-  text-transform: none;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+.employee-card button mat-icon {
+  margin-right: 8px;
 }
 
-.employee-card button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.employee-card button {
+  color: #244855 !important;
 }
 
 .employee-card button mat-icon {
   margin-right: 8px;
+  color: #244855 !important;
 }
 
 /* Responsive design */
@@ -112,13 +107,4 @@
   .header-section h2 {
     font-size: 1.75rem;
   }
-}
-
-/* ZELENI TEKST ZA DUGMAD */
-button {
-  color: #244855 !important;
-}
-
-.employee-card button {
-  color: #244855 !important;
 }

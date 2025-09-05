@@ -31,7 +31,7 @@ import { DialogConfig, FieldConfig } from '../generic-dialog/field-config.interf
   styleUrls: ['./student-potvrde.component.css']
 })
 export class StudentPotvrdaComponent implements OnInit {
-  potvrde: any[] = [];
+  potvrde: Potvrda[] = [];
   odobrernePotvrde: Potvrda[] = [];
   tipovePotvrda: TipPotvrde[] = [];
   loading = false;
@@ -41,7 +41,7 @@ export class StudentPotvrdaComponent implements OnInit {
   columns: TableColumn[] = [
     { key: 'tipPotvrdaNaziv', label: 'Tip potvrde' },
     { key: 'datumIzdanja', label: 'Datum zahteva' },
-    { key: 'odobreno', label: 'Status' }
+    { key: 'odobrenoText', label: 'Status' }
   ];
 
   approvedColumns: TableColumn[] = [
@@ -65,7 +65,7 @@ export class StudentPotvrdaComponent implements OnInit {
   }
 
   getCurrentStudentId(): void {
-    const userInfo = this.authService.getCurrentUser();
+    let userInfo = this.authService.getCurrentUser();
     if (userInfo) {
       this.currentStudentId = userInfo.id;
     }
@@ -85,14 +85,14 @@ export class StudentPotvrdaComponent implements OnInit {
     if (this.currentStudentId) {
       this.loading = true;
       this.potvrdaService.getPotvrdaByStudentId(this.currentStudentId).subscribe({
-        next: (data) => {
-          this.potvrde = data.map(p => ({
+        next: (data: Potvrda[]) => {
+          this.potvrde = data.map((p): Potvrda => ({
             ...p,
-            odobreno: p.odobreno ? 'Odobreno' : 'Na čekanju'
+            odobrenoText: p.odobreno ? 'Odobreno' : 'Na čekanju'
           }));
           this.odobrernePotvrde = data
             .filter(p => p.odobreno === true)
-            .map(p => ({
+            .map((p): Potvrda => ({
               ...p,
               status: 'Odobrena - Posetite studentsku službu za preuzimanje'
             }));

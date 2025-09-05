@@ -4,7 +4,6 @@
   margin: 0 auto;
 }
 
-
 .header-section {
   margin-bottom: 30px;
 }
@@ -14,54 +13,11 @@
   padding: 20px;
 }
 
-.page-title {
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #244855;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.page-title mat-icon {
-  font-size: 2.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-}
-
 .page-subtitle {
   font-size: 1.1rem;
   color: #666;
   margin: 0;
 }
-
-.loading-section {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-}
-
-.loading-card {
-  padding: 40px;
-  text-align: center;
-  min-width: 300px;
-}
-
-.loading-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.loading-content p {
-  margin: 0;
-  color: #666;
-  font-size: 1.1rem;
-}
-
 
 .content-grid {
   display: grid;
@@ -96,7 +52,6 @@
   width: 24px;
   height: 24px;
 }
-
 
 .table-container {
   max-height: 400px;
@@ -136,32 +91,6 @@
   margin-right: 8px;
 }
 
-
-.no-students-message {
-  text-align: center;
-  padding: 40px 20px;
-  color: #666;
-}
-
-.no-students-message mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  color: #4caf50;
-  margin-bottom: 16px;
-}
-
-.no-students-message h3 {
-  margin: 16px 0 8px 0;
-  color: #333;
-}
-
-.no-students-message p {
-  margin: 0;
-  font-size: 1rem;
-}
-
-
 .form-card {
   position: sticky;
   top: 20px;
@@ -200,13 +129,6 @@
   margin-right: 8px;
 }
 
-
-.select-student-message {
-  text-align: center;
-  padding: 40px 20px;
-  color: #666;
-}
-
 .select-student-message mat-icon {
   font-size: 48px;
   width: 48px;
@@ -220,7 +142,6 @@
   font-size: 1rem;
   line-height: 1.5;
 }
-
 
 @media (max-width: 768px) {
   .upis-studenata-container {
@@ -273,28 +194,6 @@
     min-width: 80px;
     font-size: 0.9rem;
   }
-}
-
-
-.mat-mdc-card-header {
-  padding-bottom: 16px;
-}
-
-.mat-mdc-card-content {
-  padding-top: 0;
-}
-
-.mat-mdc-form-field {
-  margin-bottom: 0;
-}
-
-.mat-mdc-select-panel {
-  max-height: 300px;
-}
-
-
-.upis-studenata-container * {
-  transition: all 0.3s ease;
 }
 
 .students-table tr:hover {

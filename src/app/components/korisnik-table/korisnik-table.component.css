@@ -1,104 +1,6 @@
 .korisnik-table-container {
   padding: 20px;
-  background-color: #f8f9fa;
   min-height: 100vh;
-}
-
-.header-section {
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.page-title {
-  color: #244855;
-  font-size: 2.5rem;
-  font-weight: 600;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-.page-title mat-icon {
-  font-size: 2.5rem;
-  color: #244855;
-}
-
-.page-subtitle {
-  color: #666;
-  font-size: 1.1rem;
-  margin: 10px 0 0 0;
-}
-
-.loading-container {
-  text-align: center;
-  padding: 40px;
-  color: #244855;
-}
-
-.loading-container mat-spinner {
-  margin: 0 auto 20px auto;
-}
-
-.table-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  margin-bottom: 30px;
-}
-
-.table-card mat-card-header {
-  background: linear-gradient(135deg, #244855 0%, #2d5a6b 100%);
-  color: white;
-  padding: 20px;
-  border-radius: 12px 12px 0 0;
-  margin: -24px -24px 0 -24px;
-}
-
-.table-card mat-card-title {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0;
-}
-
-.table-card mat-card-subtitle {
-  color: rgba(255, 255, 255, 0.8);
-  margin: 5px 0 0 0;
-}
-
-.section-icon {
-  font-size: 1.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.table-card mat-card-content {
-  padding: 24px;
-}
-
-.no-data-container {
-  text-align: center;
-  padding: 60px 20px;
-  color: #666;
-}
-
-.no-data-icon {
-  font-size: 4rem;
-  width: 4rem;
-  height: 4rem;
-  color: #ccc;
-  margin-bottom: 15px;
-}
-
-.no-data-text {
-  font-size: 1.2rem;
-  margin: 0;
-  color: #999;
 }
 
 .korisnik-table-container app-generic-table .action-btn {
@@ -116,20 +18,9 @@
   text-align: center;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .korisnik-table-container {
     padding: 15px;
-  }
-  
-  .page-title {
-    font-size: 2rem;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .table-card {
-    margin-bottom: 20px;
   }
   
   .korisnik-table-container app-generic-table .action-btn {

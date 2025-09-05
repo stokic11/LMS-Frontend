@@ -13,6 +13,7 @@ interface IstorijaItem {
   espb: number;
   datum?: string;
   status: 'polozeno' | 'palo';
+  statusText?: string;
 }
 
 @Component({
@@ -24,7 +25,9 @@ interface IstorijaItem {
 })
 export class StudentIstorijaComponent implements OnInit {
   istorija: IstorijaItem[] = [];
-  data: any[] = [];
+  prosecnaOcena: number = 0;
+  ukupnoECTS: number = 0;
+  polozeniPredmeti: number = 0;
   
   columns: TableColumn[] = [
     { key: 'predmetNaziv', label: 'Predmet' },
@@ -35,10 +38,6 @@ export class StudentIstorijaComponent implements OnInit {
     { key: 'statusText', label: 'Status' }
   ];
   
-  prosecnaOcena: number = 0;
-  ukupnoECTS: number = 0;
-  polozeniPredmeti: number = 0;
-
   constructor(
     private authService: AuthenticationService,
     private polaganjeService: PolaganjeService
@@ -48,8 +47,15 @@ export class StudentIstorijaComponent implements OnInit {
     this.loadIstorija();
   }
 
+  get data(): IstorijaItem[] {
+    return this.istorija.map(item => ({
+      ...item,
+      statusText: item.status === 'polozeno' ? 'Položeno' : 'Pao'
+    }));
+  }
+
   loadIstorija(): void {
-    const studentId = this.authService.getKorisnikId();
+    let studentId = this.authService.getKorisnikId();
     if (studentId) {
       this.polaganjeService.getIstorijaStudiranja(studentId).subscribe({
         next: (data) => {
@@ -72,20 +78,15 @@ export class StudentIstorijaComponent implements OnInit {
 
 
   private calculateSummary(): void {
-    const polozeni = this.istorija.filter(item => item.status === 'polozeno');
+    let polozeni = this.istorija.filter(item => item.status === 'polozeno');
     
     this.polozeniPredmeti = polozeni.length;
     this.ukupnoECTS = polozeni.reduce((sum, item) => sum + item.espb, 0);
     
     if (polozeni.length > 0) {
-      const sumaOcena = polozeni.reduce((sum, item) => sum + item.ocena, 0);
+      let sumaOcena = polozeni.reduce((sum, item) => sum + item.ocena, 0);
       this.prosecnaOcena = sumaOcena / polozeni.length;
     }
-
-    this.data = this.istorija.map(item => ({
-      ...item,
-      statusText: item.status === 'polozeno' ? 'Položeno' : 'Palo'
-    }));
   }
 
   private formatOcena(ocena: number, status: string): string {
@@ -93,7 +94,7 @@ export class StudentIstorijaComponent implements OnInit {
   }
 
   private formatStatus(status: string): string {
-    return status === 'polozeno' ? 'Položeno' : 'Palo';
+    return status === 'polozeno' ? 'Položeno' : 'Pao';
   }
 
   getOcenaClass(ocena: number): string {
@@ -105,6 +106,6 @@ export class StudentIstorijaComponent implements OnInit {
   }
 
   getStatusClass(status: string): string {
-    return status === 'polozeno' ? 'status-polozeno' : 'status-palo';
+    return status === 'polozeno' ? 'status-polozeno' : 'status-pao';
   }
 }

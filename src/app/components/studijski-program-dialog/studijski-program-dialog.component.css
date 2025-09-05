@@ -3,10 +3,6 @@
   max-width: 600px;
 }
 
-.dialog-title {
-  margin-bottom: 0;
-}
-
 .dialog-title h2 {
   margin: 0;
   color: #244855;
@@ -21,10 +17,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.form-field {
-  width: 100%;
 }
 
 .dialog-actions {
@@ -43,12 +35,6 @@
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Responsive design */
 @media (max-width: 600px) {
   .dialog-container {
     min-width: 300px;

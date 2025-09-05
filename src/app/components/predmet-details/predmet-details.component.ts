@@ -39,7 +39,7 @@ export class PredmetDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    let id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.checkNastavnikRole();
       this.loadPredmet(+id);
@@ -47,7 +47,7 @@ export class PredmetDetailsComponent implements OnInit {
   }
 
   checkNastavnikRole(): void {
-    const currentUser = this.authService.getCurrentUser();
+    let currentUser = this.authService.getCurrentUser();
     this.isNastavnik = currentUser?.uloge?.includes('nastavnik') || false;
   }
 
@@ -107,7 +107,7 @@ export class PredmetDetailsComponent implements OnInit {
     this.tableSections = [];
 
     if (this.predmet.silabus && this.predmet.silabus.length > 0) {
-      const ishodiData = this.predmet.silabus.map((ishod, index) => ({
+      let ishodiData = this.predmet.silabus.map((ishod, index) => ({
         redni_broj: index + 1,
         opis: ishod.opis,
         obrazovni_cilj: ishod.obrazovniCilj?.opis || 'N/A'
@@ -136,7 +136,7 @@ export class PredmetDetailsComponent implements OnInit {
     }
 
     if (this.nastavniMaterijali && this.nastavniMaterijali.length > 0) {
-      const materijalData = this.nastavniMaterijali.map(materijal => {        
+      let materijalData = this.nastavniMaterijali.map(materijal => {        
         let godina = 'N/A';
         if (materijal.godinaIzdavanja) {
           if (materijal.godinaIzdavanja instanceof Date && !isNaN(materijal.godinaIzdavanja.getTime())) {

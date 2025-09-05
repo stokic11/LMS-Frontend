@@ -62,12 +62,12 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
   onIzmeni(studijskiProgram: any): void {
     this.studijskiProgramService.getById(studijskiProgram.id).subscribe({
       next: (fullProgram) => {
-        const dialogData: StudijskiProgramDialogData = {
+        let dialogData: StudijskiProgramDialogData = {
           studijskiProgram: fullProgram,
           isEdit: true
         };
 
-        const dialogRef = this.dialog.open(StudijskiProgramDialogComponent, {
+        let dialogRef = this.dialog.open(StudijskiProgramDialogComponent, {
           width: '500px',
           data: dialogData
         });
@@ -79,7 +79,6 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
         });
       },
       error: (error) => {
-        console.error('Greška pri učitavanju studijskog programa za izmenu:', error);
         alert('Greška pri učitavanju podataka za izmenu.');
       }
     });
@@ -109,12 +108,12 @@ export class AdminStudijskiProgramTableComponent implements OnInit {
   }
 
   onDodajNovi(): void {
-    const dialogData: StudijskiProgramDialogData = {
+    let dialogData: StudijskiProgramDialogData = {
       studijskiProgram: undefined,
       isEdit: false
     };
 
-    const dialogRef = this.dialog.open(StudijskiProgramDialogComponent, {
+    let dialogRef = this.dialog.open(StudijskiProgramDialogComponent, {
       width: '500px',
       data: dialogData
     });

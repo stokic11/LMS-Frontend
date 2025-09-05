@@ -14,12 +14,12 @@ export class SifarnikService extends CrudService<Sifarnik> {
   }
 
   override getById(id: number): Observable<Sifarnik> {
-      const backendUrl = `http://localhost:8080/api/sifarnik/${id}`;
+      let backendUrl = `http://localhost:8080/api/sifarnik/${id}`;
       return this.http.get<Sifarnik>(backendUrl);
     }
   
     getSifarnik(sifarnikId: number): Observable<any[]> {
-      const backendUrl = `http://localhost:8080/api/sifarnik/${sifarnikId}`;
+      let backendUrl = `http://localhost:8080/api/sifarnik/${sifarnikId}`;
       return this.http.get<any[]>(backendUrl);
     }
 }

@@ -25,7 +25,7 @@ export class KorisnikEditDialogComponent implements OnInit {
     private configService: DialogConfigService
   ) {
     
-    const isNew = data.isNew || false;
+    let isNew = data.isNew || false;
     this.dialogConfig = this.configService.getKorisnikConfig(data, isNew);
   }
 

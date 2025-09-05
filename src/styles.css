@@ -38,12 +38,10 @@ button, a {
   overflow-x: hidden !important;
 }
 
-/* Sprečavanje nepotrebnog skrola na stranicama */
 body {
   overflow-y: auto !important;
 }
 
-/* Komponente se prilagođavaju sadržaju, a ne forsiraju visinu */
 .homepage-container,
 .table-wrapper,
 .component-container {
@@ -51,7 +49,261 @@ body {
   height: auto !important;
 }
 
-/* Osigurava da container stranice koristi potrebnu visinu, a ne forsira 100vh */
 .container {
   min-height: auto !important;
+  padding: 24px;
+  background-color: #FFFFFF;
+}
+
+/* Globalne klase za dugmad */
+.btn-primary {
+  background-color: #244855 !important;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1a3440 !important;
+  transform: translateY(-1px);
+}
+
+.btn-accent {
+  background-color: #90AEAD !important;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-accent:hover {
+  background-color: #7a9899 !important;
+  transform: translateY(-1px);
+}
+
+.btn-warn {
+  background-color: #E64833 !important;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-warn:hover {
+  background-color: #c23e2a !important;
+  transform: translateY(-1px);
+}
+
+.hero-btn {
+  background: #244855;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(36, 72, 85, 0.3);
+}
+
+.hero-btn:hover {
+  background: #1a3440;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(36, 72, 85, 0.4);
+}
+
+/* Globalne klase za loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #244855;
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #E64833;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Globalne klase za kartice */
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card-header {
+  background: linear-gradient(135deg, #244855 0%, #1a3440 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+}
+
+.card-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 5px 0 0 0;
+}
+
+.card-content {
+  padding: 24px;
+}
+
+/* Globalne klase za stranice */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.page-title {
+  color: #244855;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  text-align: center;
+}
+
+.page-subtitle {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 10px 0 30px 0;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #244855;
+  margin: 0 0 30px 0;
+  padding-bottom: 15px;
+}
+
+.section-title.center {
+  text-align: center;
+}
+
+/* Globalne klase za forme */
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-row {
+  margin-bottom: 20px;
+}
+
+.error-message {
+  text-align: center;
+  color: #244855;
+  padding: 60px 20px;
+}
+
+.error-message h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.error-message p {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* Globalne klase za no-data */
+.no-data-container {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.no-data-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+.no-data-text {
+  font-size: 1.2rem;
+  margin: 0;
+  color: #999;
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .page-container {
+    padding: 15px;
+  }
+  
+  .card-content {
+    padding: 20px;
+  }
+}
+
+/* Global table title styling */
+.table-page-title {
+  font-size: 2.5rem !important;
+  font-weight: 300 !important;
+  color: #244855 !important;
+  margin-bottom: 10px !important;
+  text-align: center !important;
+  margin: 0 auto 30px auto !important;
+}
+
+.table-header-section {
+  text-align: center !important;
+  margin-bottom: 30px !important;
+}
+
+@media (max-width: 768px) {
+  .table-page-title {
+    font-size: 2rem !important;
+  }
 }

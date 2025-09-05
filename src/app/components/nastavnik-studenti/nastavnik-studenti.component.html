@@ -1,7 +1,7 @@
 <div class="nastavnik-studenti-container">
   <div *ngIf="!showStudenti" class="predmeti-view">
     <div class="table-header">
-      <h2>Moji Predmeti</h2>
+      <h1 class="table-page-title">Moji Predmeti</h1>
       <p>Kliknite na predmet da vidite studente</p>
     </div>
     <app-generic-table 
@@ -20,7 +20,7 @@
         <mat-icon>arrow_back</mat-icon>
         Nazad na predmete
       </button>
-      <h2>Studenti - {{ selectedPredmet?.naziv }}</h2>
+      <h1 class="table-page-title">Studenti - {{ selectedPredmet?.naziv }}</h1>
     </div>
 
     <div class="search-container">

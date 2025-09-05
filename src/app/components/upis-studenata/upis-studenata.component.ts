@@ -44,7 +44,6 @@ export class UpisStudenataComponent implements OnInit {
   brojIndeksa = '';
   loading = false;
   
-  // Configuration for generic table
   tableColumns: TableColumn[] = [
     { key: 'ime', label: 'Ime' },
     { key: 'prezime', label: 'Prezime' },
@@ -73,11 +72,10 @@ export class UpisStudenataComponent implements OnInit {
   async loadNeupisaniStudenti(): Promise<void> {
     this.loading = true;
     try {
-      const response = await firstValueFrom(
+      let response = await firstValueFrom(
         this.studentService.getNeupisaniStudenti()
       );
       this.studenti = response;
-      console.log('Učitani neupisani studenti:', this.studenti);
     } catch (error) {
       console.error('Greška pri učitavanju neupisanih studenata:', error);
       this.snackBar.open('Greška pri učitavanju studenata', 'Zatvori', { duration: 3000 });
@@ -88,11 +86,10 @@ export class UpisStudenataComponent implements OnInit {
 
   async loadGodineStudija(): Promise<void> {
     try {
-      const response = await firstValueFrom(
+      let response = await firstValueFrom(
         this.studentService.getGodineStudija()
       );
       this.godineStudija = response;
-      console.log('Učitane godine studija:', this.godineStudija);
     } catch (error) {
       console.error('Greška pri učitavanju godina studija:', error);
       this.snackBar.open('Greška pri učitavanju godina studija', 'Zatvori', { duration: 3000 });
@@ -101,7 +98,6 @@ export class UpisStudenataComponent implements OnInit {
 
   selectStudent(student: Student): void {
     this.selectedStudent = student;
-    console.log('Izabran student:', student);
   }
 
   async upisStudent(): Promise<void> {
@@ -112,7 +108,7 @@ export class UpisStudenataComponent implements OnInit {
 
     this.loading = true;
     try {
-      const response = await firstValueFrom(
+      let response = await firstValueFrom(
         this.studentService.upisStudentaNaGodinu(
           this.selectedStudent.id!,
           this.selectedGodinaStudija.id,
@@ -120,12 +116,9 @@ export class UpisStudenataComponent implements OnInit {
         )
       );
       
-      console.log('Student uspešno upisan:', response);
       this.snackBar.open(`Student ${this.selectedStudent.ime} ${this.selectedStudent.prezime} je uspešno upisan!`, 'Zatvori', { duration: 5000 });
       
-      
       this.studenti = this.studenti.filter(s => s.id !== this.selectedStudent!.id);
-      
       
       this.selectedStudent = null;
       this.selectedGodinaStudija = null;

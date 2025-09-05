@@ -16,4 +16,6 @@ export interface Predmet {
     realizacijePredmetaIds?: number[];
     predusloviIds?: number[];
     zavisniPredmetiIds?: number[];
+    
+    obavezanText?: string;
 }

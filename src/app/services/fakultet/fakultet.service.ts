@@ -14,12 +14,12 @@ export class FakultetService extends ReadOnlyCrudService<Fakultet, number> {
   }
 
   getFakultetInfo(id: number): Observable<any> {
-    const backendUrl = `http://localhost:8080/api/fakulteti/${id}/info`;
+    let backendUrl = `http://localhost:8080/api/fakulteti/${id}/info`;
     return this.http.get<any>(backendUrl);
   }
 
   override getById(id: number): Observable<Fakultet> {
-    const backendUrl = `http://localhost:8080/api/fakulteti/${id}`;
+    let backendUrl = `http://localhost:8080/api/fakulteti/${id}`;
     return this.http.get<Fakultet>(backendUrl);
   }
 }

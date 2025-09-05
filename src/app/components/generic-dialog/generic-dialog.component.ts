@@ -70,7 +70,7 @@ export class GenericDialogComponent implements OnInit {
         return;
       }
 
-      const validators = this.buildValidators(field);
+      let validators = this.buildValidators(field);
       let value = this.config.data ? (this.config.data[field.name] || null) : null;
       
       if (field.type === 'password') {
@@ -79,7 +79,7 @@ export class GenericDialogComponent implements OnInit {
       
       if (field.type === 'date' && value) {
         if (typeof value === 'string') {
-          const date = new Date(value);
+          let date = new Date(value);
           if (!isNaN(date.getTime())) {
             value = date.toISOString().split('T')[0];
           }
@@ -90,21 +90,21 @@ export class GenericDialogComponent implements OnInit {
 
       if (field.type === 'datetime-local' && value) {
         if (typeof value === 'string') {
-          const date = new Date(value);
+          let date = new Date(value);
           if (!isNaN(date.getTime())) {
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
+            let year = date.getFullYear();
+            let month = String(date.getMonth() + 1).padStart(2, '0');
+            let day = String(date.getDate()).padStart(2, '0');
+            let hours = String(date.getHours()).padStart(2, '0');
+            let minutes = String(date.getMinutes()).padStart(2, '0');
             value = `${year}-${month}-${day}T${hours}:${minutes}`;
           }
         } else if (value instanceof Date) {
-          const year = value.getFullYear();
-          const month = String(value.getMonth() + 1).padStart(2, '0');
-          const day = String(value.getDate()).padStart(2, '0');
-          const hours = String(value.getHours()).padStart(2, '0');
-          const minutes = String(value.getMinutes()).padStart(2, '0');
+          let year = value.getFullYear();
+          let month = String(value.getMonth() + 1).padStart(2, '0');
+          let day = String(value.getDate()).padStart(2, '0');
+          let hours = String(value.getHours()).padStart(2, '0');
+          let minutes = String(value.getMinutes()).padStart(2, '0');
           value = `${year}-${month}-${day}T${hours}:${minutes}`;
         }
       }
@@ -112,18 +112,18 @@ export class GenericDialogComponent implements OnInit {
       if (field.type === 'datetime' && value) {
         if (typeof value === 'string') {
           if (value.includes('.') && value.includes(':')) {
-            const parts = value.split(' ');
+            let parts = value.split(' ');
             if (parts.length >= 4) {
-              const datePart = parts[0] + ' ' + parts[1] + ' ' + parts[2];
-              const timePart = parts[3];
+              let datePart = parts[0] + ' ' + parts[1] + ' ' + parts[2];
+              let timePart = parts[3];
               
-              const dateNumbers = datePart.replace(/\./g, '').split(' ').filter(p => p.trim());
+              let dateNumbers = datePart.replace(/\./g, '').split(' ').filter(p => p.trim());
               if (dateNumbers.length === 3) {
-                const day = parseInt(dateNumbers[0]);
-                const month = parseInt(dateNumbers[1]);
-                const year = parseInt(dateNumbers[2]);
+                let day = parseInt(dateNumbers[0]);
+                let month = parseInt(dateNumbers[1]);
+                let year = parseInt(dateNumbers[2]);
                 
-                const isoDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                let isoDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
                 value = `${isoDate}T${timePart}`;
               }
             }

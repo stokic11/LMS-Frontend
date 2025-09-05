@@ -44,9 +44,9 @@ export class StudijskiProgramDetailsComponent implements OnInit, OnDestroy {
   }
 
   private determineReturnUrl(queryParams: any): void {
-    const userRoles = this.authService.getCurrentUserRoles();
+    let userRoles = this.authService.getCurrentUserRoles();
     
-    const fromAdmin = queryParams['from'] === 'admin';
+    let fromAdmin = queryParams['from'] === 'admin';
     
     if (userRoles.includes('admin') && fromAdmin) {
       this.returnUrl = '/admin/studijski-programi';
@@ -64,7 +64,6 @@ export class StudijskiProgramDetailsComponent implements OnInit, OnDestroy {
         this.programInfo = data;
         this.setupGenericDetails();
         this.loading = false;
-        console.log('Učitani podaci o programu iz baze:', this.programInfo);
       },
       error: (error) => {
         console.error('Greška pri učitavanju detalja programa:', error);
@@ -169,6 +168,5 @@ export class StudijskiProgramDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Clean up any resources if needed
   }
 }

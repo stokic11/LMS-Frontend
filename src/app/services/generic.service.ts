@@ -22,7 +22,7 @@ export abstract class ReadOnlyCrudService<T, ID = number> extends BaseResource {
   }
 
   search(criteria: SearchCriteria, queryParam: string = 'search'): Observable<T[]> {
-    const params = new HttpParams().set(queryParam, JSON.stringify(criteria));
+    let params = new HttpParams().set(queryParam, JSON.stringify(criteria));
     return this.http.get<T[]>(this.baseUrl, { params });
   }
 }

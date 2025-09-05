@@ -4,28 +4,6 @@
   margin: 0 auto;
 }
 
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 48px;
-  color: #666;
-}
-
-.loading-container mat-icon {
-  font-size: 48px;
-  width: 48px;
-  height: 48px;
-  margin-bottom: 16px;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
 .sifarnik-card {
   background: white;
   border-radius: 8px;
@@ -49,7 +27,6 @@
   height: 28px;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
   .sifarnik-container {
     padding: 16px;

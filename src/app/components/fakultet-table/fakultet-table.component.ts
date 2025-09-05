@@ -38,65 +38,15 @@ export class FakultetTableComponent implements OnInit {
           naziv: f.naziv,
           adresa: f.adresa?.ulica + ' ' + f.adresa?.broj + ', ' + f.adresa?.mesto?.naziv,
         }));
-        console.log('Dobijeni fakulteti:', data);
       },
       error: (error) => {
         console.error('Greška pri učitavanju fakulteta:', error);
         if (error.status === 403) {
           console.warn('Nedostaje autentifikacija - potrebno je prijaviti se');
         }
-        this.loadMockData();
       }
     });
   }
-
-  private loadMockData(): void {
-    this.fakulteti = [
-      {
-        id: 1,
-        naziv: 'Fakultet informatike i računarstva',
-        adresa: {
-          ulica: 'Danijelova',
-          broj: '32',
-          mesto: { naziv: 'Beograd', drzava: { naziv: 'Srbija' } }
-        },
-        univerzitetId: 1,
-        dekanId: 1,
-        studijskiProgramiIds: [1, 2]
-      },
-      {
-        id: 2,
-        naziv: 'Poslovni fakultet',
-        adresa: {
-          ulica: 'Danijelova',
-          broj: '32',
-          mesto: { naziv: 'Beograd', drzava: { naziv: 'Srbija' } }
-        },
-        univerzitetId: 1,
-        dekanId: 2,
-        studijskiProgramiIds: [3]
-      },
-      {
-        id: 3,
-        naziv: 'Fakultet za medije i komunikacije',
-        adresa: {
-          ulica: 'Danijelova',
-          broj: '32',
-          mesto: { naziv: 'Beograd', drzava: { naziv: 'Srbija' } }
-        },
-        univerzitetId: 1,
-        dekanId: 3,
-        studijskiProgramiIds: [4, 5]
-      }
-    ];
-    this.fakultetiDisplay = this.fakulteti.map(f => ({
-      id: f.id,
-      naziv: f.naziv,
-      adresa: f.adresa?.ulica + ' ' + f.adresa?.broj + ', ' + f.adresa?.mesto?.naziv,
-      univerzitet: f.univerzitetId
-    }));
-  }
-
   onFakultetClick(row: any): void {
     this.router.navigate(['/fakulteti', row.id]);
   }
